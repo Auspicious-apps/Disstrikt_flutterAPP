@@ -9,6 +9,10 @@ const String email = 'assets/images/Frame.png';
 const String emails = 'assets/images/email.png';
 const String onBoardingimage = 'assets/images/Onboarding.png';
 const String plansImage = 'assets/images/plansimage.png';
+const String SelectedImage = 'assets/images/backgroundSelected.png';
+const String FeaturesImage = 'assets/images/Features.png';
+const String UnselectedImage = 'assets/images/backgroundUnselected.png';
+
 const String iconpassword = 'assets/images/lock.png';
 const String iconopeneye = 'assets/images/openeye.png';
 const String iconcloseeye = 'assets/images/closeeye.png';

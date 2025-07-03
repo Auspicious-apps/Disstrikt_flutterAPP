@@ -12,25 +12,28 @@
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../../../../main.dart';
 import '../../../core/utils/localization_service.dart';
 import '../../../data/local/preferences/preference.dart';
 import '../../../routes/app_routes.dart';
+import '../models/responseModels /plansResponseModel.dart';
 
 class ChoosePalnController extends GetxController {
   // Available countries
   final List<String> countries = LocalizationService.countries;
   final LocalStorage localStorage = LocalStorage();
-
-  // Available languages
+  RxBool isloading = false.obs;
+  Rx<PlansResponseModel> planResponseModel = PlansResponseModel().obs;
   final List<String> languages = LocalizationService.languageNames;
 
   // Selected values
   var selectedCountry = "".obs;
   var selectedLanguage = "".obs;
-
+  RxInt selectIndex = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    GetModelPlans();
     // Set initial values from storage or defaults
     selectedLanguage.value =
         LocalizationService.getLanguageName(LocalizationService.currentLocale);
@@ -44,6 +47,33 @@ class ChoosePalnController extends GetxController {
           break;
         }
       }
+    }
+  }
+
+  GetModelPlans() {
+    isloading.value = true;
+    isloading.refresh();
+    try {
+      Get.closeAllSnackbars();
+      repository.getPlansApiCall().then((value) async {
+        if (value != null) {
+          isloading.value = false;
+
+          planResponseModel.value = value;
+          planResponseModel.refresh();
+          isloading.refresh();
+        }
+      }).onError((er, stackTrace) {
+        print("$er");
+        isloading.value = false;
+        isloading.refresh();
+        Get.closeAllSnackbars();
+        Get.snackbar('Error', '${er}');
+      });
+    } catch (er) {
+      isloading.value = false;
+      isloading.refresh();
+      print("$er");
     }
   }
 

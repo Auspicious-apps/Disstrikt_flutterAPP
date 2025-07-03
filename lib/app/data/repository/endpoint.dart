@@ -12,6 +12,7 @@ const String loginApiEndPoint = "login";
 const String otpResendEndPoint = "resend-otp";
 const String otpVerifyEndPoint = "verify-otp";
 const String moreInfoEndPoint = "user/user-more-info";
+const String getPlansEndPoint = "user/plans";
 // const String signupVerifyOtp = "api/signup/verify-otp";
 // const String loginApiEndPoint = "api/login";
 // const String logoutApiEndPoint = "api/user/logout";

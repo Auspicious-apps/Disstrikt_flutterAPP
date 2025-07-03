@@ -14,6 +14,7 @@ import 'package:http_parser/http_parser.dart';
 import '../../export.dart';
 
 import '../../modules/auth/models/responseModels/userResponseModel.dart';
+import '../../modules/home/models/responseModels /plansResponseModel.dart';
 import 'dio_client.dart';
 import 'endpoint.dart';
 import 'network_exceptions.dart' show NetworkExceptions;
@@ -52,6 +53,15 @@ class Repository {
       final response = await dioClient!.post(signUpEndPoint,
           data: jsonEncode(dataBody), isLoading: showLoader);
       return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getPlansApiCall({bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.get(getPlansEndPoint, skipAuth: false);
+      return PlansResponseModel.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }

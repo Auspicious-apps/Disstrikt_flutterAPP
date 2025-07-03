@@ -4,6 +4,7 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_GB': {
+          "strTrailText": "Start With 14 Days Free Trial.",
           "strShoes": "Shoe Size (In Uk)",
           "strweight": "Weight (in kg)",
           "strGender": "Gender",
@@ -18,6 +19,7 @@ class AppTranslation extends Translations {
           "strhips": "Hips",
           "strbust": "Bust",
           "strWaist": "Waist",
+          "strPlansHeading": "How Will you Start Your Creative Journey?",
 
           "strBasicDetail": "Basic Details",
 
@@ -256,9 +258,11 @@ class AppTranslation extends Translations {
         'nl_NL': {
           "strweight": "Gewicht (in kg)",
           "strShoes": "Schoenmaat (in UK)",
+          "strTrailText": "Begin met 14 dagen gratis proefperiode.",
           'strhips': 'Heupen',
           'strbust': 'Borst',
           'strWaist': 'Taille',
+          'strPlansHeading': 'Hoe begin je jouw creatieve reis?',
           "strBasicDetail": "Basisgegevens",
           "strDateofBirth": "Geboortedatum",
           "strHieght": "Hoogte (in cm)",
@@ -501,8 +505,10 @@ class AppTranslation extends Translations {
         'fr_FR': {
           "strGender": "Genre",
           'strhips': 'Hanches',
+          "strTrailText": "Commencez avec 14 jours d'essai gratuit.",
           'strbust': 'Poitrine',
           'strWaist': 'Taille',
+          'strPlansHeading': 'Comment commencerez-vous votre voyage créatif ?',
           "strShoes": "Pointure (en UK)",
           "strHieght": "Taille (en cm)",
           "strYourMeasurements": "Vos Mensurations",
@@ -753,8 +759,10 @@ class AppTranslation extends Translations {
           "strweight": "Peso (en kg)",
           'strhips': 'Caderas',
           'strbust': 'Busto',
+          "strTrailText": "Comienza con 14 días de prueba gratis.",
           'strWaist': 'Cintura',
           "strGender": "Género",
+          'strPlansHeading': '¿Cómo comenzarás tu viaje creativo?',
           "strShoes": "Talla de Zapato (en UK)",
           "strYourMeasurements": "Tus Medidas",
           "strHieght": "Taille (en cm)",

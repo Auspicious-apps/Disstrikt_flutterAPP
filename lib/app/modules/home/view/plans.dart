@@ -11,81 +11,233 @@ import '../../../core/widget/text_view.dart';
 import '../../../core/widget/material_button_widget.dart';
 import '../controller/plans_controller.dart';
 
-class ChoosePlanScreen extends GetView<ChoosePalnController> {
+class ChoosePlanScreen extends StatelessWidget {
   const ChoosePlanScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegionWidget(
-      statusBarBrightness: Brightness.light,
-      statusBarColor: Color.fromRGBO(37, 33, 34, 1),
-      child: Scaffold(
-        body: Stack(
-          children: [
-            AssetImageWidget(
-              onBoardingimage,
-              imageHeight: Get.height,
-              imageWidth: Get.width,
-              fit: BoxFit.cover,
-            ),
-            SafeArea(
-              child: SizedBox(
-                width: Get.width,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: height_40,
-                      width: width_40,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Center(
-                          child: Icon(
-                        Icons.arrow_back_ios_new,
-                        color: Colors.black,
-                        size: 18,
-                      )).marginOnly(right: 2),
-                    ).marginSymmetric(
-                        horizontal: margin_13, vertical: margin_13),
-                    AssetImageWidget(
-                      plansImage,
-                      imageHeight: Get.height * 0.3,
-                      imageWidth: Get.width,
-                      fit: BoxFit.fill,
-                    ).marginSymmetric(horizontal: 20),
-                    Align(
-                      alignment: Alignment.center,
-                      child: TextView(
-                        text: "strChooseYour".tr,
-                        textStyle: const TextStyle(
-                            color: AppColors.whiteColor,
-                            fontFamily: "minorksans",
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800),
-                        maxLines: 4,
-                      ).marginSymmetric(vertical: margin_20),
-                    ),
-                    MaterialButtonWidget(
-                      buttonBgColor: AppColors.buttonColor,
-                      buttonRadius: 8,
-                      buttonText: "strNext".tr,
-                      iconWidget: Icon(Icons.arrow_forward_sharp,
-                          color: AppColors.backgroundColor),
-                      textColor: AppColors.backgroundColor,
-                      onPressed: () {
-                        // controller.next();
-                      },
-                    ).marginSymmetric(horizontal: 20, vertical: 20),
-                  ],
+    return GetBuilder<ChoosePalnController>(
+      init: ChoosePalnController(),
+      builder: (controller) {
+        return AnnotatedRegionWidget(
+          statusBarBrightness: Brightness.light,
+          statusBarColor: const Color.fromRGBO(37, 33, 34, 1),
+          child: Scaffold(
+            body: Stack(
+              children: [
+                AssetImageWidget(
+                  onBoardingimage,
+                  imageHeight: Get.height,
+                  imageWidth: Get.width,
+                  fit: BoxFit.cover,
                 ),
-              ),
+                SafeArea(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            height: height_40,
+                            width: width_40,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.arrow_back_ios_new,
+                                color: Colors.black,
+                                size: 18,
+                              ),
+                            ),
+                          ).marginOnly(right: 2),
+                        ).marginSymmetric(
+                          horizontal: margin_13,
+                          vertical: margin_13,
+                        ),
+                        AssetImageWidget(
+                          plansImage,
+                          imageHeight: Get.height * 0.3,
+                          imageWidth: Get.width,
+                          fit: BoxFit.fill,
+                        ).marginSymmetric(horizontal: 20),
+                        Align(
+                          alignment: Alignment.center,
+                          child: TextView(
+                            text: "strPlansHeading".tr,
+                            textAlign: TextAlign.center,
+                            textStyle: const TextStyle(
+                              color: AppColors.whiteColor,
+                              fontFamily: "minorksans",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                            ),
+                            maxLines: 4,
+                          ).marginSymmetric(vertical: margin_20),
+                        ),
+                        Obx(() => ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: controller
+                                      .planResponseModel.value.data?.length ??
+                                  0,
+                              itemBuilder: (context, index) {
+                                final plan = controller
+                                    .planResponseModel.value.data?[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    controller.selectIndex.value = index;
+                                    controller.selectIndex.refresh();
+                                  },
+                                  child: Obx(() => Container(
+                                        decoration: BoxDecoration(
+                                          color: controller.selectIndex.value ==
+                                                  index
+                                              ? AppColors.clickTextColor
+                                              : Colors.grey.shade400,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: AppColors.whiteColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  TextView(
+                                                    text: plan?.name ?? "",
+                                                    textAlign: TextAlign.center,
+                                                    textStyle: const TextStyle(
+                                                      color: AppColors
+                                                          .clickTextColor,
+                                                      fontFamily: "minorksans",
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                    maxLines: 4,
+                                                  ),
+                                                  TextView(
+                                                    text:
+                                                        " £ ${controller.planResponseModel.value.data?[index]?.gbpAmount} / € ${controller.planResponseModel.value.data?[index]?.eurAmount}",
+                                                    textAlign: TextAlign.start,
+                                                    textStyle: const TextStyle(
+                                                      color:
+                                                          AppColors.blackColor,
+                                                      fontFamily: "minorksans",
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w900,
+                                                    ),
+                                                    maxLines: 4,
+                                                  ),
+                                                ],
+                                              ),
+                                              ListView.builder(
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      NeverScrollableScrollPhysics(),
+                                                  itemCount: controller
+                                                          .planResponseModel
+                                                          .value
+                                                          .data?[index]
+                                                          ?.features
+                                                          ?.length ??
+                                                      0,
+                                                  itemBuilder:
+                                                      (context, Index) {
+                                                    return Container(
+                                                      height: 30,
+                                                      child: Row(
+                                                        children: [
+                                                          Image.asset(
+                                                              FeaturesImage),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          TextView(
+                                                            text: controller
+                                                                    .planResponseModel
+                                                                    .value
+                                                                    .data?[
+                                                                        index]
+                                                                    ?.features?[Index] ??
+                                                                "",
+                                                            textStyle: const TextStyle(
+                                                                color: AppColors
+                                                                    .smalltextColor,
+                                                                fontFamily:
+                                                                    "Kodchasan",
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800),
+                                                            maxLines: 1,
+                                                          )
+                                                        ],
+                                                      ).marginOnly(
+                                                          bottom: index ==
+                                                                  (controller
+                                                                          .planResponseModel
+                                                                          .value
+                                                                          .data?[
+                                                                              index]
+                                                                          ?.features
+                                                                          ?.length ??
+                                                                      0 - 1)
+                                                              ? 30
+                                                              : 0,
+                                                          top: 5),
+                                                    );
+                                                  })
+                                            ],
+                                          ).marginSymmetric(
+                                              horizontal: 16, vertical: 16),
+                                        ).marginOnly(
+                                            top: 0,
+                                            right: 3,
+                                            bottom: 4,
+                                            left: 0),
+                                      )),
+                                )
+                                    .marginSymmetric(horizontal: 20)
+                                    .marginOnly(top: index != 0 ? 15 : 0);
+                              },
+                            )),
+                      ],
+                    ).marginOnly(bottom: Get.height * 0.1),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.miniCenterFloat,
+            floatingActionButton: MaterialButtonWidget(
+              buttonBgColor: AppColors.buttonColor,
+              buttonRadius: 8,
+              buttonText: "strTrailText".tr,
+              textColor: AppColors.backgroundColor,
+              onPressed: () {},
+            ).marginSymmetric(horizontal: 20),
+          ),
+        );
+      },
     );
   }
 }

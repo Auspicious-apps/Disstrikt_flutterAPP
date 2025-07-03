@@ -92,6 +92,7 @@ class UserInfoController extends GetxController {
           isloading.value = false;
           userResponseModel = value;
           isloading.refresh();
+          Get.toNamed(AppRoutes.ChoosePlan);
         }
       }).onError((er, stackTrace) {
         print("$er");
