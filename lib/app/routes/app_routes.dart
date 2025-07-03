@@ -1,0 +1,23 @@
+/*
+<!--
+
+  ~ @author     :Puneet Kumar
+  ~ All Rights Reserved.
+  ~ Proprietary and confidential :  All information contained herein is, and remains
+ 
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited.
+  ~
+  -->
+ */
+
+abstract class AppRoutes {
+  static const splashRoute = '/splashRoute';
+  static const chooseLanguage = '/chooseLanguage';
+  static const signupRoute = '/signupRoute';
+  static const loginRoute = '/loginRoute';
+  static const forgetEmail = '/forgetEmail';
+  static const OtpScreen = '/OtpScreen';
+  static const ForgetPassword = '/ForgetPassword';
+  static const UserInfo = '/UserInfo';
+  static const ChoosePlan = '/ChoosePlan';
+}

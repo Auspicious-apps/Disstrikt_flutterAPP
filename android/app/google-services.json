@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "144224789471",
+    "project_id": "disstriktapp",
+    "storage_bucket": "disstriktapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144224789471:android:8b8f287286fa121d4c1a6a",
+        "android_client_info": {
+          "package_name": "com.aus.disstrikt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJeWu-yf3YRh5fBXMC01oei4O_lZQZsEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
