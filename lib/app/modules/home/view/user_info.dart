@@ -488,7 +488,7 @@ class UserInfo extends GetView<UserInfoController> {
         fillColor: AppColors.textfieldcolor,
         borderColor: AppColors.textfieldBorderColor,
         courserColor: AppColors.textfieldBorderColor,
-        maxLength: 2,
+        maxLength: 3,
         focusNode: controller.hipsFocusNode,
         inputType: TextInputType.number,
         validate: (value) => FieldChecker.fieldChecker(
@@ -508,7 +508,7 @@ class UserInfo extends GetView<UserInfoController> {
         fillColor: AppColors.textfieldcolor,
         borderColor: AppColors.textfieldBorderColor,
         courserColor: AppColors.textfieldBorderColor,
-        maxLength: 2,
+        maxLength: 3,
         focusNode: controller.bustFocusNode,
         inputType: TextInputType.number,
         validate: (value) => FieldChecker.fieldChecker(
@@ -528,7 +528,7 @@ class UserInfo extends GetView<UserInfoController> {
         fillColor: AppColors.textfieldcolor,
         borderColor: AppColors.textfieldBorderColor,
         courserColor: AppColors.textfieldBorderColor,
-        maxLength: 2,
+        maxLength: 3,
         focusNode: controller.waistFocusNode,
         inputType: TextInputType.number,
         validate: (value) => FieldChecker.fieldChecker(

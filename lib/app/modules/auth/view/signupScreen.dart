@@ -322,11 +322,10 @@ class Signupscreen extends GetView<Signupcontroller> {
                 text: "strLogin".tr,
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    debugPrint("helllo>>>>>>>>>>>>>>");
                     Get.toNamed(AppRoutes.loginRoute);
                   },
                 style: textStyleTitleSmall().copyWith(
-                  color: AppColors.clickTextColor,
+                  color: AppColors.voilet,
                   fontSize: 14,
                   fontFamily: "Kodchasan",
                 )),

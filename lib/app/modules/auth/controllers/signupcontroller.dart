@@ -60,7 +60,7 @@ class Signupcontroller extends GetxController {
       repository.signupApiCall(dataBody: data).then((value) async {
         if (value != null) {
           userResponseModel = value;
-          Get.toNamed(AppRoutes.OtpScreen, arguments: {
+          Get.offNamed(AppRoutes.OtpScreen, arguments: {
             "email": emailAddressController?.text,
             "language": language.value
           });
@@ -80,21 +80,6 @@ class Signupcontroller extends GetxController {
       isloading.refresh();
       print("$er");
     }
-  }
-
-  @override
-  void onClose() {
-    fullNameController.dispose();
-    fullNameFocusNode.dispose();
-    emailAddressController.dispose();
-    emailAddressFocusNode.dispose();
-    PasswordFocusNode.dispose();
-    ConfirmPasswordFocusNode.dispose();
-    mobileNumberFocusNode.dispose();
-    PasswordTextController.dispose();
-    ConfirmPasswordTextController.dispose();
-    mobileNumberTextController.dispose();
-    super.onClose();
   }
 
   void _loadCountry() {

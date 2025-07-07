@@ -1,0 +1,2 @@
+/Users/puneetkumar/Desktop/Disstrikt_flutterAPP/android/app/.cxx/RelWithDebInfo/d3d5k6dg/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/puneetkumar/Desktop/Disstrikt_flutterAPP/android/app/.cxx/RelWithDebInfo/d3d5k6dg/arm64-v8a/CMakeFiles/rebuild_cache.dir

@@ -30,6 +30,7 @@ class SplashView extends StatelessWidget {
                     width: Get.width,
                     child: GestureDetector(
                       onTap: () {
+                        controller.localStorage.saveFirstLaunch(true);
                         Get.offNamed(AppRoutes.chooseLanguage);
                       },
                       child: Column(

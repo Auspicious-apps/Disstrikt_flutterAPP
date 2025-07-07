@@ -21,6 +21,9 @@ const String signupBackground = 'assets/images/signupbackground.png';
 const String googleicon = 'assets/images/googleicon.png';
 const String appleicon = 'assets/images/appleicon.png';
 const String updatepassword = 'assets/images/reset.png';
+const String iconCurrency = 'assets/images/currency.png';
+const String StartJourneyImage = 'assets/images/Journey.png';
+
 const String iconLogodisstrikt = 'assets/icons/logdisstrikt.png';
 const String iconLogoGoogle = 'assets/icons/Google.png';
 const String iconLogoFacebook = 'assets/icons/facebook.png';

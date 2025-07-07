@@ -15,6 +15,7 @@ import '../../export.dart';
 
 import '../../modules/auth/models/responseModels/userResponseModel.dart';
 import '../../modules/home/models/responseModels /plansResponseModel.dart';
+import '../../modules/home/models/responseModels /setupIntentResponseModel.dart';
 import 'dio_client.dart';
 import 'endpoint.dart';
 import 'network_exceptions.dart' show NetworkExceptions;
@@ -58,10 +59,72 @@ class Repository {
     }
   }
 
+  Future forgetEmailApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.post(ForgetemailEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future loginApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.post(loginApiEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getProfileApiCall() async {
+    try {
+      final response =
+          await dioClient!.get(getProfileEndPoint, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
   Future getPlansApiCall({bool showLoader = true}) async {
     try {
       final response = await dioClient!.get(getPlansEndPoint, skipAuth: false);
       return PlansResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future gethomeApiCall({bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.get(homeEndPoint, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getSetupIntentApiCall({bool showLoader = true}) async {
+    try {
+      final response =
+          await dioClient!.get(getSetupIntentEndPoint, skipAuth: false);
+      return SetupIntentResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future buyPlanApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!
+          .post(BuyPlanEndPoint, data: jsonEncode(dataBody), skipAuth: false);
+      return UserResponseModel.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }
@@ -101,6 +164,38 @@ class Repository {
       return Future.error(NetworkExceptions.getDioException(e));
     }
   }
+
+  Future ForgetVerifyOtpApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.post(ForgetOtpVerifyEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future ResetPasswordOtpApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.post(resetPasswordEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future logoutApi({Map<String, dynamic>? dataBody}) async {
+    try {
+      final response = await dioClient!.post(logOutEndPoint, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
   //
   //
   //

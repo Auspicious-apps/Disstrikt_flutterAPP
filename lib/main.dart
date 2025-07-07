@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'app/data/repository/api_repository.dart';
@@ -22,6 +23,9 @@ init() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
+  Stripe.publishableKey =
+      'pk_test_51RRy9rRsy5fydSQ8ZOq6ZDbAAKhYiuDVrNgUnBrz2DJ158HkXx0h50hLteKt7BCrWTwo54nnO2pUVumcMhJMup3k005L9fCm8o'; // Replace with your key
+  await Stripe.instance.applySettings();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

@@ -26,6 +26,7 @@ class UserData {
   String? fullName;
   String? email;
   String? image;
+  String? subscription;
   Measurements? measurements;
   String? dob;
   String? gender;
@@ -36,8 +37,10 @@ class UserData {
   String? countryCode;
   String? phone;
   bool? isVerifiedEmail;
+  bool? isUserInfoComplete;
   bool? isVerifiedPhone;
   bool? isDeleted;
+
   String? sId;
   String? createdAt;
   String? updatedAt;
@@ -51,7 +54,9 @@ class UserData {
       this.email,
       this.image,
       this.measurements,
+      this.subscription,
       this.dob,
+      this.isUserInfoComplete,
       this.gender,
       this.country,
       this.fcmToken,
@@ -74,7 +79,9 @@ class UserData {
     fullName = json['fullName'];
     email = json['email'];
     image = json['image'];
+    isUserInfoComplete = json['isUserInfoComplete'];
     dob = json['dob'];
+    subscription = json['subscription'];
     measurements = json['measurements'] != null
         ? new Measurements.fromJson(json['measurements'])
         : null;
@@ -103,6 +110,8 @@ class UserData {
     data['fullName'] = this.fullName;
     data['email'] = this.email;
     data['image'] = this.image;
+    data['isUserInfoComplete'] = this.isUserInfoComplete;
+    data['subscription'] = this.subscription;
     if (this.measurements != null) {
       data['measurements'] = this.measurements!.toJson();
     }

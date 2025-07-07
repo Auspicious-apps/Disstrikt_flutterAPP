@@ -268,56 +268,54 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                           print(
                               ">>>>>>>>>>>${controller.selectedLanguage.value}");
                           var token = controller.localStorage.getAuthToken();
-                          if (token != null) {
-                            Get.toNamed(AppRoutes.ChoosePlan);
-                            // Get.toNamed(AppRoutes.UserInfo, arguments: {
-                            //   "country": controller.selectedCountry.value ==
-                            //           "United Kingdom"
-                            //       ? "UK"
-                            //       : controller.selectedCountry.value == "Belgium"
-                            //           ? "BE"
-                            //           : controller.selectedCountry.value == "France"
-                            //               ? "FR"
-                            //               : controller.selectedCountry.value ==
-                            //                       "Netherlands"
-                            //                   ? "NL"
-                            //                   : "ES",
-                            //   "language":
-                            //       controller.selectedLanguage.value == "English"
-                            //           ? "en"
-                            //           : controller.selectedLanguage.value == "Dutch"
-                            //               ? "nl"
-                            //               : controller.selectedLanguage.value ==
-                            //                       "French"
-                            //                   ? "fr"
-                            //                   : "es",
-                            // });
-                          } else {
-                            Get.toNamed(AppRoutes.signupRoute, arguments: {
-                              "country": controller.selectedCountry.value ==
-                                      "United Kingdom"
-                                  ? "UK"
-                                  : controller.selectedCountry.value ==
-                                          "Belgium"
-                                      ? "BE"
-                                      : controller.selectedCountry.value ==
-                                              "France"
-                                          ? "FR"
-                                          : controller.selectedCountry.value ==
-                                                  "Netherlands"
-                                              ? "NL"
-                                              : "ES",
-                              "language": controller.selectedLanguage.value ==
-                                      "English"
-                                  ? "en"
-                                  : controller.selectedLanguage.value == "Dutch"
-                                      ? "nl"
-                                      : controller.selectedLanguage.value ==
-                                              "French"
-                                          ? "fr"
-                                          : "es",
-                            });
-                          }
+                          // if (token != null) {
+                          //   Get.toNamed(AppRoutes.ChoosePlan);
+                          //   // Get.toNamed(AppRoutes.UserInfo, arguments: {
+                          //   //   "country": controller.selectedCountry.value ==
+                          //   //           "United Kingdom"
+                          //   //       ? "UK"
+                          //   //       : controller.selectedCountry.value == "Belgium"
+                          //   //           ? "BE"
+                          //   //           : controller.selectedCountry.value == "France"
+                          //   //               ? "FR"
+                          //   //               : controller.selectedCountry.value ==
+                          //   //                       "Netherlands"
+                          //   //                   ? "NL"
+                          //   //                   : "ES",
+                          //   //   "language":
+                          //   //       controller.selectedLanguage.value == "English"
+                          //   //           ? "en"
+                          //   //           : controller.selectedLanguage.value == "Dutch"
+                          //   //               ? "nl"
+                          //   //               : controller.selectedLanguage.value ==
+                          //   //                       "French"
+                          //   //                   ? "fr"
+                          //   //                   : "es",
+                          //   // });
+                          // } else {
+                          Get.toNamed(AppRoutes.signupRoute, arguments: {
+                            "country": controller.selectedCountry.value ==
+                                    "United Kingdom"
+                                ? "UK"
+                                : controller.selectedCountry.value == "Belgium"
+                                    ? "BE"
+                                    : controller.selectedCountry.value ==
+                                            "France"
+                                        ? "FR"
+                                        : controller.selectedCountry.value ==
+                                                "Netherlands"
+                                            ? "NL"
+                                            : "ES",
+                            "language": controller.selectedLanguage.value ==
+                                    "English"
+                                ? "en"
+                                : controller.selectedLanguage.value == "Dutch"
+                                    ? "nl"
+                                    : controller.selectedLanguage.value ==
+                                            "French"
+                                        ? "fr"
+                                        : "es",
+                          });
 
                           // controller.next();
                         },

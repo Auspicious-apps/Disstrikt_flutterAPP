@@ -77,10 +77,39 @@ class OtpController extends GetxController {
           if (userResponseModel?.data?.token != null) {
             _localStorage.saveAuthToken(userResponseModel?.data?.token);
           }
-          Get.toNamed(AppRoutes.UserInfo);
+          Get.offNamed(AppRoutes.UserInfo);
           isLoading.value = false;
           isLoading.refresh();
           Get.snackbar('Success', '${userResponseModel?.message}');
+        }
+      }).onError((er, stackTrace) {
+        print("$er");
+        isLoading.value = false;
+        isLoading.refresh();
+        Get.closeAllSnackbars();
+        Get.snackbar('Error', '${er}');
+      });
+    } catch (er) {
+      isLoading.value = false;
+      isLoading.refresh();
+      print("$er");
+    }
+  }
+
+  ForgetOtpVerifyApi(var data) {
+    try {
+      isLoading.value = true;
+      isLoading.refresh();
+      Get.closeAllSnackbars();
+      repository.ForgetVerifyOtpApiCall(dataBody: data).then((value) async {
+        if (value != null) {
+          userResponseModel = value;
+          if (userResponseModel?.data?.token != null) {
+            _localStorage.saveAuthToken(userResponseModel?.data?.token);
+          }
+          Get.offNamed(AppRoutes.ForgetPassword);
+          isLoading.value = false;
+          isLoading.refresh();
         }
       }).onError((er, stackTrace) {
         print("$er");

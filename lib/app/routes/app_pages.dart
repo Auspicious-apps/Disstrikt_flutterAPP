@@ -20,7 +20,9 @@ import 'package:disstrikt/app/modules/auth/view/loginScreen.dart';
 import 'package:disstrikt/app/modules/auth/view/otp_screen.dart';
 import 'package:disstrikt/app/modules/auth/view/signupScreen.dart';
 import 'package:disstrikt/app/modules/home/binding/plans_bunding.dart';
+import 'package:disstrikt/app/modules/home/binding/start_jouney_binding.dart';
 import 'package:disstrikt/app/modules/home/binding/user_info_binding.dart';
+import 'package:disstrikt/app/modules/home/view/start_journey.dart';
 import 'package:disstrikt/app/modules/home/view/user_info.dart';
 import 'package:disstrikt/app/modules/splash/bindings/choose_laguage_binding.dart';
 import 'package:disstrikt/app/modules/splash/views/choose_language_screen.dart';
@@ -80,6 +82,11 @@ class AppPages {
       name: AppRoutes.ChoosePlan,
       page: () => const ChoosePlanScreen(),
       bindings: [ChoosePlanBinding()],
+    ),
+    GetPage(
+      name: AppRoutes.StartJourney,
+      page: () => const StartJourney(),
+      bindings: [StartJouneyBinding()],
     ),
   ];
 }

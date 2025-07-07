@@ -2,6 +2,7 @@ import 'package:disstrikt/app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_assets.dart';
 import '../../../core/values/app_values.dart';
@@ -80,145 +81,172 @@ class ChoosePlanScreen extends StatelessWidget {
                             maxLines: 4,
                           ).marginSymmetric(vertical: margin_20),
                         ),
-                        Obx(() => ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: controller
-                                      .planResponseModel.value.data?.length ??
-                                  0,
-                              itemBuilder: (context, index) {
-                                final plan = controller
-                                    .planResponseModel.value.data?[index];
-                                return GestureDetector(
-                                  onTap: () {
-                                    controller.selectIndex.value = index;
-                                    controller.selectIndex.refresh();
-                                  },
-                                  child: Obx(() => Container(
-                                        decoration: BoxDecoration(
-                                          color: controller.selectIndex.value ==
-                                                  index
-                                              ? AppColors.clickTextColor
-                                              : Colors.grey.shade400,
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
+                        Obx(() => Skeletonizer(
+                              enabled: controller.isloading.value,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: controller.isloading.value
+                                    ? 3 // Show 3 skeleton items when loading
+                                    : controller.planResponseModel.value.data
+                                            ?.length ??
+                                        0,
+                                itemBuilder: (context, index) {
+                                  final plan = controller.isloading.value
+                                      ? null
+                                      : controller
+                                          .planResponseModel.value.data?[index];
+                                  return Obx(() => GestureDetector(
+                                        onTap: controller.isloading.value
+                                            ? null
+                                            : () {
+                                                controller.selectIndex.value =
+                                                    index;
+                                                controller.selectIndex
+                                                    .refresh();
+                                              },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: AppColors.whiteColor,
+                                            color: controller.isloading.value
+                                                ? Colors.grey.shade400
+                                                : controller.selectIndex
+                                                            .value ==
+                                                        index
+                                                    ? AppColors.clickTextColor
+                                                    : Colors.grey.shade400,
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  TextView(
-                                                    text: plan?.name ?? "",
-                                                    textAlign: TextAlign.center,
-                                                    textStyle: const TextStyle(
-                                                      color: AppColors
-                                                          .clickTextColor,
-                                                      fontFamily: "minorksans",
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w800,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppColors.whiteColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    TextView(
+                                                      text: plan?.name ??
+                                                          "Placeholder Plan",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: AppColors
+                                                            .clickTextColor,
+                                                        fontFamily:
+                                                            "minorksans",
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w800,
+                                                      ),
+                                                      maxLines: 4,
                                                     ),
-                                                    maxLines: 4,
-                                                  ),
-                                                  TextView(
-                                                    text:
-                                                        " £ ${controller.planResponseModel.value.data?[index]?.gbpAmount} / € ${controller.planResponseModel.value.data?[index]?.eurAmount}",
-                                                    textAlign: TextAlign.start,
-                                                    textStyle: const TextStyle(
-                                                      color:
-                                                          AppColors.blackColor,
-                                                      fontFamily: "minorksans",
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w900,
+                                                    TextView(
+                                                      text: controller
+                                                              .isloading.value
+                                                          ? "£0.00 / €0.00"
+                                                          : "£${plan?.gbpAmount ?? '0.00'} / €${plan?.eurAmount ?? '0.00'}",
+                                                      textAlign:
+                                                          TextAlign.start,
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: AppColors
+                                                            .blackColor,
+                                                        fontFamily:
+                                                            "minorksans",
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                      ),
+                                                      maxLines: 4,
                                                     ),
-                                                    maxLines: 4,
-                                                  ),
-                                                ],
-                                              ),
-                                              ListView.builder(
+                                                  ],
+                                                ),
+                                                ListView.builder(
                                                   shrinkWrap: true,
                                                   physics:
-                                                      NeverScrollableScrollPhysics(),
+                                                      const NeverScrollableScrollPhysics(),
                                                   itemCount: controller
-                                                          .planResponseModel
-                                                          .value
-                                                          .data?[index]
-                                                          ?.features
-                                                          ?.length ??
-                                                      0,
+                                                          .isloading.value
+                                                      ? 3 // Show 3 skeleton features when loading
+                                                      : plan?.features
+                                                              ?.length ??
+                                                          0,
                                                   itemBuilder:
-                                                      (context, Index) {
+                                                      (context, featureIndex) {
                                                     return Container(
                                                       height: 30,
                                                       child: Row(
                                                         children: [
                                                           Image.asset(
-                                                              FeaturesImage),
-                                                          SizedBox(
-                                                            width: 10,
+                                                            FeaturesImage,
+                                                            width: 20,
+                                                            height: 20,
                                                           ),
+                                                          const SizedBox(
+                                                              width: 10),
                                                           TextView(
                                                             text: controller
-                                                                    .planResponseModel
+                                                                    .isloading
                                                                     .value
-                                                                    .data?[
-                                                                        index]
-                                                                    ?.features?[Index] ??
-                                                                "",
-                                                            textStyle: const TextStyle(
-                                                                color: AppColors
-                                                                    .smalltextColor,
-                                                                fontFamily:
-                                                                    "Kodchasan",
-                                                                fontSize: 12,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w800),
+                                                                ? "Placeholder Feature"
+                                                                : plan?.features?[
+                                                                        featureIndex] ??
+                                                                    "",
+                                                            textStyle:
+                                                                const TextStyle(
+                                                              color: AppColors
+                                                                  .smalltextColor,
+                                                              fontFamily:
+                                                                  "Kodchasan",
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w800,
+                                                            ),
                                                             maxLines: 1,
-                                                          )
+                                                          ),
                                                         ],
                                                       ).marginOnly(
-                                                          bottom: index ==
-                                                                  (controller
-                                                                          .planResponseModel
-                                                                          .value
-                                                                          .data?[
-                                                                              index]
-                                                                          ?.features
-                                                                          ?.length ??
-                                                                      0 - 1)
-                                                              ? 30
-                                                              : 0,
-                                                          top: 5),
+                                                        bottom: featureIndex ==
+                                                                ((controller.isloading
+                                                                            .value
+                                                                        ? 3
+                                                                        : plan?.features?.length ??
+                                                                            0) -
+                                                                    1)
+                                                            ? 30
+                                                            : 0,
+                                                        top: 5,
+                                                      ),
                                                     );
-                                                  })
-                                            ],
-                                          ).marginSymmetric(
-                                              horizontal: 16, vertical: 16),
-                                        ).marginOnly(
-                                            top: 0,
-                                            right: 3,
-                                            bottom: 4,
-                                            left: 0),
-                                      )),
-                                )
-                                    .marginSymmetric(horizontal: 20)
-                                    .marginOnly(top: index != 0 ? 15 : 0);
-                              },
+                                                  },
+                                                ),
+                                              ],
+                                            ).marginSymmetric(
+                                                horizontal: 16, vertical: 16),
+                                          ).marginOnly(
+                                              top: 0,
+                                              right: 3,
+                                              bottom: 4,
+                                              left: 0),
+                                        ),
+                                      )
+                                          .marginSymmetric(horizontal: 20)
+                                          .marginOnly(
+                                              top: index != 0 ? 15 : 0));
+                                },
+                              ),
                             )),
                       ],
                     ).marginOnly(bottom: Get.height * 0.1),
@@ -228,13 +256,29 @@ class ChoosePlanScreen extends StatelessWidget {
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.miniCenterFloat,
-            floatingActionButton: MaterialButtonWidget(
-              buttonBgColor: AppColors.buttonColor,
-              buttonRadius: 8,
-              buttonText: "strTrailText".tr,
-              textColor: AppColors.backgroundColor,
-              onPressed: () {},
-            ).marginSymmetric(horizontal: 20),
+            floatingActionButton: Obx(() => Skeletonizer(
+                  enabled: controller.isloading.value,
+                  child: MaterialButtonWidget(
+                    buttonBgColor: AppColors.buttonColor,
+                    buttonRadius: 8,
+                    buttonText:
+                        controller.setupIntent.value.data?.alreadySetup == true
+                            ? "strStartSubscription".tr
+                            : "strTrailText".tr,
+                    textColor: AppColors.backgroundColor,
+                    onPressed: controller.isloading.value
+                        ? null
+                        : () async {
+                            if (controller
+                                    .setupIntent.value.data?.alreadySetup ==
+                                false) {
+                              await controller.openCardInputSheet();
+                            } else {
+                              controller.SetupIntentPlans();
+                            }
+                          },
+                  ).marginSymmetric(horizontal: 20),
+                )),
           ),
         );
       },

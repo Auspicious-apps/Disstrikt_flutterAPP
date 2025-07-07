@@ -89,7 +89,9 @@ class OtpScreen extends GetView<OtpController> {
                                             value: controller.email,
                                             language: controller.language,
                                             purpose: Get.previousRoute ==
-                                                    AppRoutes.signupRoute
+                                                        AppRoutes.signupRoute ||
+                                                    Get.previousRoute ==
+                                                        AppRoutes.loginRoute
                                                 ? "SIGNUP"
                                                 : "FORGOT_PASSWORD");
                                     controller.ResendOtpApi(requestModel);
@@ -103,7 +105,7 @@ class OtpScreen extends GetView<OtpController> {
                                     fontSize: 12,
                                     color: controller.timerSeconds.value > 0
                                         ? AppColors.smalltextColor
-                                        : AppColors.clickTextColor,
+                                        : AppColors.voilet,
                                     fontWeight: FontWeight.w600,
                                     fontFamily: "Kodchasan",
                                   ),
@@ -126,7 +128,13 @@ class OtpScreen extends GetView<OtpController> {
                                           value: controller.email,
                                           language: controller.language,
                                           otp: controller.otpController.text);
-                                  controller.VerifyOtpApi(requestModel);
+                                  if (Get.previousRoute !=
+                                      AppRoutes.forgetEmail) {
+                                    controller.VerifyOtpApi(requestModel);
+                                  } else {
+                                    controller.ForgetOtpVerifyApi(requestModel);
+                                  }
+
                                   controller.otpController.clear();
                                 }
                               },
@@ -252,7 +260,7 @@ class OtpScreen extends GetView<OtpController> {
                     Get.back();
                   },
                 style: textStyleTitleSmall().copyWith(
-                  color: AppColors.smalltextColor,
+                  color: AppColors.voilet,
                   fontSize: 14,
                   fontFamily: "Kodchasan",
                 )),

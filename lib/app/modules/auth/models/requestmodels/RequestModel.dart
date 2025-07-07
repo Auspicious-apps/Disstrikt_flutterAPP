@@ -22,6 +22,24 @@ class AuthRequestModel {
     return data;
   }
 
+  static LoginRequestModel({
+    String? email,
+    String? password,
+    String? language,
+    String? fcmToken,
+    String? country,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data["email"] = email;
+
+    data["password"] = password;
+    data["language"] = language;
+    data["fcmToken"] = fcmToken;
+    data["country"] = country;
+    return data;
+  }
+
   static ResendRequestModel({
     String? otp,
     String? value,
