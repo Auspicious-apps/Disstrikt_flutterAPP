@@ -89,6 +89,7 @@ class TextFieldWidget extends StatelessWidget {
       children: [
         if (label != null)
           Text(
+            maxLines: 1,
             label!,
             style: textStyleBodyMedium().copyWith(
               color: AppColors.smalltextColor,
@@ -119,8 +120,8 @@ class TextFieldWidget extends StatelessWidget {
             textInputAction: inputAction,
             onFieldSubmitted: onFieldSubmitted,
             validator: validate,
-            style: textStyleBodyMedium().copyWith(
-                color: AppColors.smalltextColor, fontFamily: "Kodchasan"),
+            style: textStyleBodyMedium()
+                .copyWith(color: AppColors.whiteColor, fontFamily: "Kodchasan"),
             decoration: inputDecoration()),
       ],
     );

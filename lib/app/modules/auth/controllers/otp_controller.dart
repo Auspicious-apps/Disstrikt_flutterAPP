@@ -28,6 +28,7 @@ class OtpController extends GetxController {
   RxInt leftDuration = 30.obs;
   RxBool isTimerStarted = true.obs;
   RxBool isLoading = false.obs;
+  RxBool isResend = false.obs;
   RxBool isResendingOtp = false.obs;
   var language = "";
 
@@ -48,20 +49,36 @@ class OtpController extends GetxController {
   }
 
   ResendOtpApi(var data) {
+    isResend.value = true;
+    isResend.refresh();
     try {
       Get.closeAllSnackbars();
       repository.ResendApiCall(dataBody: data).then((value) async {
         if (value != null) {
+          isResend.value = false;
+          isResend.refresh();
           userResponseModel = value;
-          Get.snackbar('Success', '${userResponseModel?.message}');
+          Get.snackbar(
+            'Success',
+            '${userResponseModel?.message}',
+            backgroundColor: Colors.white.withOpacity(0.5),
+          );
           startOtpTimer();
         }
       }).onError((er, stackTrace) {
+        isResend.value = false;
+        isResend.refresh();
         print("$er");
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '${er}');
+        Get.snackbar(
+          'Error',
+          '${er}',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
+      isResend.value = false;
+      isResend.refresh();
       print("$er");
     }
   }
@@ -80,14 +97,22 @@ class OtpController extends GetxController {
           Get.offNamed(AppRoutes.UserInfo);
           isLoading.value = false;
           isLoading.refresh();
-          Get.snackbar('Success', '${userResponseModel?.message}');
+          Get.snackbar(
+            'Success',
+            '${userResponseModel?.message}',
+            backgroundColor: Colors.white.withOpacity(0.5),
+          );
         }
       }).onError((er, stackTrace) {
         print("$er");
         isLoading.value = false;
         isLoading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '${er}');
+        Get.snackbar(
+          'Error',
+          '${er}',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isLoading.value = false;
@@ -116,7 +141,11 @@ class OtpController extends GetxController {
         isLoading.value = false;
         isLoading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '${er}');
+        Get.snackbar(
+          'Error',
+          '${er}',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isLoading.value = false;

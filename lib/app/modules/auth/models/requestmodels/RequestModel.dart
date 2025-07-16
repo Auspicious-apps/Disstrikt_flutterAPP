@@ -22,6 +22,25 @@ class AuthRequestModel {
     return data;
   }
 
+  static socialloginApiRequest({
+    required String authType,
+    required String idToken,
+    required String fcmToken,
+    required String language,
+    required String country,
+    required String deviceType,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['authType'] = authType;
+    data['idToken'] = idToken;
+    data['fcmToken'] = fcmToken;
+    data['language'] = language;
+    data["country"] = country;
+    data["deviceType"] = deviceType;
+
+    return data;
+  }
+
   static LoginRequestModel({
     String? email,
     String? password,

@@ -25,6 +25,7 @@ import '../models/responseModels /plansResponseModel.dart';
 
 class ChoosePalnController extends GetxController {
   // Available countries
+
   final List<String> countries = LocalizationService.countries;
   final LocalStorage localStorage = LocalStorage();
   RxBool isloading = false.obs;
@@ -36,7 +37,7 @@ class ChoosePalnController extends GetxController {
   // Selected values
   var selectedCountry = "".obs;
   var selectedLanguage = "".obs;
-  RxInt selectIndex = 0.obs;
+  RxInt selectIndex = 10.obs;
   RxInt currencyselectIndex = 0.obs;
   @override
   void onInit() {
@@ -87,11 +88,11 @@ class ChoosePalnController extends GetxController {
       // Handle errors and show feedback to the user
       isloading.value = false;
       isloading.refresh();
-      Get.snackbar(
-        'Error',
-        'Failed to save card details: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      // Get.snackbar(
+      //   'Error',
+      //   'Failed to save card details: $e',
+      //   backgroundColor: Colors.white.withOpacity(0.5),
+      // );
       print('Error opening payment sheet: $e');
     }
   }
@@ -113,7 +114,11 @@ class ChoosePalnController extends GetxController {
         isloading.value = false;
         isloading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '$er');
+        Get.snackbar(
+          'Error',
+          '$er',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isloading.value = false;
@@ -139,7 +144,11 @@ class ChoosePalnController extends GetxController {
         isloading.value = false;
         isloading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '$er');
+        Get.snackbar(
+          'Error',
+          '$er',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isloading.value = false;
@@ -180,7 +189,11 @@ class ChoosePalnController extends GetxController {
         isloading.value = false;
         isloading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '$er');
+        Get.snackbar(
+          'Error',
+          '$er',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isloading.value = false;
@@ -289,6 +302,7 @@ class ChoosePalnController extends GetxController {
                   color: AppColors.backgroundColor),
               textColor: AppColors.backgroundColor,
               onPressed: () {
+                Get.back();
                 Map<String, dynamic> requestModel =
                     BuyPlanRequestModel.planRequestModel(
                   planId: planResponseModel.value.data?[selectIndex.value].sId,
@@ -322,7 +336,11 @@ class ChoosePalnController extends GetxController {
         isloading.value = false;
         isloading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '$er');
+        Get.snackbar(
+          'Error',
+          '$er',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isloading.value = false;
@@ -362,7 +380,7 @@ class ChoosePalnController extends GetxController {
       Get.snackbar(
         "strApplicationName".tr,
         "strPleaseSelectBoth".tr,
-        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white.withOpacity(0.5),
       );
     }
   }

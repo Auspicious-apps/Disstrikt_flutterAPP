@@ -31,114 +31,121 @@ class ForgetPassword extends GetView<ForgetPasswordController> {
     return AnnotatedRegionWidget(
       statusBarBrightness: Brightness.light,
       statusBarColor: AppColors.blackColor,
+      bottomColor: AppColors.blackColor,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        body: Container(
-          height: Get.height,
-          width: Get.width,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(signupBackground),
-              fit: BoxFit.cover,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            height: Get.height,
+            width: Get.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(signupBackground),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Stack(
-              children: [
-                Center(
-                  // Added Center widget to ensure horizontal centering
-                  child: SingleChildScrollView(
-                    child: Form(
-                      key: controller.signupFormKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment:
-                            MainAxisAlignment.center, // Center vertically
-                        crossAxisAlignment:
-                            CrossAxisAlignment.center, // Center horizontally
-                        children: [
-                          SizedBox(
-                            height: Get.height * 0.25,
-                          ),
-                          TextView(
-                            text: "strCreatepass".tr,
-                            textStyle: const TextStyle(
-                                color: AppColors.whiteColor,
-                                fontFamily: "minorksans",
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800),
-                            maxLines: 4,
-                          ),
-                          TextView(
-                            text: "strPassforget".tr,
-                            textAlign: TextAlign.center,
-                            textStyle: const TextStyle(
-                              color: AppColors.smalltextColor,
-                              fontFamily: "Kodchasan",
-                              fontSize: 12,
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Center(
+                    // Added Center widget to ensure horizontal centering
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: controller.signupFormKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment:
+                              MainAxisAlignment.center, // Center vertically
+                          crossAxisAlignment:
+                              CrossAxisAlignment.center, // Center horizontally
+                          children: [
+                            SizedBox(
+                              height: Get.height * 0.25,
                             ),
-                            maxLines: 4,
-                          ).marginOnly(bottom: 20, top: 10),
-                          _Password(),
-                          _ConfirmPassword().marginSymmetric(vertical: 10),
-                          Obx(() => MaterialButtonWidget(
-                                isloading: controller.isloading.value,
-                                buttonBgColor: AppColors.buttonColor,
-                                buttonRadius: 8,
-                                buttonText: "strupdate".tr,
-                                iconWidget: Icon(Icons.arrow_forward_sharp,
-                                    color: AppColors.backgroundColor),
-                                textColor: AppColors.backgroundColor,
-                                onPressed: () {
-                                  if (controller.signupFormKey.currentState!
-                                      .validate()) {
-                                    controller.isloading.value = true;
-                                    controller.isloading.refresh();
-                                    final language =
-                                        LocalizationService.getLanguageName(
-                                            LocalizationService.currentLocale);
-                                    Map<String, dynamic> requestModel =
-                                        AuthRequestModel.SignupRequestModel(
-                                            password: controller
-                                                .ConfirmPasswordTextController
-                                                .text,
-                                            language: language == "English"
-                                                ? "en"
-                                                : language == "Dutch"
-                                                    ? "nl"
-                                                    : language == "French"
-                                                        ? "fr"
-                                                        : "es");
-                                    controller.handleSubmit(requestModel);
-                                  }
-                                },
-                              ).marginSymmetric(vertical: 10)),
-                          SizedBox(
-                            height: Get.height * 0.25,
-                          ),
-                          Container(
-                            color: Colors.transparent,
-                            child: _termOfUse(),
-                          )
-                        ],
-                      ).marginSymmetric(horizontal: 20),
+                            TextView(
+                              text: "strCreatepass".tr,
+                              textStyle: const TextStyle(
+                                  color: AppColors.whiteColor,
+                                  fontFamily: "minorksans",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800),
+                              maxLines: 4,
+                            ),
+                            TextView(
+                              text: "strPassforget".tr,
+                              textAlign: TextAlign.center,
+                              textStyle: const TextStyle(
+                                color: AppColors.smalltextColor,
+                                fontFamily: "Kodchasan",
+                                fontSize: 12,
+                              ),
+                              maxLines: 4,
+                            ).marginOnly(bottom: 20, top: 10),
+                            _Password(),
+                            _ConfirmPassword().marginSymmetric(vertical: 10),
+                            Obx(() => MaterialButtonWidget(
+                                  isloading: controller.isloading.value,
+                                  buttonBgColor: AppColors.buttonColor,
+                                  buttonRadius: 8,
+                                  buttonText: "strupdate".tr,
+                                  iconWidget: Icon(Icons.arrow_forward_sharp,
+                                      color: AppColors.backgroundColor),
+                                  textColor: AppColors.backgroundColor,
+                                  onPressed: () {
+                                    if (controller.signupFormKey.currentState!
+                                        .validate()) {
+                                      controller.isloading.value = true;
+                                      controller.isloading.refresh();
+                                      final language =
+                                          LocalizationService.getLanguageName(
+                                              LocalizationService
+                                                  .currentLocale);
+                                      Map<String, dynamic> requestModel =
+                                          AuthRequestModel.SignupRequestModel(
+                                              password: controller
+                                                  .ConfirmPasswordTextController
+                                                  .text,
+                                              language: language == "English"
+                                                  ? "en"
+                                                  : language == "Dutch"
+                                                      ? "nl"
+                                                      : language == "French"
+                                                          ? "fr"
+                                                          : "es");
+                                      controller.handleSubmit(requestModel);
+                                    }
+                                  },
+                                ).marginSymmetric(vertical: 10)),
+                            SizedBox(
+                              height: Get.height * 0.25,
+                            ),
+                            Container(
+                              color: Colors.transparent,
+                              child: _termOfUse(),
+                            )
+                          ],
+                        ).marginSymmetric(horizontal: 20),
+                      ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                    onTap: () => {Get.back()},
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                      ).marginOnly(left: 5),
-                    ).marginSymmetric(horizontal: 20, vertical: 20)),
-              ],
+                  GestureDetector(
+                      onTap: () => {Get.back()},
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(40)),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 20,
+                        ).marginOnly(left: 5),
+                      ).marginSymmetric(horizontal: 20, vertical: 20)),
+                ],
+              ),
             ),
           ),
         ),
@@ -167,9 +174,6 @@ class ForgetPassword extends GetView<ForgetPasswordController> {
         borderColor: AppColors.textfieldBorderColor,
         courserColor: AppColors.textfieldBorderColor,
         obscureText: controller.ShowPassword.value,
-        onTap: () {
-          controller.ShowPassword.value = !controller.ShowPassword.value;
-        },
         suffixIcon: !controller.ShowPassword.value
             ? GestureDetector(
                 onTap: () => {

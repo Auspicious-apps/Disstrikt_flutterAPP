@@ -20,6 +20,7 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
     return AnnotatedRegionWidget(
       statusBarBrightness: Brightness.light,
       statusBarColor: Color.fromRGBO(37, 33, 34, 1),
+      bottomColor: Color.fromRGBO(37, 33, 34, 1),
       child: Scaffold(
         body: Stack(
           children: [
@@ -118,6 +119,7 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                                           : controller.selectedCountry.value,
                                       dropdownStyleData: DropdownStyleData(
                                         maxHeight: 200,
+                                        width: Get.width * 0.65,
                                         decoration: BoxDecoration(
                                           color: AppColors.backgroundColor,
                                           border:
@@ -131,12 +133,18 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                                           controller.changeCountry(value);
                                         }
                                       },
-                                      iconStyleData: const IconStyleData(
-                                        icon: Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Colors.white,
-                                        ),
+                                      iconStyleData: IconStyleData(
+                                        icon: Obx(() => Icon(
+                                              controller.isDropdownOpen.value
+                                                  ? Icons.arrow_drop_up
+                                                  : Icons.arrow_drop_down,
+                                              color: Colors.white,
+                                            )),
                                       ),
+                                      onMenuStateChange: (isOpen) {
+                                        controller.isDropdownOpen.value =
+                                            isOpen; // Update dropdown state
+                                      },
                                       buttonStyleData: const ButtonStyleData(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 16),
@@ -218,6 +226,7 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                                           : controller.selectedLanguage.value,
                                       dropdownStyleData: DropdownStyleData(
                                         maxHeight: 200,
+                                        width: Get.width * 0.65,
                                         decoration: BoxDecoration(
                                           color: AppColors.backgroundColor,
                                           border:
@@ -231,12 +240,19 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                                           controller.changeLanguage(value);
                                         }
                                       },
-                                      iconStyleData: const IconStyleData(
-                                        icon: Icon(
-                                          Icons.arrow_drop_down,
-                                          color: Colors.white,
-                                        ),
+                                      iconStyleData: IconStyleData(
+                                        icon: Obx(() => Icon(
+                                              controller.isSecondDropdownOpen
+                                                      .value
+                                                  ? Icons.arrow_drop_up
+                                                  : Icons.arrow_drop_down,
+                                              color: Colors.white,
+                                            )),
                                       ),
+                                      onMenuStateChange: (isOpen) {
+                                        controller.isSecondDropdownOpen.value =
+                                            isOpen; // Update dropdown state
+                                      },
                                       buttonStyleData: const ButtonStyleData(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 16),
@@ -267,33 +283,8 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                               ">>>>>>>>>>>${controller.selectedCountry.value}");
                           print(
                               ">>>>>>>>>>>${controller.selectedLanguage.value}");
-                          var token = controller.localStorage.getAuthToken();
-                          // if (token != null) {
-                          //   Get.toNamed(AppRoutes.ChoosePlan);
-                          //   // Get.toNamed(AppRoutes.UserInfo, arguments: {
-                          //   //   "country": controller.selectedCountry.value ==
-                          //   //           "United Kingdom"
-                          //   //       ? "UK"
-                          //   //       : controller.selectedCountry.value == "Belgium"
-                          //   //           ? "BE"
-                          //   //           : controller.selectedCountry.value == "France"
-                          //   //               ? "FR"
-                          //   //               : controller.selectedCountry.value ==
-                          //   //                       "Netherlands"
-                          //   //                   ? "NL"
-                          //   //                   : "ES",
-                          //   //   "language":
-                          //   //       controller.selectedLanguage.value == "English"
-                          //   //           ? "en"
-                          //   //           : controller.selectedLanguage.value == "Dutch"
-                          //   //               ? "nl"
-                          //   //               : controller.selectedLanguage.value ==
-                          //   //                       "French"
-                          //   //                   ? "fr"
-                          //   //                   : "es",
-                          //   // });
-                          // } else {
-                          Get.toNamed(AppRoutes.signupRoute, arguments: {
+
+                          Get.offAllNamed(AppRoutes.loginRoute, arguments: {
                             "country": controller.selectedCountry.value ==
                                     "United Kingdom"
                                 ? "UK"
@@ -316,8 +307,6 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                                         ? "fr"
                                         : "es",
                           });
-
-                          // controller.next();
                         },
                       ).marginSymmetric(horizontal: 20, vertical: 20),
                     ],

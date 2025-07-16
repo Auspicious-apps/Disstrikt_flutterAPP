@@ -85,14 +85,17 @@ class MaterialButtonWidget extends StatelessWidget {
                         height: 20,
                         width: 20,
                         child: CircularProgressIndicator(color: Colors.black))
-                    : TextView(
-                        text: buttonText!,
-                        textStyle: buttonTextStyle ??
-                            textStyleTitleMedium().copyWith(
-                                fontFamily: "TOMMYSOFT",
-                                color: isOutlined
-                                    ? textColor ?? (Colors.black)
-                                    : (textColor ?? Colors.black))),
+                    : Flexible(
+                        child: TextView(
+                            maxLines: 1,
+                            text: buttonText!,
+                            textStyle: buttonTextStyle ??
+                                textStyleTitleMedium().copyWith(
+                                    fontFamily: "TOMMYSOFT",
+                                    color: isOutlined
+                                        ? textColor ?? (Colors.black)
+                                        : (textColor ?? Colors.black))),
+                      ),
                 isloading ? SizedBox() : iconWidget ?? const SizedBox(),
               ],
             ));

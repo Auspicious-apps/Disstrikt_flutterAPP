@@ -35,7 +35,11 @@ class StartJourneyController extends GetxController {
       }).onError((er, stackTrace) {
         print("$er");
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '$er');
+        Get.snackbar(
+          'Error',
+          '$er',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       print("$er");
@@ -49,7 +53,11 @@ class StartJourneyController extends GetxController {
       if (response != null) {
         _localStorage.clearLoginData();
         userResponseModel = response;
-        Get.snackbar("Success", "${userResponseModel?.message}");
+        Get.snackbar(
+          "Success",
+          "${userResponseModel?.message}",
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
         Get.offAllNamed(AppRoutes.loginRoute);
       }
     } catch (e) {

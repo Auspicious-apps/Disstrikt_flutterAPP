@@ -78,8 +78,8 @@ class CountryPickerTextField extends StatelessWidget {
               key: pickerKey,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               textInputAction: textInputAction,
-              invalidNumberMessage: "Invalid Number",
-              emptyFieldMessage: "Please Enter Your Number",
+              invalidNumberMessage: "StrInvalidNumber".tr,
+              emptyFieldMessage: "StrPleaseEnterNumber".tr,
               decoration: _inputDecoration(),
               dropdownTextStyle: textStyleTitleSmall(),
               showCountryFlag: true,
@@ -106,6 +106,8 @@ class CountryPickerTextField extends StatelessWidget {
     return InputDecoration(
       fillColor: AppColors.textfieldcolor,
       filled: true,
+      errorStyle: TextStyle(
+          fontSize: font_10, fontWeight: FontWeight.w500, color: Colors.red),
       contentPadding: EdgeInsets.symmetric(
           vertical: margin_15, horizontal: contentPadding ?? margin_12),
       errorMaxLines: 3,

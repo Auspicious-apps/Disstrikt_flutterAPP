@@ -21,13 +21,13 @@ class EmailValidator {
         focusNode.unfocus();
         focusNode.requestFocus();
       }
-      return "Please enter your email address";
+      return "strPleaseEnteremail".tr;
     } else if (!GetUtils.isEmail(value.trim())) {
       if (focusNode != null) {
         focusNode.unfocus();
         focusNode.requestFocus();
       }
-      return "Invalid email address";
+      return "strInvalidEmail".tr;
     }
     return null;
   }
@@ -48,11 +48,11 @@ class PasswordFormValidator {
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
-      return "Please enter your password";
+      return "strPleaseEnterPassword".tr;
     } else if (value.length < 8) {
-      return strInvalidPassword;
+      return "strInvalidPassword".tr;
     } else if (!regExp.hasMatch(value)) {
-      return strPasswordNotSecure;
+      return "strPasswordNotSecure".tr;
     }
     return null;
   }
@@ -63,13 +63,13 @@ class PasswordFormValidator {
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = RegExp(pattern);
     if (value!.isEmpty) {
-      return "Please confirm your password";
+      return "strConfirmPassword".tr;
     } else if (value.length < 8) {
-      return strConfirmInvalidPassword;
+      return "strConfirmInvalidPassword".tr;
     } else if (!regExp.hasMatch(value)) {
-      return strPasswordNotSecure;
+      return "strPasswordNotSecure".tr;
     } else if (value != password) {
-      return strPasswordMatch;
+      return "strPasswordMatch".tr;
     }
     return null;
   }
@@ -116,16 +116,16 @@ class FieldChecker {
         focusNode.unfocus();
         focusNode.requestFocus();
       }
-      return "$message cannot be empty";
+      return "$message ${"StrCannotEmpty".tr}";
     }
     return null;
   }
 
   static String? otpValidator({String? value}) {
     if (value == null || value.toString().trim().isEmpty) {
-      return "Please Enter Otp".tr;
+      return "strPleaseEnterOtp".tr;
     } else if (value.length < 4) {
-      return "Invalid Otp".tr;
+      return "strInvalidOtp".tr;
     } else {
       return null;
     }
@@ -135,7 +135,7 @@ class FieldChecker {
 class NameValidator {
   static String? validateName({required String title, required String value}) {
     if (value.isEmpty) {
-      return '$title cannot be empty';
+      return '$title ${"StrCannotEmpty".tr}';
     }
     if (value.length < 2) {
       return '$title must be at least 2 characters long';

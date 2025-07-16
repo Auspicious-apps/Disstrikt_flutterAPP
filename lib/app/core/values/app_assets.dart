@@ -12,11 +12,15 @@ const String plansImage = 'assets/images/plansimage.png';
 const String SelectedImage = 'assets/images/backgroundSelected.png';
 const String FeaturesImage = 'assets/images/Features.png';
 const String UnselectedImage = 'assets/images/backgroundUnselected.png';
-
+const String homeSelectedImage = 'assets/images/homeSelect.png';
+const String homeUnSelectedImage = 'assets/images/homeUnselect.png';
+const String profileSelectedImage = 'assets/images/ProfileSelect.png';
+const String ProfileUnSelectedImage = 'assets/images/ProfileUnselect.png';
 const String iconpassword = 'assets/images/lock.png';
 const String iconopeneye = 'assets/images/openeye.png';
 const String iconcloseeye = 'assets/images/closeeye.png';
-
+const String samplePlaceholder = 'assets/images/offercover.png';
+const String iconWinner = 'assets/images/winner.png';
 const String signupBackground = 'assets/images/signupbackground.png';
 const String googleicon = 'assets/images/googleicon.png';
 const String appleicon = 'assets/images/appleicon.png';

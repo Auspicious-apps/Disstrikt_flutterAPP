@@ -73,7 +73,11 @@ class Signupcontroller extends GetxController {
         isloading.value = false;
         isloading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '${er}');
+        Get.snackbar(
+          'Error',
+          '${er}',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isloading.value = false;

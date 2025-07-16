@@ -14,6 +14,7 @@ import 'package:pinput/pinput.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_assets.dart';
 import '../../../core/values/app_text_styles.dart';
+import '../../../core/values/app_values.dart';
 import '../../../core/widget/asset_image_widget.dart';
 import '../../../core/widget/custom_text_field.dart';
 import '../../../core/widget/intl_phone_field/country_picker_text_field.dart';
@@ -32,138 +33,181 @@ class OtpScreen extends GetView<OtpController> {
     return AnnotatedRegionWidget(
       statusBarBrightness: Brightness.light,
       statusBarColor: AppColors.blackColor,
+      bottomColor: AppColors.blackColor,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        body: Container(
-          height: Get.height,
-          width: Get.width,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(signupBackground),
-              fit: BoxFit.cover,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            height: Get.height,
+            width: Get.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(signupBackground),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Stack(
-              children: [
-                Center(
-                  // Added Center widget to ensure horizontal centering
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment:
-                          MainAxisAlignment.center, // Center vertically
-                      crossAxisAlignment:
-                          CrossAxisAlignment.center, // Center horizontally
-                      children: [
-                        SizedBox(
-                          height: Get.height * 0.3,
-                        ),
-                        TextView(
-                          text: "strEnterOtpheading".tr,
-                          textStyle: const TextStyle(
-                              color: AppColors.whiteColor,
-                              fontFamily: "minorksans",
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800),
-                          maxLines: 4,
-                        ),
-                        TextView(
-                          text: "strOtpSubheading".tr,
-                          textAlign: TextAlign.center,
-                          textStyle: const TextStyle(
-                            color: AppColors.smalltextColor,
-                            fontFamily: "Kodchasan",
-                            fontSize: 12,
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Center(
+                    // Added Center widget to ensure horizontal centering
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment:
+                            MainAxisAlignment.center, // Center vertically
+                        crossAxisAlignment:
+                            CrossAxisAlignment.center, // Center horizontally
+                        children: [
+                          SizedBox(
+                            height: Get.height * 0.3,
                           ),
-                          maxLines: 4,
-                        ).marginOnly(bottom: 20, top: 10),
-                        _pinPutWidget().marginOnly(bottom: 20),
-                        Obx(() {
-                          return Center(
-                            child: GestureDetector(
-                                onTap: () {
-                                  if (controller.timerSeconds.value == 0) {
+                          TextView(
+                            text: "strEnterOtpheading".tr,
+                            textStyle: const TextStyle(
+                                color: AppColors.whiteColor,
+                                fontFamily: "minorksans",
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800),
+                            maxLines: 4,
+                          ),
+                          TextView(
+                            text: "strOtpSubheading".tr,
+                            textAlign: TextAlign.center,
+                            textStyle: const TextStyle(
+                              color: AppColors.smalltextColor,
+                              fontFamily: "Kodchasan",
+                              fontSize: 12,
+                            ),
+                            maxLines: 4,
+                          ).marginOnly(bottom: 20, top: 10),
+                          _pinPutWidget().marginOnly(bottom: 20),
+                          Obx(() {
+                            return Center(
+                              child: GestureDetector(
+                                  onTap: () {
+                                    if (controller.timerSeconds.value == 0) {
+                                      var selectedLanguage =
+                                          LocalizationService.getLanguageName(
+                                              LocalizationService
+                                                  .currentLocale);
+                                      Map<String, dynamic> requestModel =
+                                          AuthRequestModel.ResendRequestModel(
+                                              value: controller.email,
+                                              language: selectedLanguage ==
+                                                      "English"
+                                                  ? "en"
+                                                  : selectedLanguage == "Dutch"
+                                                      ? "nl"
+                                                      : selectedLanguage ==
+                                                              "French"
+                                                          ? "fr"
+                                                          : "es",
+                                              purpose: Get.previousRoute ==
+                                                          AppRoutes
+                                                              .signupRoute ||
+                                                      Get.previousRoute ==
+                                                          AppRoutes.loginRoute
+                                                  ? "SIGNUP"
+                                                  : "FORGOT_PASSWORD");
+                                      if (controller.isResend.value == false) {
+                                        controller.ResendOtpApi(requestModel);
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                    controller.timerSeconds.value > 0
+                                        ? "Resend OTP in ${(controller.timerSeconds.value ~/ 60).toString().padLeft(2, '0')}:${(controller.timerSeconds.value % 60).toString().padLeft(2, '0')}"
+                                        : "Resend OTP",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: controller.timerSeconds.value > 0
+                                          ? AppColors.smalltextColor
+                                          : controller.isResend.value == true
+                                              ? AppColors.smalltextColor
+                                                  .withOpacity(0.5)
+                                              : AppColors.voilet,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: "Kodchasan",
+                                    ),
+                                  )),
+                            );
+                          }).marginOnly(bottom: 10),
+                          Obx(() => MaterialButtonWidget(
+                                isloading: controller.isLoading.value,
+                                buttonBgColor: AppColors.buttonColor,
+                                buttonRadius: 8,
+                                buttonText: "strVerify".tr,
+                                iconWidget: Icon(Icons.arrow_forward_sharp,
+                                    color: AppColors.backgroundColor),
+                                textColor: AppColors.backgroundColor,
+                                onPressed: () {
+                                  if (controller.formKey.currentState!
+                                      .validate()) {
+                                    var selectedLanguage =
+                                        LocalizationService.getLanguageName(
+                                            LocalizationService.currentLocale);
                                     Map<String, dynamic> requestModel =
                                         AuthRequestModel.ResendRequestModel(
                                             value: controller.email,
-                                            language: controller.language,
-                                            purpose: Get.previousRoute ==
-                                                        AppRoutes.signupRoute ||
-                                                    Get.previousRoute ==
-                                                        AppRoutes.loginRoute
-                                                ? "SIGNUP"
-                                                : "FORGOT_PASSWORD");
-                                    controller.ResendOtpApi(requestModel);
+                                            language: selectedLanguage ==
+                                                    "English"
+                                                ? "en"
+                                                : selectedLanguage == "Dutch"
+                                                    ? "nl"
+                                                    : selectedLanguage ==
+                                                            "French"
+                                                        ? "fr"
+                                                        : "es",
+                                            otp: controller.otpController.text);
+                                    if (Get.previousRoute !=
+                                        AppRoutes.forgetEmail) {
+                                      controller.VerifyOtpApi(requestModel);
+                                    } else {
+                                      controller.ForgetOtpVerifyApi(
+                                          requestModel);
+                                    }
+
+                                    controller.otpController.clear();
                                   }
                                 },
-                                child: Text(
-                                  controller.timerSeconds.value > 0
-                                      ? "Resend OTP in ${(controller.timerSeconds.value ~/ 60).toString().padLeft(2, '0')}:${(controller.timerSeconds.value % 60).toString().padLeft(2, '0')}"
-                                      : "Resend OTP",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: controller.timerSeconds.value > 0
-                                        ? AppColors.smalltextColor
-                                        : AppColors.voilet,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: "Kodchasan",
-                                  ),
-                                )),
-                          );
-                        }).marginOnly(bottom: 10),
-                        Obx(() => MaterialButtonWidget(
-                              isloading: controller.isLoading.value,
-                              buttonBgColor: AppColors.buttonColor,
-                              buttonRadius: 8,
-                              buttonText: "strVerify".tr,
-                              iconWidget: Icon(Icons.arrow_forward_sharp,
-                                  color: AppColors.backgroundColor),
-                              textColor: AppColors.backgroundColor,
-                              onPressed: () {
-                                if (controller.formKey.currentState!
-                                    .validate()) {
-                                  Map<String, dynamic> requestModel =
-                                      AuthRequestModel.ResendRequestModel(
-                                          value: controller.email,
-                                          language: controller.language,
-                                          otp: controller.otpController.text);
-                                  if (Get.previousRoute !=
-                                      AppRoutes.forgetEmail) {
-                                    controller.VerifyOtpApi(requestModel);
-                                  } else {
-                                    controller.ForgetOtpVerifyApi(requestModel);
-                                  }
-
-                                  controller.otpController.clear();
-                                }
-                              },
-                            ).marginSymmetric(vertical: 10)),
-                        SizedBox(
-                          height: Get.height * 0.25,
-                        ),
-                        Container(
-                          color: Colors.transparent,
-                          child: _termOfUse(),
-                        )
-                      ],
-                    ).marginSymmetric(horizontal: 20),
+                              ).marginSymmetric(vertical: 10)),
+                          SizedBox(
+                            height: Get.height * 0.25,
+                          ),
+                          Container(
+                            color: Colors.transparent,
+                            child: _termOfUse(),
+                          )
+                        ],
+                      ).marginSymmetric(horizontal: 20),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                    onTap: () => {Get.back()},
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(40)),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                      ).marginOnly(left: 5),
-                    ).marginSymmetric(horizontal: 20, vertical: 20)),
-              ],
+                  GestureDetector(
+                      onTap: () => {
+                            if (Get.previousRoute == AppRoutes.loginRoute)
+                              {Get.offAllNamed(AppRoutes.loginRoute)}
+                            else if (Get.previousRoute == AppRoutes.signupRoute)
+                              {Get.offAllNamed(AppRoutes.signupRoute)}
+                            else if (Get.previousRoute == AppRoutes.forgetEmail)
+                              {Get.offAllNamed(AppRoutes.forgetEmail)}
+                          },
+                      child: Container(
+                        height: 35,
+                        width: 35,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(40)),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 20,
+                        ).marginOnly(left: 5),
+                      ).marginSymmetric(horizontal: 20, vertical: 20)),
+                ],
+              ),
             ),
           ),
         ),
@@ -189,8 +233,11 @@ class OtpScreen extends GetView<OtpController> {
           length: 6,
           controller: controller.otpController,
           focusNode: controller.pinFocusNode,
-          // androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
-          // listenForMultipleSmsOnAndroid: true,
+          errorTextStyle: TextStyle(
+              fontSize: font_10,
+              fontWeight: FontWeight.w500,
+              color: Colors.red),
+
           defaultPinTheme: defaultPinTheme,
 
           forceErrorState: controller.forceErrorState.value,
@@ -256,12 +303,13 @@ class OtpScreen extends GetView<OtpController> {
                 text: "strLogin".tr,
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    debugPrint("helllo>>>>>>>>>>>>>>");
-                    Get.back();
+                    Get.offAllNamed(AppRoutes.loginRoute);
                   },
                 style: textStyleTitleSmall().copyWith(
                   color: AppColors.voilet,
                   fontSize: 14,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.voilet,
                   fontFamily: "Kodchasan",
                 )),
           ],

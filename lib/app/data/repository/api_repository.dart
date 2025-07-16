@@ -81,6 +81,16 @@ class Repository {
     }
   }
 
+  Future socialLoginApi({Map<String, dynamic>? dataBody}) async {
+    try {
+      final response = await dioClient!
+          .post(socialLoginEndPoint, data: json.encode(dataBody!));
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
   Future getProfileApiCall() async {
     try {
       final response =

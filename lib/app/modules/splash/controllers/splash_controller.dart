@@ -50,18 +50,19 @@ class SplashController extends GetxController {
           userResponseModel = value;
 
           if (userResponseModel?.data?.isVerifiedEmail == false) {
-            Get.toNamed(AppRoutes.OtpScreen, arguments: {
+            Get.offNamed(AppRoutes.loginRoute, arguments: {
               "email": userResponseModel?.data?.email,
               "language": userResponseModel?.data?.language
             });
-          } else if (userResponseModel?.data?.isUserInfoComplete == false) {
-            Get.toNamed(AppRoutes.UserInfo);
+          } else if (userResponseModel?.data?.isUserInfoComplete == false &&
+              userResponseModel?.data?.isVerifiedEmail == true) {
+            Get.offNamed(AppRoutes.UserInfo);
           } else if (userResponseModel?.data?.subscription == "canceled" ||
               userResponseModel?.data?.subscription == null) {
-            Get.toNamed(AppRoutes.ChoosePlan);
+            Get.offNamed(AppRoutes.ChoosePlan);
           } else if (userResponseModel?.data?.subscription != "canceled" &&
               userResponseModel?.data?.subscription != null) {
-            Get.offAllNamed(AppRoutes.StartJourney);
+            Get.offNamed(AppRoutes.StartJourney);
           }
         }
       }).onError((er, stackTrace) {

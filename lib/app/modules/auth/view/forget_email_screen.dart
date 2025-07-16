@@ -29,9 +29,13 @@ class ForgetEmailScreen extends GetView<ForgetEmailController> {
     return AnnotatedRegionWidget(
       statusBarBrightness: Brightness.light,
       statusBarColor: AppColors.blackColor,
+      bottomColor: AppColors.blackColor,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        body: Expanded(
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
           child: Container(
             height: Get.height,
             width: Get.width,

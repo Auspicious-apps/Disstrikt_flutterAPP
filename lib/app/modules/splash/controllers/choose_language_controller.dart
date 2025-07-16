@@ -20,7 +20,8 @@ class ChooseLanguageController extends GetxController {
   // Available countries
   final List<String> countries = LocalizationService.countries;
   final LocalStorage localStorage = LocalStorage();
-
+  var isDropdownOpen = false.obs;
+  var isSecondDropdownOpen = false.obs;
   // Available languages
   final List<String> languages = LocalizationService.languageNames;
 

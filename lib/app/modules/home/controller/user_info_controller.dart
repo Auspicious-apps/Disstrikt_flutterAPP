@@ -15,6 +15,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 
 import '../../../core/widget/intl_phone_field/countries.dart';
+import '../../../data/local/preferences/preference.dart';
 import '../../auth/models/responseModels/userResponseModel.dart';
 
 class UserInfoController extends GetxController {
@@ -26,16 +27,18 @@ class UserInfoController extends GetxController {
   final hipsFocusNode = FocusNode();
   final waistController = TextEditingController();
   final waistFocusNode = FocusNode();
+  final LocalStorage localStorage = LocalStorage();
   final bustController = TextEditingController();
   final bustFocusNode = FocusNode();
-
+  var isDropdownOpen = false.obs;
+  var isSecondDropdownOpen = false.obs;
   RxBool isloading = false.obs;
   RxBool ShowPassword = false.obs;
   RxBool ShowConfirmPassword = false.obs;
   var country = "".obs;
   var language = "".obs;
   UserResponseModel? userResponseModel;
-  final List<String> genders = ["Male", "Female", "Others"];
+  final List<String> genders = ["strMale".tr, "strFemale".tr, "strOthers".tr];
   final List<String> ShoesSize = [
     '2',
     '2.5',
@@ -69,16 +72,7 @@ class UserInfoController extends GetxController {
   final birthDate = ''.obs;
   @override
   void onInit() async {
-    _loadCountry();
-    if (Get.arguments != null) {
-      country.value = Get.arguments['country'];
-      language.value = Get.arguments['language'];
-      print(">>>>>>>>>>>${country.value}");
-      print(">>>>>>>>>>>${language.value}");
-      String? token = await FirebaseMessaging.instance.getToken();
-      fcmtoken.value = token!;
-      print(">FCM:>>>>>>>:::::>>>>>>>>>>${token}????????");
-    }
+    print("Am ENTER");
     super.onInit();
   }
 
@@ -99,7 +93,11 @@ class UserInfoController extends GetxController {
         isloading.value = false;
         isloading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '${er}');
+        Get.snackbar(
+          'Error',
+          '${er}',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isloading.value = false;
@@ -122,11 +120,5 @@ class UserInfoController extends GetxController {
     bustController.dispose();
 
     super.onClose();
-  }
-
-  void _loadCountry() {
-    final country = countries.firstWhere((item) => item.code == 'GB',
-        orElse: () => countries.first);
-    selectedCountry = country.obs;
   }
 }

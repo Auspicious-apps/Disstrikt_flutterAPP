@@ -67,7 +67,6 @@ dependencies:
   simple_gesture_detector:
   dropdown_button2: ^2.0.0
   lottie: ^2.3.2
-
   geocoding: ^2.1.1
   google_maps_flutter: ^2.10.0
   flutter_spinkit: ^5.2.0
@@ -78,9 +77,6 @@ dependencies:
   firebase_core: ^3.13.0
   firebase_auth: ^5.4.0
   google_sign_in: ^6.3.0
-
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -88,9 +84,7 @@ dependencies:
   geolocator: ^12.0.0
   html: ^0.15.4
   socket_io_client: ^3.0.2
-
   flutter_ringtone_manager: ^1.1.2
-
   #  google_map_marker_animation: ^0.0.1
   flutter_animarker: ^3.2.0
 
@@ -101,7 +95,7 @@ dependencies:
 
   country_code_picker_plus: ^0.1.0+1
   pretty_dio_logger: ^1.4.0
-  flutter_stripe: ^11.2.0
+  flutter_stripe: ^11.5.0
 
 
 dev_dependencies:

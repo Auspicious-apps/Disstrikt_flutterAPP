@@ -1,5 +1,5 @@
 const String baseUrl = "https://api.disstrikt.uk/api/";
-// const String baseUrl = "https://97ac-103-223-15-43.ngrok-free.app/api/";
+// const String baseUrl = "https://ec45ae76a32a.ngrok-free.app/api/";
 const String imageBaseUrl =
     "https://demoprojectsbucket.sgp1.digitaloceanspaces.com/image/original/";
 const String videoBaseUrl =
@@ -22,7 +22,7 @@ const String ForgetemailEndPoint = "forget-password";
 const String ForgetOtpVerifyEndPoint = "verify-reset-otp";
 const String resetPasswordEndPoint = "reset-password";
 const String logOutEndPoint = "user/logout";
-// const String signupVerifyOtp = "api/signup/verify-otp";
+const String socialLoginEndPoint = "social-login";
 // const String loginApiEndPoint = "api/login";
 // const String logoutApiEndPoint = "api/user/logout";
 // const String forgetPasswordApiEndPoint = "api/forgot-password";

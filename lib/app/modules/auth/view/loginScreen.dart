@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_code_picker_plus/country_code_picker_plus.dart';
 import 'package:disstrikt/app/core/widget/annotated_region_widget.dart';
 import 'package:disstrikt/app/modules/auth/controllers/login_controller.dart';
@@ -28,240 +30,255 @@ class Loginscreen extends GetView<LoginController> {
     return AnnotatedRegionWidget(
       statusBarBrightness: Brightness.light,
       statusBarColor: AppColors.blackColor,
+      bottomColor: AppColors.blackColor,
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        body: Container(
-          height: Get.height,
-          width: Get.width,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(signupBackground),
-              fit: BoxFit.cover,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Container(
+            height: Get.height,
+            width: Get.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(signupBackground),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Center(
-              // Added Center widget to ensure horizontal centering
-              child: SingleChildScrollView(
-                child: Form(
-                  key: controller.signupFormKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Center vertically
-                    crossAxisAlignment:
-                        CrossAxisAlignment.center, // Center horizontally
-                    children: [
-                      SizedBox(
-                        height: Get.height * 0.15,
-                      ),
-                      TextView(
-                        text: "strLogintoyour".tr,
-                        textStyle: const TextStyle(
-                            color: AppColors.whiteColor,
-                            fontFamily: "minorksans",
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800),
-                        maxLines: 4,
-                      ),
-                      TextView(
-                        text: "strkindlyprovideyour".tr,
-                        textAlign: TextAlign.center,
-                        textStyle: const TextStyle(
-                          color: AppColors.smalltextColor,
-                          fontFamily: "Kodchasan",
-                          fontSize: 12,
+            child: SafeArea(
+              child: Center(
+                // Added Center widget to ensure horizontal centering
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: controller.signupFormKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment:
+                          MainAxisAlignment.center, // Center vertically
+                      crossAxisAlignment:
+                          CrossAxisAlignment.center, // Center horizontally
+                      children: [
+                        SizedBox(
+                          height: Get.height * 0.1,
                         ),
-                        maxLines: 4,
-                      ).marginOnly(bottom: 20, top: 10),
-                      _EmailAddress().marginSymmetric(vertical: 10),
-                      _Password(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Obx(() => controller.rememberMe.value
-                                  ? GestureDetector(
-                                      onTap: () {
-                                        controller.rememberMe.value = false;
-                                        controller.rememberMe.refresh();
-                                      },
-                                      child: Icon(
-                                        Icons.check_box,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {
-                                        controller.rememberMe.value = true;
-                                        controller.rememberMe.refresh();
-                                      },
-                                      child: Icon(
-                                        Icons.check_box_outline_blank_rounded,
-                                        color: Colors.white,
-                                      ),
-                                    )),
-                              TextView(
-                                text: "strRememberme".tr,
+                        TextView(
+                          text: "strLogintoyour".tr,
+                          textStyle: const TextStyle(
+                              color: AppColors.whiteColor,
+                              fontFamily: "minorksans",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800),
+                          maxLines: 4,
+                        ),
+                        TextView(
+                          text: "strkindlyprovideyour".tr,
+                          textAlign: TextAlign.center,
+                          textStyle: const TextStyle(
+                            color: AppColors.smalltextColor,
+                            fontFamily: "Kodchasan",
+                            fontSize: 12,
+                          ),
+                          maxLines: 4,
+                        ).marginOnly(bottom: 20, top: 10),
+                        _EmailAddress().marginSymmetric(vertical: 10),
+                        _Password(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Obx(() => controller.rememberMe.value
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          controller.rememberMe.value = false;
+                                          controller.rememberMe.refresh();
+                                        },
+                                        child: Icon(
+                                          Icons.check_box,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {
+                                          controller.rememberMe.value = true;
+                                          controller.rememberMe.refresh();
+                                        },
+                                        child: Icon(
+                                          Icons.check_box_outline_blank_rounded,
+                                          color: Colors.white,
+                                        ),
+                                      )),
+                                TextView(
+                                  text: "strRememberme".tr,
+                                  textStyle: const TextStyle(
+                                      color: AppColors.textfieldBorderColor,
+                                      fontFamily: "Kodchasan",
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600),
+                                  maxLines: 4,
+                                ).marginSymmetric(horizontal: 5),
+                              ],
+                            ).marginSymmetric(vertical: 10),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(AppRoutes.forgetEmail);
+                              },
+                              child: TextView(
+                                text: "strForgetPassword".tr,
                                 textStyle: const TextStyle(
-                                    color: AppColors.textfieldBorderColor,
+                                    color: AppColors.voilet,
                                     fontFamily: "Kodchasan",
                                     fontSize: 12,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.voilet,
                                     fontWeight: FontWeight.w600),
                                 maxLines: 4,
                               ).marginSymmetric(horizontal: 5),
-                            ],
-                          ).marginSymmetric(vertical: 10),
-                          GestureDetector(
-                            onTap: () {
-                              Get.toNamed(AppRoutes.forgetEmail);
-                            },
-                            child: TextView(
-                              text: "strForgetPassword".tr,
-                              textStyle: const TextStyle(
-                                  color: AppColors.voilet,
-                                  fontFamily: "Kodchasan",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600),
-                              maxLines: 4,
-                            ).marginSymmetric(horizontal: 5),
-                          ),
-                        ],
-                      ),
-                      Obx(() => MaterialButtonWidget(
-                            isloading: controller.isloading.value,
-                            buttonBgColor: AppColors.buttonColor,
-                            buttonRadius: 8,
-                            buttonText: "strLogin".tr,
-                            iconWidget: Icon(Icons.arrow_forward_sharp,
-                                color: AppColors.backgroundColor),
-                            textColor: AppColors.backgroundColor,
-                            onPressed: () {
-                              if (controller.signupFormKey.currentState!
-                                  .validate()) {
-                                if (controller.isloading.value == false) {
-                                  controller.isloading.value = true;
-                                  controller.isloading.refresh();
-                                  Map<String, dynamic> requestModel =
-                                      AuthRequestModel.LoginRequestModel(
-                                          email: controller
-                                              .emailAddressController?.text
-                                              ?.trim(),
-                                          country: controller.country.value ==
-                                                  "United Kingdom"
-                                              ? "UK"
-                                              : controller
-                                                          .country.value ==
-                                                      "Belgium"
-                                                  ? "BE"
-                                                  : controller
-                                                              .country.value ==
-                                                          "France"
-                                                      ? "FR"
-                                                      : controller.country
-                                                                  .value ==
-                                                              "Netherlands"
-                                                          ? "NL"
-                                                          : "ES",
-                                          language: controller
-                                                      .language.value ==
-                                                  "English"
-                                              ? "en"
-                                              : controller
-                                                          .language.value ==
-                                                      "Dutch"
-                                                  ? "nl"
-                                                  : controller
-                                                              .language.value ==
-                                                          "French"
-                                                      ? "fr"
-                                                      : "es",
-                                          password: controller
-                                              .PasswordTextController.text,
-                                          fcmToken: controller.fcmtoken.value);
-                                  controller.handleSubmit(requestModel);
+                            ),
+                          ],
+                        ),
+                        Obx(() => MaterialButtonWidget(
+                              isloading: controller.isloading.value,
+                              buttonBgColor: AppColors.buttonColor,
+                              buttonRadius: 8,
+                              buttonText: "strLogin".tr,
+                              iconWidget: Icon(Icons.arrow_forward_sharp,
+                                  color: AppColors.backgroundColor),
+                              textColor: AppColors.backgroundColor,
+                              onPressed: () {
+                                var selectedLanguage =
+                                    LocalizationService.getLanguageName(
+                                        LocalizationService.currentLocale);
+                                var selectedCountry =
+                                    LocalizationService.currentCountry;
+                                print(
+                                    "${selectedCountry}>>>>>>>>>>>>>>$selectedLanguage");
+                                if (controller.signupFormKey.currentState!
+                                    .validate()) {
+                                  if (controller.isloading.value == false) {
+                                    controller.isloading.value = true;
+                                    controller.isloading.refresh();
+                                    Map<String, dynamic> requestModel =
+                                        AuthRequestModel.LoginRequestModel(
+                                            email: controller
+                                                .emailAddressController?.text
+                                                ?.trim(),
+                                            country: selectedCountry ==
+                                                    "United Kingdom"
+                                                ? "UK"
+                                                : selectedCountry == "Belgium"
+                                                    ? "BE"
+                                                    : selectedCountry ==
+                                                            "France"
+                                                        ? "FR"
+                                                        : selectedCountry ==
+                                                                "Netherlands"
+                                                            ? "NL"
+                                                            : "ES",
+                                            language: selectedLanguage ==
+                                                    "English"
+                                                ? "en"
+                                                : selectedLanguage == "Dutch"
+                                                    ? "nl"
+                                                    : selectedLanguage ==
+                                                            "French"
+                                                        ? "fr"
+                                                        : "es",
+                                            password: controller
+                                                .PasswordTextController.text,
+                                            fcmToken:
+                                                controller.fcmtoken.value);
+                                    controller.handleSubmit(requestModel);
+                                  }
                                 }
-                              }
-                            },
-                          ).marginSymmetric(vertical: 20)),
-                      TextView(
-                        text: "strOr".tr,
-                        textAlign: TextAlign.center,
-                        textStyle: const TextStyle(
-                          color: AppColors.smalltextColor,
-                          fontFamily: "Kodchasan",
-                          fontSize: 12,
-                        ),
-                        maxLines: 4,
-                      ).marginOnly(bottom: 10, top: 10),
-                      Container(
-                        height: 49,
-                        decoration: BoxDecoration(
-                            color: AppColors.textfieldcolor,
-                            border: Border.all(
-                                color: AppColors.textfieldBorderColor),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AssetImageWidget(
-                              googleicon,
-                              imageHeight: 20,
-                              imageWidth: 20,
-                            ).marginSymmetric(horizontal: 5),
-                            TextView(
-                              text: "strContinueGoogle".tr,
-                              textAlign: TextAlign.center,
-                              textStyle: const TextStyle(
-                                color: AppColors.smalltextColor,
-                                fontFamily: "Kodchasan",
-                                fontSize: 12,
-                              ),
-                              maxLines: 4,
+                              },
+                            ).marginSymmetric(vertical: 20)),
+                        TextView(
+                          text: "strOr".tr,
+                          textAlign: TextAlign.center,
+                          textStyle: const TextStyle(
+                            color: AppColors.smalltextColor,
+                            fontFamily: "Kodchasan",
+                            fontSize: 12,
+                          ),
+                          maxLines: 4,
+                        ).marginOnly(bottom: 10, top: 10),
+                        GestureDetector(
+                          onTap: () {
+                            controller.signInWithGoogle();
+                          },
+                          child: Container(
+                            height: 49,
+                            decoration: BoxDecoration(
+                                color: AppColors.textfieldcolor,
+                                border: Border.all(
+                                    color: AppColors.textfieldBorderColor),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AssetImageWidget(
+                                  googleicon,
+                                  imageHeight: 20,
+                                  imageWidth: 20,
+                                ).marginSymmetric(horizontal: 5),
+                                TextView(
+                                  text: "strContinueGoogle".tr,
+                                  textAlign: TextAlign.center,
+                                  textStyle: const TextStyle(
+                                    color: AppColors.smalltextColor,
+                                    fontFamily: "Kodchasan",
+                                    fontSize: 12,
+                                  ),
+                                  maxLines: 4,
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        height: 49,
-                        decoration: BoxDecoration(
-                            color: AppColors.textfieldcolor,
-                            border: Border.all(
-                                color: AppColors.textfieldBorderColor),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AssetImageWidget(
-                              appleicon,
-                              imageHeight: 20,
-                              imageWidth: 20,
-                            ).marginSymmetric(horizontal: 5),
-                            TextView(
-                              text: "strContinueApple".tr,
-                              textAlign: TextAlign.center,
-                              textStyle: const TextStyle(
-                                color: AppColors.smalltextColor,
-                                fontFamily: "Kodchasan",
-                                fontSize: 12,
-                              ),
-                              maxLines: 4,
-                            ),
-                          ],
+                        Platform.isIOS
+                            ? Container(
+                                height: 49,
+                                decoration: BoxDecoration(
+                                    color: AppColors.textfieldcolor,
+                                    border: Border.all(
+                                        color: AppColors.textfieldBorderColor),
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    AssetImageWidget(
+                                      appleicon,
+                                      imageHeight: 20,
+                                      imageWidth: 20,
+                                    ).marginSymmetric(horizontal: 5),
+                                    TextView(
+                                      text: "strContinueApple".tr,
+                                      textAlign: TextAlign.center,
+                                      textStyle: const TextStyle(
+                                        color: AppColors.smalltextColor,
+                                        fontFamily: "Kodchasan",
+                                        fontSize: 12,
+                                      ),
+                                      maxLines: 4,
+                                    ),
+                                  ],
+                                ),
+                              ).marginSymmetric(vertical: 10)
+                            : SizedBox(),
+                        SizedBox(
+                          height: Get.height * 0.1,
                         ),
-                      ).marginSymmetric(vertical: 10),
-                      SizedBox(
-                        height: Get.height * 0.12,
-                      ),
-                      Container(
-                        color: Colors.transparent,
-                        child: _termOfUse(),
-                      )
-                    ],
-                  ).marginSymmetric(horizontal: 20),
+                        Container(
+                          color: Colors.transparent,
+                          child: _termOfUse(),
+                        )
+                      ],
+                    ).marginSymmetric(horizontal: 20),
+                  ),
                 ),
               ),
             ),
@@ -313,12 +330,14 @@ class Loginscreen extends GetView<LoginController> {
         fillColor: AppColors.textfieldcolor,
         borderColor: AppColors.textfieldBorderColor,
         courserColor: AppColors.textfieldBorderColor,
-        validate: (value) =>
-            PasswordFormValidator.validatePassword(value?.trim() ?? ""),
+        validate: (value) => FieldChecker.fieldChecker(
+          value,
+          "strPassword".tr,
+        ),
         obscureText: controller.ShowPassword.value,
-        onTap: () {
-          controller.ShowPassword.value = !controller.ShowPassword.value;
-        },
+        // onTap: () {
+        //   controller.ShowPassword.value = !controller.ShowPassword.value;
+        // },
         suffixIcon: !controller.ShowPassword.value
             ? GestureDetector(
                 onTap: () => {
@@ -370,6 +389,8 @@ class Loginscreen extends GetView<LoginController> {
                 style: textStyleTitleSmall().copyWith(
                   color: AppColors.voilet,
                   fontSize: 14,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.voilet,
                   fontFamily: "Kodchasan",
                 )),
           ],

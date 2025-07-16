@@ -11,13 +11,17 @@
  */
 
 import 'package:disstrikt/app/export.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../firebase_options.dart';
 import '../../../core/utils/localization_service.dart';
 import '../../../core/widget/intl_phone_field/countries.dart';
 import '../../../data/local/preferences/preference.dart';
+import '../models/requestmodels/RequestModel.dart';
 import '../models/responseModels/userResponseModel.dart';
 
 class LoginController extends GetxController {
@@ -56,6 +60,97 @@ class LoginController extends GetxController {
     super.onInit();
   }
 
+  Future<void> signInWithGoogle() async {
+    try {
+      Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+        barrierDismissible: false,
+        barrierColor: Colors.black.withOpacity(0.4), // Transparent background
+      );
+      final String clientId = defaultTargetPlatform == TargetPlatform.android
+          ? DefaultFirebaseOptions.androidClientId
+          : DefaultFirebaseOptions.iosClientId;
+
+      print("Using Client ID: $clientId"); // Debug: Verify Client ID
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        clientId: clientId,
+      );
+
+      // Sign out previous sessions to ensure fresh login
+      await googleSignIn.signOut();
+      await FirebaseAuth.instance.signOut();
+
+      // Start Google Sign-In flow
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        // Get.snackbar('Cancelled', 'Google Sign-In was cancelled by the user');
+        print("Google Sign-In cancelled"); // Debug
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      print("Google ID Token: ${googleAuth.idToken}>>>>>>>>>>>>>>>>>>>>>>>>");
+      var selectedLanguage = LocalizationService.getLanguageName(
+          LocalizationService.currentLocale);
+      var selectedCountry = LocalizationService.currentCountry;
+      Map<String, dynamic> requestModel =
+          AuthRequestModel.socialloginApiRequest(
+        deviceType: Platform.isAndroid ? "ANDROID" : "IOS",
+        idToken: googleAuth.idToken ?? "",
+        fcmToken: fcmtoken?.value ?? "",
+        authType: "GOOGLE",
+        language: selectedLanguage == "English"
+            ? "en"
+            : selectedLanguage == "Dutch"
+                ? "nl"
+                : selectedLanguage == "French"
+                    ? "fr"
+                    : "es",
+        country: selectedCountry == "United Kingdom"
+            ? "UK"
+            : selectedCountry == "Belgium"
+                ? "BE"
+                : selectedCountry == "France"
+                    ? "FR"
+                    : selectedCountry == "Netherlands"
+                        ? "NL"
+                        : "ES",
+      );
+
+      final response = await repository.socialLoginApi(dataBody: requestModel);
+      if (response != null) {
+        userResponseModel = response;
+        if (userResponseModel?.data?.token != null &&
+            userResponseModel?.data?.isVerifiedEmail == true) {
+          localStorage.saveAuthToken(userResponseModel?.data?.token);
+          print(">>>>>>>>SaveToken ");
+
+          if (userResponseModel?.data?.isUserInfoComplete == false) {
+            Get.offNamed(AppRoutes.UserInfo);
+          } else if (userResponseModel?.data?.subscription == "canceled" ||
+              userResponseModel?.data?.subscription == null) {
+            Get.offNamed(AppRoutes.ChoosePlan);
+          } else if (userResponseModel?.data?.subscription != "canceled" &&
+              userResponseModel?.data?.subscription != null) {
+            Get.offNamed(AppRoutes.StartJourney);
+          }
+        }
+      }
+
+      //
+    } catch (e) {
+      print("Google Sign-In error: $e"); // Debug
+      if (e.toString().contains('ApiException: 10')) {
+      } else {
+        // Get.snackbar('Error', 'Google Sign-In failed: $e');
+      }
+    }
+  }
+
   handleSubmit(var data) {
     isloading.value = true;
     isloading.refresh();
@@ -64,7 +159,11 @@ class LoginController extends GetxController {
       repository.loginApiCall(dataBody: data).then((value) async {
         if (value != null) {
           userResponseModel = value;
-          Get.snackbar('Success', '${userResponseModel?.message}');
+          Get.snackbar(
+            'Success',
+            '${userResponseModel?.message}',
+            backgroundColor: Colors.white.withOpacity(0.5),
+          );
           if (rememberMe.value) {
             storage.write('email', emailAddressController.text);
             storage.write('password', PasswordTextController.text);
@@ -76,23 +175,28 @@ class LoginController extends GetxController {
           }
 
           isloading.value = false;
-          if (userResponseModel?.data?.token != null) {
+          if (userResponseModel?.data?.token != null &&
+              userResponseModel?.data?.isVerifiedEmail == true) {
             localStorage.saveAuthToken(userResponseModel?.data?.token);
           }
-          if (userResponseModel?.data?.isUserInfoComplete == false) {
-            Get.toNamed(AppRoutes.UserInfo);
+          if (userResponseModel?.data?.isUserInfoComplete == false &&
+              userResponseModel?.data?.isVerifiedEmail == true) {
+            Get.offNamed(AppRoutes.UserInfo);
           }
           if (userResponseModel?.data?.isVerifiedEmail == true &&
-              userResponseModel?.data?.subscription == "canceled" &&
-              userResponseModel?.data?.subscription == null) {
-            Get.toNamed(AppRoutes.ChoosePlan);
+                  userResponseModel?.data?.subscription == "canceled" &&
+                  userResponseModel?.data?.isUserInfoComplete == true ||
+              userResponseModel?.data?.isVerifiedEmail == true &&
+                  userResponseModel?.data?.subscription == null &&
+                  userResponseModel?.data?.isUserInfoComplete == true) {
+            Get.offNamed(AppRoutes.ChoosePlan);
           }
           if (userResponseModel?.data?.isVerifiedEmail == true &&
               userResponseModel?.data?.subscription != "canceled" &&
               userResponseModel?.data?.subscription != null) {
-            Get.toNamed(AppRoutes.StartJourney);
-          } else {
-            Get.toNamed(AppRoutes.OtpScreen, arguments: {
+            Get.offNamed(AppRoutes.StartJourney);
+          } else if (userResponseModel?.data?.isVerifiedEmail == false) {
+            Get.offNamed(AppRoutes.OtpScreen, arguments: {
               "email": emailAddressController.text,
               "language": language.value
             });
@@ -105,7 +209,11 @@ class LoginController extends GetxController {
         isloading.value = false;
         isloading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '${er}');
+        Get.snackbar(
+          'Error',
+          '${er}',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
       });
     } catch (er) {
       isloading.value = false;

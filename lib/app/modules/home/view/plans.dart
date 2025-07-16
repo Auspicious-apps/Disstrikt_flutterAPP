@@ -23,6 +23,7 @@ class ChoosePlanScreen extends StatelessWidget {
         return AnnotatedRegionWidget(
           statusBarBrightness: Brightness.light,
           statusBarColor: const Color.fromRGBO(37, 33, 34, 1),
+          bottomColor: AppColors.blackColor,
           child: Scaffold(
             body: Stack(
               children: [
@@ -40,7 +41,9 @@ class ChoosePlanScreen extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Get.back();
+                            controller.localStorage.clearLoginData();
+
+                            Get.offAllNamed(AppRoutes.chooseLanguage);
                           },
                           child: Container(
                             height: height_40,
@@ -130,26 +133,30 @@ class ChoosePlanScreen extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
                                                           .spaceBetween,
                                                   children: [
-                                                    TextView(
-                                                      text: plan?.name ??
-                                                          "Placeholder Plan",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      textStyle:
-                                                          const TextStyle(
-                                                        color: AppColors
-                                                            .clickTextColor,
-                                                        fontFamily:
-                                                            "minorksans",
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w800,
+                                                    Expanded(
+                                                      child: TextView(
+                                                        text: plan?.name ??
+                                                            "Placeholder Plan",
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          color: AppColors
+                                                              .clickTextColor,
+                                                          fontFamily:
+                                                              "minorksans",
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                        ),
+                                                        maxLines: 4,
                                                       ),
-                                                      maxLines: 4,
                                                     ),
                                                     TextView(
                                                       text: controller
@@ -249,26 +256,37 @@ class ChoosePlanScreen extends StatelessWidget {
                               ),
                             )),
                       ],
-                    ).marginOnly(bottom: Get.height * 0.1),
+                    ).marginOnly(bottom: Get.height * 0.12),
                   ),
                 ),
               ],
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.miniCenterFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation
+                .endDocked, // Changed to centerFloat
             floatingActionButton: Obx(() => Skeletonizer(
-                  enabled: controller.isloading.value,
+                enabled: controller.isloading.value,
+                child: Container(
+                  color: Color.fromRGBO(37, 33, 34, 1),
                   child: MaterialButtonWidget(
-                    buttonBgColor: AppColors.buttonColor,
+                    buttonBgColor: controller.selectIndex.value == 10
+                        ? Colors.grey.shade400
+                        : AppColors.buttonColor,
                     buttonRadius: 8,
                     buttonText:
                         controller.setupIntent.value.data?.alreadySetup == true
                             ? "strStartSubscription".tr
                             : "strTrailText".tr,
-                    textColor: AppColors.backgroundColor,
+                    textColor: controller.selectIndex.value == 10
+                        ? Colors.grey
+                        : AppColors.backgroundColor,
                     onPressed: controller.isloading.value
                         ? null
                         : () async {
+                            if (controller.selectIndex.value == 10) {
+                              Get.closeAllSnackbars();
+                              Get.snackbar("Error", "Please Choose plan");
+                              return;
+                            }
                             if (controller
                                     .setupIntent.value.data?.alreadySetup ==
                                 false) {
@@ -277,8 +295,8 @@ class ChoosePlanScreen extends StatelessWidget {
                               controller.SetupIntentPlans();
                             }
                           },
-                  ).marginSymmetric(horizontal: 20),
-                )),
+                  ).marginOnly(bottom: 20, top: 20),
+                ))).marginOnly(left: 35),
           ),
         );
       },

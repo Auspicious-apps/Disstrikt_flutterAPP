@@ -10,12 +10,16 @@
 	<string>DISSTRIKT</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>chatbox_flutter</string>
+	<string>Disstrikt</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,12 +30,45 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need your location to show you on the map and help you select locations accurately.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show you on the map and help you select locations accurately.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to allow you to take photos for your profile and appointments.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need access to your calendar to allow you to manage appointments and sync them to your calendar.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to allow you to upload photos for your profile and appointments.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to the microphone for voice input</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>We need access to speech recognition for voice commands</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.144224789471-872scl2l4ips2gql8qe5dc3vgm0v9im7</string>
+			</array>
+		</dict>
+	</array>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleuserconten
+System: t.apps.144224789471-872scl2l4ips2gql8qe5dc3vgm0v9im7</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

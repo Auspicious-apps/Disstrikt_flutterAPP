@@ -30,6 +30,8 @@ import 'package:disstrikt/app/modules/splash/views/choose_language_screen.dart';
 import '../modules/auth/bindings/forget_email_binding.dart';
 import '../modules/auth/bindings/signupbinding.dart';
 import '../modules/auth/view/forget_email_screen.dart';
+import '../modules/bottom_tab/bindings/bottom_tab_binding.dart';
+import '../modules/bottom_tab/views/bottom_tab.dart';
 import '../modules/home/view/plans.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_screen.dart';
@@ -85,8 +87,8 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.StartJourney,
-      page: () => const StartJourney(),
-      bindings: [StartJouneyBinding()],
+      page: () => BottomTab(),
+      bindings: [BottomTabBinding()],
     ),
   ];
 }
