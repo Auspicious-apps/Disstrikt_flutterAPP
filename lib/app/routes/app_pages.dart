@@ -24,6 +24,15 @@ import 'package:disstrikt/app/modules/home/binding/start_jouney_binding.dart';
 import 'package:disstrikt/app/modules/home/binding/user_info_binding.dart';
 import 'package:disstrikt/app/modules/home/view/start_journey.dart';
 import 'package:disstrikt/app/modules/home/view/user_info.dart';
+import 'package:disstrikt/app/modules/settingModule/Bindings%20/EditProfileBinding.dart';
+import 'package:disstrikt/app/modules/settingModule/Bindings%20/StaticPageBinding.dart';
+import 'package:disstrikt/app/modules/settingModule/Bindings%20/changeCountryBinding.dart';
+import 'package:disstrikt/app/modules/settingModule/Bindings%20/chnageLanguage_binding.dart';
+import 'package:disstrikt/app/modules/settingModule/Models/ReponseModel/StaticModel.dart';
+import 'package:disstrikt/app/modules/settingModule/Views/StaticPage.dart';
+import 'package:disstrikt/app/modules/settingModule/Views/changeCountry.dart';
+import 'package:disstrikt/app/modules/settingModule/Views/changeLanguage.dart';
+import 'package:disstrikt/app/modules/settingModule/Views/changePassword.dart';
 import 'package:disstrikt/app/modules/splash/bindings/choose_laguage_binding.dart';
 import 'package:disstrikt/app/modules/splash/views/choose_language_screen.dart';
 
@@ -33,6 +42,13 @@ import '../modules/auth/view/forget_email_screen.dart';
 import '../modules/bottom_tab/bindings/bottom_tab_binding.dart';
 import '../modules/bottom_tab/views/bottom_tab.dart';
 import '../modules/home/view/plans.dart';
+import '../modules/settingModule/Bindings /Subscription_bindings.dart';
+import '../modules/settingModule/Bindings /changePasswordBinding.dart';
+import '../modules/settingModule/Bindings /supportBinding.dart';
+import '../modules/settingModule/Controller/supportController.dart';
+import '../modules/settingModule/Views/EditProfile.dart';
+import '../modules/settingModule/Views/Subscription_view.dart';
+import '../modules/settingModule/Views/support.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_screen.dart';
 
@@ -57,7 +73,7 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.loginRoute,
-      page: () => const Loginscreen(),
+      page: () => Loginscreen(),
       bindings: [Loginbinding()],
     ),
     GetPage(
@@ -89,6 +105,41 @@ class AppPages {
       name: AppRoutes.StartJourney,
       page: () => BottomTab(),
       bindings: [BottomTabBinding()],
+    ),
+    GetPage(
+      name: AppRoutes.StaticPage,
+      page: () => Staticpage(),
+      bindings: [Staticpagebinding()],
+    ),
+    GetPage(
+      name: AppRoutes.SupportPage,
+      page: () => SupportPage(),
+      bindings: [Supportbinding()],
+    ),
+    GetPage(
+      name: AppRoutes.ChangePassword,
+      page: () => Changepassword(),
+      bindings: [Changepasswordbinding()],
+    ),
+    GetPage(
+      name: AppRoutes.ChangeLanguage,
+      page: () => Changelanguage(),
+      bindings: [ChnagelanguageBinding()],
+    ),
+    GetPage(
+      name: AppRoutes.ChangeCountry,
+      page: () => Changecountry(),
+      bindings: [Changecountrybinding()],
+    ),
+    GetPage(
+      name: AppRoutes.ChangeSubscription,
+      page: () => SubscriptionView(),
+      bindings: [SubscriptionBindings()],
+    ),
+    GetPage(
+      name: AppRoutes.EditProfile,
+      page: () => Editprofile(),
+      bindings: [Editprofilebinding()],
     ),
   ];
 }

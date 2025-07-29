@@ -1,7 +1,6 @@
 const String baseUrl = "https://api.disstrikt.uk/api/";
-// const String baseUrl = "https://ec45ae76a32a.ngrok-free.app/api/";
-const String imageBaseUrl =
-    "https://demoprojectsbucket.sgp1.digitaloceanspaces.com/image/original/";
+// const String baseUrl = "https://ae9fe6347fbc.ngrok-free.app/api/";
+const String imageBaseUrl = "https://disstrikt.s3.eu-north-1.amazonaws.com/";
 const String videoBaseUrl =
     "https://demoprojectsbucket.sgp1.digitaloceanspaces.com/video/";
 const String documentBaseUrl =
@@ -18,11 +17,22 @@ const String getSetupIntentEndPoint = "user/setup-intent";
 const String BuyPlanEndPoint = "user/plans";
 const String homeEndPoint = "paid-user/home";
 const String getProfileEndPoint = "user/get-login-response";
+const String getEditProfileEndPoint = "paid-user/get-user";
+const String updateProfileEndPoint = "paid-user/update-user";
 const String ForgetemailEndPoint = "forget-password";
 const String ForgetOtpVerifyEndPoint = "verify-reset-otp";
 const String resetPasswordEndPoint = "reset-password";
+const String ChangePasswordEndPoint = "paid-user/change-password";
+const String ChangeCountryEndPoint = "paid-user/change-country";
+const String ChangeLanguageEndPoint = "paid-user/change-language";
+const String ChangeSubscriptionEndPoint = "paid-user/update-subscription";
+const String getProfile = "paid-user/profile";
 const String logOutEndPoint = "user/logout";
+const String deleteUserEndPoint = "paid-user/delete-account";
 const String socialLoginEndPoint = "social-login";
+const String getStaticDataEndPoint = "paid-user/get-platform-info";
+const String getActivePlanEndPoint = "user/get-active-plan";
+const String mediafileUploadEndPoint = "paid-user/upload";
 // const String loginApiEndPoint = "api/login";
 // const String logoutApiEndPoint = "api/user/logout";
 // const String forgetPasswordApiEndPoint = "api/forgot-password";

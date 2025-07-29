@@ -283,7 +283,11 @@ class ChooseLanguageScreen extends GetView<ChooseLanguageController> {
                               ">>>>>>>>>>>${controller.selectedCountry.value}");
                           print(
                               ">>>>>>>>>>>${controller.selectedLanguage.value}");
-
+                          LocalizationService.setCountry(
+                              controller.selectedCountry.value);
+                          var selectedCountry =
+                              LocalizationService.currentCountry;
+                          print(selectedCountry);
                           Get.offAllNamed(AppRoutes.loginRoute, arguments: {
                             "country": controller.selectedCountry.value ==
                                     "United Kingdom"

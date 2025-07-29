@@ -22,6 +22,70 @@ class AuthRequestModel {
     return data;
   }
 
+  static ChangePasswordRequestModel({
+    String? oldPassword,
+    String? newPassword,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data["oldPassword"] = oldPassword;
+    data["newPassword"] = newPassword;
+
+    return data;
+  }
+
+  static ChangeCountryRequestModel({
+    String? country,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["country"] = country;
+    return data;
+  }
+
+  static ChangeLanguageRequestModel({
+    String? updatedLanguage,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["updatedLanguage"] = updatedLanguage;
+    return data;
+  }
+
+  static EditProfileRequestModel(
+      {num? heightCm,
+      num? bustCm,
+      num? waistCm,
+      num? hipsCm,
+      num? weightKg,
+      num? shoeSizeUK,
+      String? dob,
+      String? gender,
+      String? fullName,
+      String? image}) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["heightCm"] = heightCm;
+    data["bustCm"] = bustCm;
+    data["waistCm"] = waistCm;
+    data["hipsCm"] = hipsCm;
+    data["weightKg"] = weightKg;
+    data["shoeSizeUK"] = shoeSizeUK;
+    data["dob"] = dob;
+    data["gender"] = gender;
+    data["fullName"] = fullName;
+    data["image"] = image;
+
+    return data;
+  }
+
+  static ChangeSubscriptionRequestModel({
+    String? type,
+    String? planId,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["type"] = type;
+    data["planId"] = planId;
+    return data;
+  }
+
   static socialloginApiRequest({
     required String authType,
     required String idToken,

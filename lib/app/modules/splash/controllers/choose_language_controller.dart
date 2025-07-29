@@ -65,6 +65,7 @@ class ChooseLanguageController extends GetxController {
       final defaultLanguage = LocalizationService.countryToLanguage[country];
       if (defaultLanguage != null) {
         selectedLanguage.value = defaultLanguage;
+
         LocalizationService.changeLocale(defaultLanguage);
       }
     }

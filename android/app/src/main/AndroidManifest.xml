@@ -2,7 +2,16 @@
     <!-- Add Permissions for Speech-to-Text and Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="googlegmail" />
+        </intent>
+    </queries>
     <application
         android:label="Disstrikt App"
         android:name="${applicationName}"
@@ -36,6 +45,9 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+
+
 
         </activity>
 

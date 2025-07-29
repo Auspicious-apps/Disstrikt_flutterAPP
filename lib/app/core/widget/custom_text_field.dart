@@ -18,6 +18,8 @@ class TextFieldWidget extends StatelessWidget {
   final Color? color;
   final Color? courserColor;
   final Color? fillColor;
+  final Color? textColors;
+  final Color? lableColor;
   final String? label;
   final validate;
   final hintStyle;
@@ -49,7 +51,9 @@ class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
     super.key,
     this.hint,
+    this.textColors,
     this.inputType,
+    this.lableColor,
     this.textController,
     this.hintStyle,
     this.prefix,
@@ -92,7 +96,7 @@ class TextFieldWidget extends StatelessWidget {
             maxLines: 1,
             label!,
             style: textStyleBodyMedium().copyWith(
-              color: AppColors.smalltextColor,
+              color: lableColor ?? AppColors.smalltextColor,
               fontFamily: "Kodchasan",
             ),
           ),
@@ -106,7 +110,7 @@ class TextFieldWidget extends StatelessWidget {
             keyboardType: inputType,
             maxLength: maxLength,
             onChanged: onChange,
-            cursorColor: courserColor ?? AppColors.appColor,
+            // cursorColor: courserColor ?? AppColors.appColor,
             inputFormatters: inputFormatter ??
                 [
                   FilteringTextInputFormatter(
@@ -120,8 +124,9 @@ class TextFieldWidget extends StatelessWidget {
             textInputAction: inputAction,
             onFieldSubmitted: onFieldSubmitted,
             validator: validate,
-            style: textStyleBodyMedium()
-                .copyWith(color: AppColors.whiteColor, fontFamily: "Kodchasan"),
+            style: textStyleBodyMedium().copyWith(
+                color: textColors ?? AppColors.whiteColor,
+                fontFamily: "Kodchasan"),
             decoration: inputDecoration()),
       ],
     );
@@ -153,54 +158,34 @@ class TextFieldWidget extends StatelessWidget {
             child: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(radius ?? margin_10),
                 borderSide: BorderSide(color: borderColor ?? Colors.white)),
-            shadow: BoxShadow(
-                color: shadow == true
-                    ? AppColors.greyColor.withOpacity(0.5)
-                    : AppColors.textfieldBorderColor,
-                blurRadius: margin_2,
-                spreadRadius: margin_1),
+            shadow: BoxShadow(blurRadius: margin_0, spreadRadius: margin_0),
           ),
       focusedErrorBorder: decoration ??
           DecoratedInputBorder(
             child: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(radius ?? margin_10),
                 borderSide: BorderSide.none),
-            shadow: BoxShadow(
-                color: shadow == true
-                    ? Colors.grey.withOpacity(0.5)
-                    : AppColors.textfieldBorderColor,
-                spreadRadius: margin_1),
+            shadow: BoxShadow(blurRadius: margin_0, spreadRadius: margin_0),
           ),
       errorBorder: decoration ??
           DecoratedInputBorder(
               child: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(radius ?? margin_10),
-                  borderSide: BorderSide.none),
-              shadow: BoxShadow(
-                  color: shadow == true
-                      ? Colors.grey.withOpacity(0.5)
-                      : Colors.red,
-                  spreadRadius: margin_1)),
+                  borderSide: BorderSide(color: Colors.red ?? Colors.white)),
+              shadow: BoxShadow(blurRadius: margin_0, spreadRadius: margin_0)),
       focusedBorder: decoration ??
           DecoratedInputBorder(
-              child: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(radius ?? margin_10),
-                  borderSide: BorderSide(color: borderColor ?? Colors.white)),
-              shadow: BoxShadow(
-                  color: shadow == true
-                      ? AppColors.greyColor.withOpacity(0.5)
-                      : AppColors.textfieldBorderColor,
-                  spreadRadius: margin_1)),
+            child: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(radius ?? margin_10),
+                borderSide: BorderSide(color: borderColor ?? Colors.white)),
+            shadow: BoxShadow(blurRadius: margin_0, spreadRadius: margin_0),
+          ),
       enabledBorder: decoration ??
           DecoratedInputBorder(
             child: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(radius ?? margin_10),
                 borderSide: BorderSide(color: borderColor ?? Colors.white)),
-            shadow: BoxShadow(
-                color: shadow == true
-                    ? AppColors.greyColor.withOpacity(0.5)
-                    : AppColors.textfieldBorderColor,
-                spreadRadius: margin_1),
+            shadow: BoxShadow(blurRadius: margin_0, spreadRadius: margin_0),
           ));
 }
 

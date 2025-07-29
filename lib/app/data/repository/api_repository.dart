@@ -16,9 +16,14 @@ import '../../export.dart';
 import '../../modules/auth/models/responseModels/userResponseModel.dart';
 import '../../modules/home/models/responseModels /plansResponseModel.dart';
 import '../../modules/home/models/responseModels /setupIntentResponseModel.dart';
+import '../../modules/settingModule/Models/ReponseModel/StaticModel.dart';
+import '../../modules/settingModule/Models/ReponseModel/active_plan_responseModel.dart';
+import '../../modules/settingModule/Models/ReponseModel/mediaUpload.dart';
 import 'dio_client.dart';
 import 'endpoint.dart';
 import 'network_exceptions.dart' show NetworkExceptions;
+
+enum UploadFileType { image, video, unknown }
 
 class Repository {
   static late DioClient? dioClient;
@@ -101,6 +106,64 @@ class Repository {
     }
   }
 
+  Future getEditProfileApiCall() async {
+    try {
+      final response =
+          await dioClient!.get(getEditProfileEndPoint, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  UploadFileType getFileType(String filePath) {
+    final imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp'];
+    final videoExtensions = ['.mp4', '.avi', '.mkv', '.mov', '.wmv'];
+
+    final ext = filePath.toLowerCase().split('.').last;
+
+    if (imageExtensions.contains('.$ext')) {
+      return UploadFileType.image;
+    } else if (videoExtensions.contains('.$ext')) {
+      return UploadFileType.video;
+    } else {
+      return UploadFileType.unknown;
+    }
+  }
+
+  Future<MediaUploadResponseModel> mediaUploadApiCall(File file) async {
+    try {
+      final type = getFileType(
+          file.path); // e.g., returns MediaTypeEnum.image or similar
+      final fileExtension = file.path.split('.').last.toLowerCase();
+
+      final multipart = await MultipartFile.fromFile(
+        file.path,
+        filename: file.uri.pathSegments.last,
+        contentType: MediaType(type.name, fileExtension), // Use Dio's MediaType
+      );
+
+      final formData = FormData.fromMap({"file": multipart});
+
+      final response = await dioClient!
+          .post(mediafileUploadEndPoint, data: formData, skipAuth: false);
+
+      return MediaUploadResponseModel.fromJson(response);
+    } catch (e) {
+      throw NetworkExceptions.getDioException(e);
+    }
+  }
+
+  Future updateProfileApiCall({Map<String, dynamic>? dataBody}) async {
+    try {
+      final response = await dioClient!.patch(updateProfileEndPoint,
+          data: jsonEncode(dataBody), skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
   Future getPlansApiCall({bool showLoader = true}) async {
     try {
       final response = await dioClient!.get(getPlansEndPoint, skipAuth: false);
@@ -124,6 +187,16 @@ class Repository {
       final response =
           await dioClient!.get(getSetupIntentEndPoint, skipAuth: false);
       return SetupIntentResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getActivePlanApiCall({bool showLoader = true}) async {
+    try {
+      final response =
+          await dioClient!.get(getActivePlanEndPoint, skipAuth: false);
+      return ActivePlanResponsemodel.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }
@@ -197,9 +270,82 @@ class Repository {
     }
   }
 
+  Future ChangePasswordApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.patch(ChangePasswordEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future ChangeLanguageApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.patch(ChangeLanguageEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future ChangeSubscriptionApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.post(ChangeSubscriptionEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future ChangeCountryApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.patch(ChangeCountryEndPoint,
+          data: jsonEncode(dataBody), isLoading: showLoader, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future GetProfile({bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.get(getProfile, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future GetStaticAPi({bool showLoader = true, query}) async {
+    try {
+      final response = await dioClient!
+          .get(getStaticDataEndPoint, skipAuth: false, queryParameters: query);
+      return StatiResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
   Future logoutApi({Map<String, dynamic>? dataBody}) async {
     try {
       final response = await dioClient!.post(logOutEndPoint, skipAuth: false);
+      return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future deleteAccountApi({Map<String, dynamic>? dataBody}) async {
+    try {
+      final response =
+          await dioClient!.post(deleteUserEndPoint, skipAuth: false);
       return UserResponseModel.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));

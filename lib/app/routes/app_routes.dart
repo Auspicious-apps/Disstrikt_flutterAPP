@@ -21,4 +21,11 @@ abstract class AppRoutes {
   static const UserInfo = '/UserInfo';
   static const ChoosePlan = '/ChoosePlan';
   static const StartJourney = '/StartJourney';
+  static const StaticPage = '/StaticPage';
+  static const SupportPage = '/SupportPage';
+  static const ChangePassword = "/ChangePassword";
+  static const ChangeLanguage = "/ChangeLanguage";
+  static const ChangeCountry = "/ChangeCountry";
+  static const ChangeSubscription = "/ChangeSubscription";
+  static const EditProfile = "/EditProfile";
 }

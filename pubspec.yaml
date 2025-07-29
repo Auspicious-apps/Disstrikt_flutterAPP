@@ -55,11 +55,11 @@ dependencies:
   url_launcher: ^6.2.6
   url_launcher_ios: ^6.3.1
   cached_network_image: ^3.3.0
-  flutter_html:
+  flutter_html: ^3.0.0
   skeletonizer: ^1.4.3
 
   firebase_messaging: ^15.0.3
-
+  flutter_rounded_progress_bar: ^0.3.2
 
   google_places_flutter: ^2.0.7
   google_maps_webservice:
@@ -96,6 +96,8 @@ dependencies:
   country_code_picker_plus: ^0.1.0+1
   pretty_dio_logger: ^1.4.0
   flutter_stripe: ^11.5.0
+  webview_flutter: ^4.13.0
+  sign_in_with_apple: ^7.0.1
 
 
 dev_dependencies:

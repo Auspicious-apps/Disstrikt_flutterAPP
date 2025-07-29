@@ -41,4 +41,5 @@ abstract class AppColors {
   static const Color textfieldBorderColor = Color.fromRGBO(181, 181, 181, 0.4);
   static const Color smalltextColor = Color.fromRGBO(181, 181, 181, 1);
   static const Color voilet = Color.fromRGBO(143, 169, 255, 1);
+  static const Color greyshadetext = Color.fromRGBO(106, 106, 106, 1);
 }

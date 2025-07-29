@@ -10,6 +10,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_assets.dart';
 import '../../../core/values/app_text_styles.dart';
@@ -239,35 +240,53 @@ class Loginscreen extends GetView<LoginController> {
                           ),
                         ),
                         Platform.isIOS
-                            ? Container(
-                                height: 49,
-                                decoration: BoxDecoration(
-                                    color: AppColors.textfieldcolor,
-                                    border: Border.all(
-                                        color: AppColors.textfieldBorderColor),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    AssetImageWidget(
-                                      appleicon,
-                                      imageHeight: 20,
-                                      imageWidth: 20,
-                                    ).marginSymmetric(horizontal: 5),
-                                    TextView(
-                                      text: "strContinueApple".tr,
-                                      textAlign: TextAlign.center,
-                                      textStyle: const TextStyle(
-                                        color: AppColors.smalltextColor,
-                                        fontFamily: "Kodchasan",
-                                        fontSize: 12,
+                            ? GestureDetector(
+                                onTap: () async {
+                                  final credential = await SignInWithApple
+                                      .getAppleIDCredential(
+                                    scopes: [
+                                      AppleIDAuthorizationScopes.email,
+                                      AppleIDAuthorizationScopes.fullName,
+                                    ],
+                                  );
+                                  print(
+                                      "Apple Sign-In Credential: ${credential.identityToken}");
+
+                                  controller.AppleLogin(
+                                      credential.identityToken);
+                                },
+                                child: Container(
+                                  height: 49,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.textfieldcolor,
+                                      border: Border.all(
+                                          color:
+                                              AppColors.textfieldBorderColor),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      AssetImageWidget(
+                                        appleicon,
+                                        imageHeight: 20,
+                                        imageWidth: 20,
+                                      ).marginSymmetric(horizontal: 5),
+                                      TextView(
+                                        text: "strContinueApple".tr,
+                                        textAlign: TextAlign.center,
+                                        textStyle: const TextStyle(
+                                          color: AppColors.smalltextColor,
+                                          fontFamily: "Kodchasan",
+                                          fontSize: 12,
+                                        ),
+                                        maxLines: 4,
                                       ),
-                                      maxLines: 4,
-                                    ),
-                                  ],
-                                ),
-                              ).marginSymmetric(vertical: 10)
+                                    ],
+                                  ),
+                                ).marginSymmetric(vertical: 10),
+                              )
                             : SizedBox(),
                         SizedBox(
                           height: Get.height * 0.1,

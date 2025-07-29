@@ -12,6 +12,7 @@ class CountryPickerTextField extends StatelessWidget {
   final GlobalKey<IntlPhoneFieldState>? pickerKey;
   final String? hintText;
   final String? labelText;
+
   final TextStyle? inputTextStyle;
   final TextInputType? inputType;
   final TextInputAction? textInputAction;
@@ -25,7 +26,7 @@ class CountryPickerTextField extends StatelessWidget {
   final ValueChanged<Country>? onCountryChanged;
   final Function(PhoneNumber value)? onChanged;
   final bool showBorder;
-
+  final Color? filledColors;
   final double? borderWidth;
   final Color? borderColor;
 
@@ -41,6 +42,7 @@ class CountryPickerTextField extends StatelessWidget {
       this.borderRadius,
       this.inputType = TextInputType.text,
       this.textInputAction = TextInputAction.next,
+      this.filledColors,
       this.showShadow = false,
       this.showCountryFlag = false,
       this.readOnly = false,
@@ -63,7 +65,9 @@ class CountryPickerTextField extends StatelessWidget {
           child: TextView(
                   text: labelText ?? "",
                   textStyle: textStyleTitleSmall()!.copyWith(
-                      fontWeight: FontWeight.w400, color: Colors.black))
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Kodchasan",
+                      color: AppColors.greyshadetext))
               .paddingOnly(bottom: margin_8),
         ),
         Theme(
@@ -83,6 +87,7 @@ class CountryPickerTextField extends StatelessWidget {
               decoration: _inputDecoration(),
               dropdownTextStyle: textStyleTitleSmall(),
               showCountryFlag: true,
+              readOnly: readOnly,
               dropdownIcon: Icon(
                 Icons.arrow_drop_down,
                 color: Colors.grey,
@@ -104,7 +109,7 @@ class CountryPickerTextField extends StatelessWidget {
 
   InputDecoration _inputDecoration() {
     return InputDecoration(
-      fillColor: AppColors.textfieldcolor,
+      fillColor: filledColors ?? AppColors.textfieldcolor,
       filled: true,
       errorStyle: TextStyle(
           fontSize: font_10, fontWeight: FontWeight.w500, color: Colors.red),
@@ -116,27 +121,32 @@ class CountryPickerTextField extends StatelessWidget {
           ? InputBorder.none
           : OutlineInputBorder(
               borderRadius: BorderRadius.circular(margin_10),
-              borderSide: BorderSide(color: AppColors.textfieldBorderColor)),
+              borderSide: BorderSide(
+                  color: borderColor ?? AppColors.textfieldBorderColor)),
       focusedBorder: !showBorder
           ? InputBorder.none
           : OutlineInputBorder(
               borderRadius: BorderRadius.circular(margin_10),
-              borderSide: BorderSide(color: AppColors.textfieldBorderColor)),
+              borderSide: BorderSide(
+                  color: borderColor ?? AppColors.textfieldBorderColor)),
       disabledBorder: !showBorder
           ? InputBorder.none
           : OutlineInputBorder(
               borderRadius: BorderRadius.circular(margin_10),
-              borderSide: BorderSide(color: AppColors.textfieldBorderColor)),
+              borderSide: BorderSide(
+                  color: borderColor ?? AppColors.textfieldBorderColor)),
       enabledBorder: !showBorder
           ? InputBorder.none
           : OutlineInputBorder(
               borderRadius: BorderRadius.circular(margin_10),
-              borderSide: BorderSide(color: AppColors.textfieldBorderColor)),
+              borderSide: BorderSide(
+                  color: borderColor ?? AppColors.textfieldBorderColor)),
       focusedErrorBorder: !showBorder
           ? InputBorder.none
           : OutlineInputBorder(
               borderRadius: BorderRadius.circular(margin_10),
-              borderSide: BorderSide(color: AppColors.textfieldBorderColor)),
+              borderSide: BorderSide(
+                  color: borderColor ?? AppColors.textfieldBorderColor)),
       errorBorder: !showBorder
           ? InputBorder.none
           : OutlineInputBorder(

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-
 import '../../values/app_assets.dart';
 import '../../values/app_colors.dart';
 import '../../values/app_values.dart';
@@ -382,9 +381,15 @@ class IntlPhoneFieldState extends State<IntlPhoneField> {
         children: [
           Container(
               decoration: BoxDecoration(
-                 border:Border.all(color:AppColors.textfieldBorderColor,),
-                borderRadius: BorderRadius.circular(8),color: AppColors.textfieldcolor
+                  border: Border.all(
+                    color: widget.readOnly
+                        ? AppColors.buttonColor
+                        : AppColors.textfieldBorderColor,
                   ),
+                  borderRadius: BorderRadius.circular(8),
+                  color: widget.readOnly
+                      ? AppColors.whiteColor
+                      : AppColors.textfieldcolor),
               child: _buildFlagsButton()
                   .paddingSymmetric(horizontal: 3, vertical: 12)),
           SizedBox(width: 7),
@@ -470,6 +475,7 @@ class IntlPhoneFieldState extends State<IntlPhoneField> {
   Container _buildFlagsButton() {
     return Container(
       // margin: widget.flagsButtonMargin,
+
       child: DecoratedBox(
         decoration: widget.dropdownDecoration,
         child: InkWell(
@@ -484,7 +490,6 @@ class IntlPhoneFieldState extends State<IntlPhoneField> {
                 const SizedBox(
                   width: 10,
                 ),
-
                 if (widget.showCountryFlag) ...[
                   // kIsWeb
                   //     ?
@@ -504,12 +509,10 @@ class IntlPhoneFieldState extends State<IntlPhoneField> {
                   ],
                   const SizedBox(width: 6),
                 ],
-
                 if (widget.enabled &&
                     widget.showDropdownIcon &&
                     widget.dropdownIconPosition == IconPosition.trailing) ...[
                   const SizedBox(width: 2),
-
                 ],
                 if (widget.showDivider) ...[
                   Container(

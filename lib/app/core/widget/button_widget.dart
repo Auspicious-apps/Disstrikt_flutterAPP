@@ -1,18 +1,14 @@
-
-
-
 /*
 <!--
-       
+
   ~ @author     :Puneet Kumar
   ~ All Rights Reserved.
   ~ Proprietary and confidential :  All information contained herein is, and remains
- 
+
   ~ Unauthorized copying of this file, via any medium is strictly prohibited.
   ~
   -->
  */
-
 
 import 'package:disstrikt/app/export.dart';
 
@@ -34,6 +30,7 @@ class MaterialButtonWidget extends StatelessWidget {
   final Widget? widget;
   final Widget? iconWidget;
   final bool isOutlined;
+  final bool isloading;
   final int? isContact;
 
   const MaterialButtonWidget({
@@ -42,6 +39,7 @@ class MaterialButtonWidget extends StatelessWidget {
     this.buttonBgColor,
     this.buttonTextStyle,
     this.textColor,
+    this.isloading = false,
     this.buttonRadius,
     required this.onPressed,
     this.elevation,
@@ -54,40 +52,55 @@ class MaterialButtonWidget extends StatelessWidget {
     this.widget,
     this.iconWidget,
     this.isContact,
-    this.isOutlined=false,
+    this.isOutlined = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-        height: minHeight??height_48,
+        height: minHeight ?? height_48,
         splashColor: Colors.transparent,
         minWidth: minWidth ?? Get.width,
-      color: isOutlined ? buttonBgColor??Colors.white : (buttonBgColor ?? AppColors.appColor),
+        color: isOutlined
+            ? buttonBgColor ?? Colors.white
+            : (buttonBgColor ?? AppColors.appColor),
         elevation: elevation ?? radius_0,
         shape: RoundedRectangleBorder(
             side: BorderSide(
-                color: isOutlined ? (borderColor ?? AppColors.appColor) : Colors.transparent,
+                color: isOutlined
+                    ? (borderColor ?? AppColors.appColor)
+                    : Colors.transparent,
                 width: isOutlined ? width_1 : width_0),
             borderRadius: BorderRadius.circular(buttonRadius ?? margin_8)),
         onPressed: onPressed,
         padding: EdgeInsets.symmetric(
             vertical: verticalPadding ?? margin_8,
             horizontal: horizontalPadding ?? margin_20),
-
         child: widget ??
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-                TextView( text: buttonText!,
-                    textStyle: buttonTextStyle ??
-                        textStyleTitleMedium()
-                            .copyWith(fontFamily: "minorksans",
-                          fontWeight:FontWeight.w600,
-                            color: isOutlined ? textColor??(Colors.black) : (textColor ?? Colors.black))),
-                    SizedBox(width: 5,),
-                    iconWidget ?? const SizedBox(),
+                isloading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(color: Colors.black))
+                    : Flexible(
+                        child: TextView(
+                            textAlign: TextAlign.center,
+                            text: buttonText!,
+                            textStyle: buttonTextStyle ??
+                                textStyleTitleMedium().copyWith(
+                                    fontFamily: "minorksans",
+                                    fontWeight: FontWeight.w600,
+                                    color: isOutlined
+                                        ? textColor ?? (Colors.black)
+                                        : (textColor ?? Colors.black))),
+                      ),
+                SizedBox(
+                  width: 5,
+                ),
+                iconWidget ?? const SizedBox(),
               ],
             ));
   }

@@ -1,20 +1,14 @@
-
-
-
 /*
 <!--
-       
+
   ~ @author     :Puneet Kumar
   ~ All Rights Reserved.
   ~ Proprietary and confidential :  All information contained herein is, and remains
- 
+
   ~ Unauthorized copying of this file, via any medium is strictly prohibited.
   ~
   -->
  */
-
-
-
 
 import 'package:disstrikt/app/core/widget/colored_safe_area_widget.dart';
 
@@ -28,10 +22,10 @@ class AnnotatedRegionWidget extends StatelessWidget {
 
   const AnnotatedRegionWidget(
       {Key? key,
-        required this.child,
-        this.statusBarColor = Colors.black,
-        this.bottomColor = Colors.white,
-        required this.statusBarBrightness})
+      required this.child,
+      this.statusBarColor = Colors.black,
+      this.bottomColor = Colors.white,
+      required this.statusBarBrightness})
       : super(key: key);
 
   @override
@@ -44,11 +38,9 @@ class AnnotatedRegionWidget extends StatelessWidget {
                 : Brightness.dark, // ios
             statusBarIconBrightness: statusBarBrightness),
         child: ColoredSafeArea(
-          topColor: statusBarColor,bottomColor: bottomColor,
+          topColor: statusBarColor,
+          bottomColor: bottomColor,
           child: child,
         ));
   }
-
-
 }
-

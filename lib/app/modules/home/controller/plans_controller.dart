@@ -22,6 +22,7 @@ import '../../../export.dart';
 import '../../../routes/app_routes.dart';
 import '../models/requestModels/buyplanRequestModel.dart';
 import '../models/responseModels /plansResponseModel.dart';
+import '../widget/WebviewWidget.dart';
 
 class ChoosePalnController extends GetxController {
   // Available countries
@@ -66,6 +67,10 @@ class ChoosePalnController extends GetxController {
       isloading.refresh();
 
       // Initialize payment sheet
+
+      print(setupIntent.value.data?.customerId);
+      print(setupIntent.value.data?.clientSecret);
+
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           merchantDisplayName: 'Disstrikt',
@@ -73,8 +78,14 @@ class ChoosePalnController extends GetxController {
               .value.data?.customerId, // Replace with actual customer ID
           setupIntentClientSecret: setupIntent
               .value.data?.clientSecret, // Replace with actual client secret,
-          allowsDelayedPaymentMethods: false,
+          allowsDelayedPaymentMethods: true,
           style: ThemeMode.system,
+          // customFlow: true,
+
+          // paymentOptions: const <PaymentOption>{
+          //   PaymentOption.card,
+          //   PaymentOption.bankAccount,
+          // },
         ),
       );
 
@@ -167,19 +178,66 @@ class ChoosePalnController extends GetxController {
           isloading.value = false;
           setupIntent.value = value;
           if (setupIntent.value.data?.alreadySetup == true) {
-            showDialog(
-              context: Get.context!,
-              builder: (BuildContext context) {
-                return Dialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  child: _buildOtpModalContent(context),
-                );
-              },
-            );
+            var selectedCountry = LocalizationService.currentCountry;
+            if (setupIntent.value.data?.country == "UK") {
+              Map<String, dynamic> requestModel =
+                  BuyPlanRequestModel.planRequestModel(
+                planId: planResponseModel.value.data?[selectIndex.value].sId,
+                currency: "gbp",
+                paymentMethodId: setupIntent.value.data?.paymentMethodId,
+              );
+              BuyPlansApicall(requestModel);
+            } else {
+              showDialog(
+                context: Get.context!,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    child: _buildOtpModalContent(context),
+                  );
+                },
+              );
+            }
+          }
+          setupIntent.refresh();
+          isloading.refresh();
+        }
+      }).onError((er, stackTrace) {
+        print("$er");
+        isloading.value = false;
+        isloading.refresh();
+        Get.closeAllSnackbars();
+        Get.snackbar(
+          'Error',
+          '$er',
+          backgroundColor: Colors.white.withOpacity(0.5),
+        );
+      });
+    } catch (er) {
+      isloading.value = false;
+      isloading.refresh();
+      print("$er");
+    }
+  }
+
+  SetupIntentPlansUk() {
+    isloading.value = true;
+    isloading.refresh();
+    try {
+      Get.closeAllSnackbars();
+      repository.getSetupIntentApiCall().then((value) async {
+        if (value != null) {
+          isloading.value = false;
+          setupIntent.value = value;
+          if (setupIntent.value.data?.alreadySetup == true &&
+                  setupIntent.value.data?.subscriptionStatus == "trialing" ||
+              setupIntent.value.data?.alreadySetup == true &&
+                  setupIntent.value.data?.subscriptionStatus == "active") {
+            Get.offNamed(AppRoutes.StartJourney);
           }
           setupIntent.refresh();
           isloading.refresh();
@@ -329,7 +387,21 @@ class ChoosePalnController extends GetxController {
           isloading.value = false;
           userResponseModel.value = value;
           userResponseModel.refresh();
-          Get.offNamed(AppRoutes.StartJourney);
+          var selectedCountry = LocalizationService.currentCountry;
+          if (setupIntent.value.data?.country == "UK") {
+            if (setupIntent.value.data?.alreadySetup == false) {
+              print(">>>>>>>>>>>>${userResponseModel.value.data?.url}");
+              await Get.to(() => WebView(
+                    title: "Subscription",
+                    url: userResponseModel.value.data?.url ?? "",
+                  ));
+              SetupIntentPlansUk();
+            } else {
+              Get.offNamed(AppRoutes.StartJourney);
+            }
+          } else {
+            Get.offNamed(AppRoutes.StartJourney);
+          }
         }
       }).onError((er, stackTrace) {
         print("$er");

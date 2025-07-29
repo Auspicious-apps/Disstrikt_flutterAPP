@@ -40,19 +40,26 @@ class UserData {
   bool? isUserInfoComplete;
   bool? isVerifiedPhone;
   bool? isDeleted;
-
+  num? milestone;
+  num? percentage;
+  num? taskCount;
+  num? appliedJobs;
+  num? selectedJobs;
   String? sId;
   String? createdAt;
   String? updatedAt;
+  String? plan;
   num? iV;
   num? age;
   String? id;
   String? token;
+  String? url;
 
   UserData(
       {this.fullName,
       this.email,
       this.image,
+      this.plan,
       this.measurements,
       this.subscription,
       this.dob,
@@ -71,7 +78,13 @@ class UserData {
       this.createdAt,
       this.updatedAt,
       this.iV,
+      this.url,
       this.age,
+      this.milestone,
+      this.percentage,
+      this.taskCount,
+      this.appliedJobs,
+      this.selectedJobs,
       this.token,
       this.id});
 
@@ -79,6 +92,7 @@ class UserData {
     fullName = json['fullName'];
     email = json['email'];
     image = json['image'];
+    plan = json['plan'];
     isUserInfoComplete = json['isUserInfoComplete'];
     dob = json['dob'];
     subscription = json['subscription'];
@@ -88,6 +102,7 @@ class UserData {
 
     gender = json['gender'];
     country = json['country'];
+    url = json['url'];
     fcmToken = json['fcmToken'];
     language = json['language'];
     authType = json['authType'];
@@ -97,6 +112,11 @@ class UserData {
     isVerifiedEmail = json['isVerifiedEmail'];
     isVerifiedPhone = json['isVerifiedPhone'];
     isDeleted = json['isDeleted'];
+    milestone = json['milestone'];
+    percentage = json['percentage'];
+    taskCount = json['taskCount'];
+    appliedJobs = json['appliedJobs'];
+    selectedJobs = json['selectedJobs'];
     sId = json['_id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -110,11 +130,18 @@ class UserData {
     data['fullName'] = this.fullName;
     data['email'] = this.email;
     data['image'] = this.image;
+    data['plan'] = this.plan;
     data['isUserInfoComplete'] = this.isUserInfoComplete;
     data['subscription'] = this.subscription;
     if (this.measurements != null) {
       data['measurements'] = this.measurements!.toJson();
     }
+    data['url'] = this.url;
+    data['milestone'] = this.milestone;
+    data['percentage'] = this.percentage;
+    data['taskCount'] = this.taskCount;
+    data['appliedJobs'] = this.appliedJobs;
+    data['selectedJobs'] = this.selectedJobs;
     data['dob'] = this.dob;
     data['gender'] = this.gender;
     data['country'] = this.country;

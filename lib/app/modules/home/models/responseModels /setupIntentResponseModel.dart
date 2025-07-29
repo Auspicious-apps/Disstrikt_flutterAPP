@@ -27,11 +27,15 @@ class IntentData {
   String? customerId;
   String? clientSecret;
   String? paymentMethodId;
+  String? subscriptionStatus;
+  String? country;
 
   IntentData(
       {this.alreadySetup,
       this.customerId,
       this.clientSecret,
+      this.subscriptionStatus,
+      this.country,
       this.paymentMethodId});
 
   IntentData.fromJson(Map<String, dynamic> json) {
@@ -39,6 +43,8 @@ class IntentData {
     customerId = json['customerId'];
     clientSecret = json['clientSecret'];
     paymentMethodId = json['paymentMethodId'];
+    country = json['country'];
+    subscriptionStatus = json['subscriptionStatus'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +53,8 @@ class IntentData {
     data['customerId'] = this.customerId;
     data['clientSecret'] = this.clientSecret;
     data['paymentMethodId'] = this.paymentMethodId;
+    data['country'] = this.country;
+    data['subscriptionStatus'] = this.subscriptionStatus;
     return data;
   }
 }

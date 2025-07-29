@@ -14,6 +14,13 @@
 	<array>
 		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>mailto</string>
+        <string>googlegmail</string>
+    </array>
+    <key>NSClipboardUsageDescription</key>
+    <string>We copy the email address to the clipboard when an email client is unavailable for easy pasting.</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -26,6 +33,10 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>com.apple.developer.applesignin</key>
+    <array>
+        <string>Default</string>
+    </array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>

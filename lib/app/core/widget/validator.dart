@@ -63,7 +63,7 @@ class PasswordFormValidator {
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = RegExp(pattern);
     if (value!.isEmpty) {
-      return "strConfirmPassword".tr;
+      return "strPleaseEnterConfirmPassword".tr;
     } else if (value.length < 8) {
       return "strConfirmInvalidPassword".tr;
     } else if (!regExp.hasMatch(value)) {

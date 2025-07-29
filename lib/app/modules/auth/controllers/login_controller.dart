@@ -87,6 +87,8 @@ class LoginController extends GetxController {
       if (googleUser == null) {
         // Get.snackbar('Cancelled', 'Google Sign-In was cancelled by the user');
         print("Google Sign-In cancelled"); // Debug
+
+        Get.back();
         return;
       }
 
@@ -148,6 +150,69 @@ class LoginController extends GetxController {
       } else {
         // Get.snackbar('Error', 'Google Sign-In failed: $e');
       }
+    }
+  }
+
+  void AppleLogin(credentials) async {
+    try {
+      isloading.value = true;
+      var selectedLanguage = LocalizationService.getLanguageName(
+          LocalizationService.currentLocale);
+      var selectedCountry = LocalizationService.currentCountry;
+      Map<String, dynamic> requestModel =
+          AuthRequestModel.socialloginApiRequest(
+        deviceType: "IOS",
+        idToken: credentials ?? "",
+        fcmToken: fcmtoken?.value ?? "",
+        authType: "APPLE",
+        language: selectedLanguage == "English"
+            ? "en"
+            : selectedLanguage == "Dutch"
+                ? "nl"
+                : selectedLanguage == "French"
+                    ? "fr"
+                    : "es",
+        country: selectedCountry == "United Kingdom"
+            ? "UK"
+            : selectedCountry == "Belgium"
+                ? "BE"
+                : selectedCountry == "France"
+                    ? "FR"
+                    : selectedCountry == "Netherlands"
+                        ? "NL"
+                        : "ES",
+      );
+
+      final response = await repository.socialLoginApi(dataBody: requestModel);
+      if (response != null) {
+        userResponseModel = response;
+        if (userResponseModel?.data?.token != null &&
+            userResponseModel?.data?.isVerifiedEmail == true) {
+          localStorage.saveAuthToken(userResponseModel?.data?.token);
+          print(">>>>>>>>SaveToken ");
+
+          if (userResponseModel?.data?.isUserInfoComplete == false) {
+            Get.offNamed(AppRoutes.UserInfo);
+          } else if (userResponseModel?.data?.subscription == "canceled" ||
+              userResponseModel?.data?.subscription == null) {
+            Get.offNamed(AppRoutes.ChoosePlan);
+          } else if (userResponseModel?.data?.subscription != "canceled" &&
+              userResponseModel?.data?.subscription != null) {
+            Get.offNamed(AppRoutes.StartJourney);
+          }
+        }
+      }
+
+      //
+    } catch (e) {
+      isloading.value = false;
+      print("Google Sign-In error: $e"); // Debug
+      if (e.toString().contains('ApiException: 10')) {
+      } else {
+        // Get.snackbar('Error', 'Google Sign-In failed: $e');
+      }
+    } finally {
+      Get.back(); // Close loader
     }
   }
 
