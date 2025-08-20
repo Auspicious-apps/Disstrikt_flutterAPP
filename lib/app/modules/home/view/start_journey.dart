@@ -1,8 +1,10 @@
 import 'dart:math';
 import 'package:disstrikt/app/core/widget/text_view.dart';
 import 'package:disstrikt/app/export.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/values/app_colors.dart';
 import '../../../core/values/app_assets.dart';
@@ -84,144 +86,189 @@ class StartJourney extends StatelessWidget {
                                     ),
                                   Center(
                                     child: Transform.translate(
-                                      offset: Offset(horizontalOffset, 20),
-                                      child: Stack(
+                                      offset: Offset(horizontalOffset, 50),
+                                      child: Column(
                                         children: [
-                                          GestureDetector(
-                                            onTap: () async {
-                                              await Get.toNamed(
-                                                  AppRoutes.taskDetail,
-                                                  arguments: {
-                                                    "id": controller
-                                                        .userResponseModel
-                                                        ?.value
-                                                        .data
-                                                        ?.milestone1?[index]
-                                                        ?.sId,
-                                                    "type": controller
-                                                        .userResponseModel
-                                                        ?.value
-                                                        .data
-                                                        ?.milestone1?[index]
-                                                        ?.taskType
-                                                  });
-                                              controller.currentpage.value = 1;
-                                              controller.GetHomeDetail();
-                                            },
-                                            child: Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    vertical: 12),
-                                                width: 100,
-                                                height: 100,
-                                                decoration: BoxDecoration(
-                                                  color: controller
-                                                              .userResponseModel
-                                                              ?.value
-                                                              .data
-                                                              ?.milestone1?[
-                                                                  index]
-                                                              ?.attempted ==
-                                                          true
-                                                      ? AppColors.clickTextColor
-                                                      : AppColors
-                                                          .smalltextColor,
-                                                  shape: BoxShape.circle,
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: controller
-                                                                  .userResponseModel
-                                                                  ?.value
-                                                                  .data
-                                                                  ?.milestone1?[
-                                                                      index]
-                                                                  ?.attempted ==
-                                                              true
-                                                          ? AppColors.darkRed
-                                                          : AppColors.darkgrey,
-                                                      offset:
-                                                          const Offset(0, 5),
-                                                      blurRadius: 0,
-                                                    ),
-                                                  ],
+                                          SizedBox(
+                                            width: 100,
+                                            height: 100,
+                                            child: Stack(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () async {
+                                                    if (controller
+                                                            .userResponseModel
+                                                            ?.value
+                                                            .data
+                                                            ?.milestone1?[index]
+                                                            ?.attempted ==
+                                                        false) {
+                                                      await Get.toNamed(
+                                                          AppRoutes.taskDetail,
+                                                          arguments: {
+                                                            "id": controller
+                                                                .userResponseModel
+                                                                ?.value
+                                                                .data
+                                                                ?.milestone1?[
+                                                                    index]
+                                                                ?.sId,
+                                                            "type": controller
+                                                                .userResponseModel
+                                                                ?.value
+                                                                .data
+                                                                ?.milestone1?[
+                                                                    index]
+                                                                ?.taskType
+                                                          });
+                                                      controller.currentpage
+                                                          .value = 1;
+                                                      controller
+                                                          .GetHomeDetail();
+                                                    } else {
+                                                      Get.closeAllSnackbars();
+                                                      Get.snackbar(
+                                                        'Warning',
+                                                        "strTaskDoNotSubmitted"
+                                                            .tr,
+                                                        backgroundColor: Colors
+                                                            .white
+                                                            .withOpacity(0.5),
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 12),
+                                                      width: 100,
+                                                      height: 100,
+                                                      decoration: BoxDecoration(
+                                                        color: controller
+                                                                    .userResponseModel
+                                                                    ?.value
+                                                                    .data
+                                                                    ?.milestone1?[
+                                                                        index]
+                                                                    ?.attempted ==
+                                                                true
+                                                            ? AppColors
+                                                                .clickTextColor
+                                                            : AppColors
+                                                                .smalltextColor,
+                                                        shape: BoxShape.circle,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: controller
+                                                                        .userResponseModel
+                                                                        ?.value
+                                                                        .data
+                                                                        ?.milestone1?[
+                                                                            index]
+                                                                        ?.attempted ==
+                                                                    true
+                                                                ? AppColors
+                                                                    .darkRed
+                                                                : AppColors
+                                                                    .darkgrey,
+                                                            offset:
+                                                                const Offset(
+                                                                    0, 5),
+                                                            blurRadius: 0,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Image.asset(
+                                                        controller
+                                                                    .userResponseModel
+                                                                    ?.value
+                                                                    .data
+                                                                    ?.milestone1?[
+                                                                        index]
+                                                                    ?.taskType ==
+                                                                "PROFILE_PIC"
+                                                            ? profiletask
+                                                            : controller
+                                                                        .userResponseModel
+                                                                        ?.value
+                                                                        .data
+                                                                        ?.milestone1?[
+                                                                            index]
+                                                                        ?.taskType ==
+                                                                    "QUIZ"
+                                                                ? quizTask
+                                                                : controller
+                                                                            .userResponseModel
+                                                                            ?.value
+                                                                            .data
+                                                                            ?.milestone1?[
+                                                                                index]
+                                                                            ?.taskType ==
+                                                                        "PORT_BIO"
+                                                                    ? CvTask
+                                                                    : controller.userResponseModel?.value.data?.milestone1?[index]?.taskType ==
+                                                                            "WATCH_VIDEO"
+                                                                        ? videoTask
+                                                                        : controller.userResponseModel?.value.data?.milestone1?[index]?.taskType ==
+                                                                                "TEXT"
+                                                                            ? texttask
+                                                                            : controller.userResponseModel?.value.data?.milestone1?[index]?.taskType == "UPLOAD"
+                                                                                ? uploadTask
+                                                                                : jobtask,
+                                                        height: 30,
+                                                      )),
                                                 ),
-                                                alignment: Alignment.center,
-                                                child: Image.asset(
-                                                  controller
-                                                              .userResponseModel
-                                                              ?.value
-                                                              .data
-                                                              ?.milestone1?[
-                                                                  index]
-                                                              ?.taskType ==
-                                                          "PROFILE_PIC"
-                                                      ? profiletask
-                                                      : controller
-                                                                  .userResponseModel
-                                                                  ?.value
-                                                                  .data
-                                                                  ?.milestone1?[
-                                                                      index]
-                                                                  ?.taskType ==
-                                                              "QUIZ"
-                                                          ? quizTask
-                                                          : controller
-                                                                      .userResponseModel
-                                                                      ?.value
-                                                                      .data
-                                                                      ?.milestone1?[
-                                                                          index]
-                                                                      ?.taskType ==
-                                                                  "PORT_BIO"
-                                                              ? CvTask
-                                                              : controller
-                                                                          .userResponseModel
-                                                                          ?.value
-                                                                          .data
-                                                                          ?.milestone1?[
-                                                                              index]
-                                                                          ?.taskType ==
-                                                                      "WATCH_VIDEO"
-                                                                  ? videoTask
-                                                                  : controller
-                                                                              .userResponseModel
-                                                                              ?.value
-                                                                              .data
-                                                                              ?.milestone1?[
-                                                                                  index]
-                                                                              ?.taskType ==
-                                                                          "TEXT"
-                                                                      ? texttask
-                                                                      : controller.userResponseModel?.value.data?.milestone1?[index]?.taskType ==
-                                                                              "UPLOAD"
-                                                                          ? uploadTask
-                                                                          : jobtask,
-                                                  height: 40,
-                                                )),
-                                          ),
-                                          Positioned(
-                                            bottom: 0,
-                                            left: 20,
-                                            child: Container(
-                                              height: 40,
-                                              width: 60,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: AssetImage(
-                                                          iconCloud))),
-                                              child: Center(
-                                                child: TextView(
-                                                  text: controller
-                                                          .userResponseModel
-                                                          ?.value
-                                                          .data
-                                                          ?.milestone1?[index]
-                                                          ?.taskNumber
-                                                          ?.toString() ??
-                                                      "",
-                                                ).marginOnly(top: 10),
-                                              ),
+                                                Positioned(
+                                                  bottom: 3,
+                                                  left: 20,
+                                                  child: Container(
+                                                    height: 30,
+                                                    width: 60,
+                                                    decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                iconCloud))),
+                                                    child: Center(
+                                                      child: TextView(
+                                                        text: controller
+                                                                .userResponseModel
+                                                                ?.value
+                                                                .data
+                                                                ?.milestone1?[
+                                                                    index]
+                                                                ?.taskNumber
+                                                                ?.toString() ??
+                                                            "",
+                                                      ).marginOnly(top: 10),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          )
+                                          ),
+                                          if (controller
+                                                  .userResponseModel
+                                                  ?.value
+                                                  .data
+                                                  ?.milestone1?[index]
+                                                  ?.attempted ==
+                                              true)
+                                            CustomArcStarRating(
+                                              starCount: 3,
+                                              rating: controller
+                                                      .userResponseModel
+                                                      ?.value
+                                                      .data
+                                                      ?.milestone1?[index]
+                                                      ?.rating
+                                                      ?.toDouble() ??
+                                                  0.0,
+                                              starSize: 20.0,
+                                              arcRadius: 15.0,
+                                              filledColor: Colors.orange,
+                                            ),
                                         ],
                                       ),
                                     ),
@@ -256,6 +303,38 @@ class StartJourney extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget CustomArcStarRating({
+    required int starCount,
+    required double rating,
+    required double starSize,
+    required double arcRadius,
+    required Color filledColor,
+  }) {
+    return SizedBox(
+      height: starSize + arcRadius, // Accommodate downward arc
+      width: starSize * starCount * 1.5, // Width for star spacing
+      child: Stack(
+        alignment: Alignment.center,
+        children: List.generate(starCount, (index) {
+          // Calculate angle for downward arc, centered
+          double angle = (index - (starCount - 1) / 2) * (pi / starCount);
+          // Adjust vertical position to create downward arc (first and third up, second down)
+          double verticalOffset = arcRadius * cos(angle).abs();
+          return Positioned(
+            left:
+                starSize * 1.5 * index + starSize * 0.25, // Horizontal spacing
+            top: verticalOffset, // Downward arc positioning
+            child: Icon(
+              Icons.star,
+              size: starSize,
+              color: index < rating ? filledColor : Colors.grey,
+            ),
+          );
+        }),
+      ),
     );
   }
 

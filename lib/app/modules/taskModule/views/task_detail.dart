@@ -122,27 +122,95 @@ class TaskDetail extends StatelessWidget {
                                       ],
                                     ).marginSymmetric(horizontal: 20),
                                   ),
+                                ),
+                              if (controller.taskDetailModel?.value?.data
+                                      ?.answerType ==
+                                  "QUIZ")
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(
+                                    height: Get.height * 0.7,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          QuizTaskModel,
+                                          height: 100,
+                                          width: 100,
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: TextView(
+                                            text:
+                                                "${controller.taskDetailModel?.value.data?.title}",
+                                            textStyle: const TextStyle(
+                                              color: AppColors.blackColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ).marginOnly(bottom: 5),
+                                        TextView(
+                                          maxLines: 10000000,
+                                          textAlign: TextAlign.center,
+                                          text:
+                                              "${controller.taskDetailModel?.value.data?.description?.isNotEmpty == true ? controller.taskDetailModel?.value.data?.description : "Please answer the following questions.Note that this quiz would also affect the overall level of your profile."}",
+                                          textStyle: const TextStyle(
+                                            color: AppColors.greyshadetext,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ],
+                                    ).marginSymmetric(horizontal: 20),
+                                  ),
                                 )
                             ],
                           ),
                         ),
                       ),
-                      MaterialButtonWidget(
-                        buttonBgColor: AppColors.buttonColor,
-                        buttonRadius: 8,
-                        buttonText: "strDone".tr,
-                        textColor: AppColors.backgroundColor,
-                        onPressed: () {
-                          Map<String, dynamic> requestModel =
-                              AuthRequestModel.SubmitTaskRequestModel(
-                            writeSection:
-                                controller.doneWriteSectionTextController.text,
-                          );
-                          controller.submitTaskDetail(
-                              controller.taskDetailModel?.value.data?.sId,
-                              requestModel);
-                        },
-                      ).marginSymmetric(vertical: 10, horizontal: 20),
+                      if (controller.taskDetailModel?.value?.data?.answerType ==
+                          "QUIZ")
+                        MaterialButtonWidget(
+                          buttonBgColor: AppColors.buttonColor,
+                          buttonRadius: 8,
+                          buttonText: "strStartQuiz".tr,
+                          textColor: AppColors.backgroundColor,
+                          onPressed: () {
+                            // Map<String, dynamic> requestModel =
+                            // AuthRequestModel.SubmitTaskRequestModel(
+                            //   writeSection: controller
+                            //       .doneWriteSectionTextController.text,
+                            // );
+                            // controller.submitTaskDetail(
+                            //     controller.taskDetailModel?.value.data?.sId,
+                            //     requestModel);
+                          },
+                        ).marginSymmetric(vertical: 10, horizontal: 20),
+                      if (controller.taskDetailModel?.value?.data?.answerType !=
+                          "QUIZ")
+                        MaterialButtonWidget(
+                          buttonBgColor: AppColors.buttonColor,
+                          buttonRadius: 8,
+                          buttonText: "strDone".tr,
+                          textColor: AppColors.backgroundColor,
+                          onPressed: () {
+                            Map<String, dynamic> requestModel =
+                                AuthRequestModel.SubmitTaskRequestModel(
+                              writeSection: controller
+                                  .doneWriteSectionTextController.text,
+                            );
+                            controller.submitTaskDetail(
+                                controller.taskDetailModel?.value.data?.sId,
+                                requestModel);
+                          },
+                        ).marginSymmetric(vertical: 10, horizontal: 20),
                     ],
                   ),
                 )),

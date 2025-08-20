@@ -4,6 +4,9 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_GB': {
+          "strStartQuiz": "Start Quiz",
+          "strTaskDoNotSubmitted":
+              "Your attempt has been recorded successfully.",
           "strTaskSubmitted": "Submitted!!",
           "strTaskModalSubHeading":
               "Your response has been submitted successfully!",
@@ -422,6 +425,8 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'nl_NL': {
+          "strStartQuiz": "Quiz starten",
+          "strTaskDoNotSubmitted": "Uw poging is succesvol geregistreerd.",
           "strTaskSubmitted": "Ingediend!!",
 
           "strTaskModalSubHeading": "Uw reactie is succesvol ingediend!",
@@ -826,6 +831,9 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'fr_FR': {
+          "strStartQuiz": "Commencer le quiz",
+          "strTaskDoNotSubmitted":
+              "Votre tentative a été enregistrée avec succès.",
           "strTaskSubmitted": "Soumis !!",
 
           "strTaskModalSubHeading": "Votre réponse a été soumise avec succès !",
@@ -1236,6 +1244,8 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'es_ES': {
+          "strStartQuiz": "Comenzar cuestionario",
+          "strTaskDoNotSubmitted": "Su intento ha sido registrado con éxito.",
           "strTaskSubmitted": "¡Enviado!!",
 
           "strTaskModalSubHeading": "¡Su respuesta ha sido enviada con éxito!",

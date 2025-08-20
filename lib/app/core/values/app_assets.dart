@@ -119,3 +119,4 @@ const String uploadTask = 'assets/images/uploadTask.png';
 const String videoTask = 'assets/images/videoTak.png';
 const String quizTask = 'assets/images/Quiz.png';
 const String TaskSubmited = 'assets/images/TaskSubmit.png';
+const String QuizTaskModel = 'assets/images/quizmodal.png';
