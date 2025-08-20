@@ -16,25 +16,36 @@ import 'package:get/get.dart';
 
 import '../../../core/widget/intl_phone_field/countries.dart';
 import '../../../data/local/preferences/preference.dart';
+import '../models/responseModels /HomePageResponseModel.dart';
 
 class StartJourneyController extends GetxController {
-  UserResponseModel? userResponseModel;
-  final LocalStorage _localStorage = LocalStorage();
+  Rx<HomeResponseModel>? userResponseModel = HomeResponseModel().obs;
+
+  final LocalStorage localStorage = LocalStorage();
+  var currentpage = 1.obs;
+  var isLoading = true.obs;
   @override
   void onInit() {
     GetHomeDetail();
+
     super.onInit();
   }
 
   GetHomeDetail() {
     try {
-      repository.gethomeApiCall().then((value) async {
+      isLoading.value = true;
+      repository.gethomeApiCall(
+          query: {"page": currentpage.value, "limit": 50}).then((value) async {
         if (value != null) {
-          userResponseModel = value;
+          var token = localStorage.getAuthToken();
+          print(token);
+          userResponseModel?.value = value;
+          isLoading.value = false;
         }
       }).onError((er, stackTrace) {
         print("$er");
         Get.closeAllSnackbars();
+        isLoading.value = false;
         Get.snackbar(
           'Error',
           '$er',
@@ -42,6 +53,7 @@ class StartJourneyController extends GetxController {
         );
       });
     } catch (er) {
+      isLoading.value = false;
       print("$er");
     }
   }
@@ -51,11 +63,11 @@ class StartJourneyController extends GetxController {
       final response = await repository.logoutApi();
 
       if (response != null) {
-        _localStorage.clearLoginData();
-        userResponseModel = response;
+        localStorage.clearLoginData();
+        userResponseModel?.value = response;
         Get.snackbar(
           "Success",
-          "${userResponseModel?.message}",
+          "${userResponseModel?.value.message}",
           backgroundColor: Colors.white.withOpacity(0.5),
         );
         Get.offAllNamed(AppRoutes.loginRoute);

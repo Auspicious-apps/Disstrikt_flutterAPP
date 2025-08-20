@@ -13,12 +13,20 @@ import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../export.dart';
 
+import '../../modules/Portfolio/models/ResponseModel/portfolio_responseModel.dart';
+import '../../modules/Portfolio/models/ResponseModel/portfolio_video.dart';
+import '../../modules/Portfolio/models/ResponseModel/portfolioimages.dart';
 import '../../modules/auth/models/responseModels/userResponseModel.dart';
+import '../../modules/home/models/responseModels /HomePageResponseModel.dart';
 import '../../modules/home/models/responseModels /plansResponseModel.dart';
 import '../../modules/home/models/responseModels /setupIntentResponseModel.dart';
+import '../../modules/jobs/Models/GetAllJobsResponseModel.dart';
+import '../../modules/jobs/Models/GetJobDetailResponseModel.dart';
+import '../../modules/jobs/Models/SearchResponseModel.dart';
 import '../../modules/settingModule/Models/ReponseModel/StaticModel.dart';
 import '../../modules/settingModule/Models/ReponseModel/active_plan_responseModel.dart';
 import '../../modules/settingModule/Models/ReponseModel/mediaUpload.dart';
+import '../../modules/taskModule/models/ResponseModels/TaskDetailResponseModel.dart';
 import 'dio_client.dart';
 import 'endpoint.dart';
 import 'network_exceptions.dart' show NetworkExceptions;
@@ -106,11 +114,71 @@ class Repository {
     }
   }
 
+  Future searchUserApiCall({query}) async {
+    try {
+      final response = await dioClient!
+          .get(searchUserEndPoint, skipAuth: false, queryParameters: query);
+      return SearchResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getTaskDetailApiCall({String? ID}) async {
+    try {
+      final response =
+          await dioClient!.get("${taskDetailEndPoint}/${ID}", skipAuth: false);
+      return TaskDetailModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future TaskSubmitApiCall({String? ID, Map<String, dynamic>? dataBody}) async {
+    try {
+      final response = await dioClient!.post("${taskSubmitEndPoint}/${ID}",
+          skipAuth: false, data: json.encode(dataBody!));
+      return TaskDetailModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
   Future getEditProfileApiCall() async {
     try {
       final response =
           await dioClient!.get(getEditProfileEndPoint, skipAuth: false);
       return UserResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getAllJObsApiCall({query}) async {
+    try {
+      final response = await dioClient!
+          .get(getAllJobsEndPoint, skipAuth: false, queryParameters: query);
+      return GetAllJobsResponse.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getJobsDetailApiCall({String? ID}) async {
+    try {
+      final response =
+          await dioClient!.get("${getAllJobsEndPoint}/${ID}", skipAuth: false);
+      return GetJobsDetailResponse.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future jobApplyApiCall({Map<String, dynamic>? dataBody}) async {
+    try {
+      final response = await dioClient!.post("${getAllJobsEndPoint}",
+          skipAuth: false, data: json.encode(dataBody!));
+      return GetJobsDetailResponse.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }
@@ -140,7 +208,8 @@ class Repository {
       final multipart = await MultipartFile.fromFile(
         file.path,
         filename: file.uri.pathSegments.last,
-        contentType: MediaType(type.name, fileExtension), // Use Dio's MediaType
+        contentType: MediaType(type.name, fileExtension),
+        // Use Dio's MediaType
       );
 
       final formData = FormData.fromMap({"file": multipart});
@@ -173,10 +242,11 @@ class Repository {
     }
   }
 
-  Future gethomeApiCall({bool showLoader = true}) async {
+  Future gethomeApiCall({bool showLoader = true, query}) async {
     try {
-      final response = await dioClient!.get(homeEndPoint, skipAuth: false);
-      return UserResponseModel.fromJson(response);
+      final response = await dioClient!
+          .get(homeEndPoint, skipAuth: false, queryParameters: query);
+      return HomeResponseModel.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }
@@ -197,6 +267,86 @@ class Repository {
       final response =
           await dioClient!.get(getActivePlanEndPoint, skipAuth: false);
       return ActivePlanResponsemodel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getPortfolioApiCall({bool showLoader = true}) async {
+    try {
+      final response =
+          await dioClient!.get(getPortfolioEndPoint, skipAuth: false);
+      return PortfolioResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getPublicPortfolioApiCall({String? id}) async {
+    try {
+      final response = await dioClient!
+          .get("${getPublicPortfolioEndPoint}/${id}", skipAuth: false);
+      return PortfolioResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future postPortfolioApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.patch(postPortfolioEndPoint,
+          data: jsonEncode(dataBody), skipAuth: false);
+      return PortfolioResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future addImagePortfolioApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.post(uploadPortfolioImageEndPoint,
+          data: jsonEncode(dataBody), skipAuth: false);
+      return PortfolioImageResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future addVideoPortfolioApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await dioClient!.post(uploadPortfolioVideoEndPoint,
+          data: jsonEncode(dataBody), skipAuth: false);
+      return PortfolioVideoResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future deleteVideoPortfolioApiCall(
+      {required Map<String, dynamic>? dataBody, bool showLoader = true}) async {
+    try {
+      final response = await DioClient.delete(uploadPortfolioVideoEndPoint,
+          data: jsonEncode(dataBody), skipAuth: false);
+      return PortfolioVideoResponseModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future deleteImagesPortfolioApiCall({
+    required Map<String, dynamic>? dataBody,
+    bool showLoader = true,
+  }) async {
+    try {
+      final response = await DioClient.delete(
+        uploadPortfolioImageEndPoint,
+        data: jsonEncode(dataBody),
+        skipAuth: false,
+      );
+      return PortfolioImageResponseModel.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }

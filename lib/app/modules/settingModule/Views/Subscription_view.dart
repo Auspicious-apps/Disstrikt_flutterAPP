@@ -971,7 +971,7 @@ class SubscriptionView extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.w800),
             maxLines: 4,
-          ).marginOnly(top: 10),
+          ).marginOnly(top: 10, left: 10, right: 10),
           SizedBox(height: 20.0),
           Row(
             children: [
@@ -1084,7 +1084,7 @@ class SubscriptionView extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.w800),
             maxLines: 4,
-          ).marginOnly(top: 10),
+          ).marginOnly(top: 10, left: 10, right: 10),
           SizedBox(height: 20.0),
           Row(
             children: [

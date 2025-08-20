@@ -38,7 +38,7 @@ class UserInfoController extends GetxController {
   var country = "".obs;
   var language = "".obs;
   UserResponseModel? userResponseModel;
-  final List<String> genders = ["strMale".tr, "strFemale".tr, "strOthers".tr];
+  final List<String> genders = ["strMale".tr, "strFemale".tr];
   final List<String> ShoesSize = [
     '2',
     '2.5',

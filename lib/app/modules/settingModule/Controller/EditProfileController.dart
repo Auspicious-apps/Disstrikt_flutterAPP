@@ -34,7 +34,7 @@ class Editprofilecontroller extends GetxController {
   final mobileNumberTextController = TextEditingController();
   final mobileNumberFocusNode = FocusNode();
   late Rx<Country> selectedCountry;
-  final List<String> genders = ["strMale".tr, "strFemale".tr, "strOthers".tr];
+  final List<String> genders = ["strMale".tr, "strFemale".tr];
   var selectGender = "".obs;
   RxBool isloading = false.obs;
   var isSecondDropdownOpen = false.obs;

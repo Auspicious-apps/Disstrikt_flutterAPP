@@ -70,6 +70,7 @@ class NetworkImageWidget extends StatelessWidget {
                   image: DecorationImage(
                     image: imageProvider,
                     fit: imageFitType,
+                    alignment: Alignment.topCenter,
                     // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn)
                   ),
                 ),
@@ -79,14 +80,14 @@ class NetworkImageWidget extends StatelessWidget {
                 radiusAll: radiusAll,
                 imageHeight: imageHeight,
                 imageWidth: imageWidth,
-                imageFitType: BoxFit.fill,
+                imageFitType: BoxFit.cover,
               ),
               errorWidget: (context, url, error) => AssetImageWidget(
                 placeHolder ?? samplePlaceholder,
                 radiusAll: radiusAll,
                 imageHeight: imageHeight,
                 imageWidth: imageWidth,
-                imageFitType: BoxFit.fill,
+                imageFitType: BoxFit.cover,
               ),
             ),
     );

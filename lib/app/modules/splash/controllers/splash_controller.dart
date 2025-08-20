@@ -10,7 +10,7 @@
   -->
  */
 
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:disstrikt/app/modules/auth/models/responseModels/userResponseModel.dart';
 
@@ -69,7 +69,6 @@ class SplashController extends GetxController {
         print("$er");
 
         Get.closeAllSnackbars();
-        Get.snackbar('Error', '$er');
       });
     } catch (er) {
       print("$er");

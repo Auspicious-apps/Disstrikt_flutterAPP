@@ -100,7 +100,7 @@ class MaterialButtonWidget extends StatelessWidget {
                 SizedBox(
                   width: 5,
                 ),
-                iconWidget ?? const SizedBox(),
+                isloading == true ? SizedBox() : iconWidget ?? const SizedBox(),
               ],
             ));
   }

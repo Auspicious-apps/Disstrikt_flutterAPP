@@ -762,17 +762,15 @@ class Editprofile extends StatelessWidget {
                                                 fullName: controller
                                                     .fullNameController.text,
                                                 dob: controller.birthDate.value,
-                                                gender: controller
-                                                    .selectGender.value
-                                                    ?.toUpperCase(),
+                                                gender:
+                                                    controller.selectGender.value == "strMale".tr
+                                                        ? "MALE"
+                                                        : "FEMALE",
                                                 hipsCm: controller.hipsController.text.isNotEmpty
                                                     ? double.parse(controller
                                                         .hipsController.text)
                                                     : null,
-                                                waistCm: controller
-                                                        .waistController
-                                                        .text
-                                                        .isNotEmpty
+                                                waistCm: controller.waistController.text.isNotEmpty
                                                     ? double.parse(controller.waistController.text)
                                                     : null,
                                                 bustCm: controller.bustController.text.isNotEmpty ? double.parse(controller.bustController.text) : null,

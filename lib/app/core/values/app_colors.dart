@@ -42,4 +42,8 @@ abstract class AppColors {
   static const Color smalltextColor = Color.fromRGBO(181, 181, 181, 1);
   static const Color voilet = Color.fromRGBO(143, 169, 255, 1);
   static const Color greyshadetext = Color.fromRGBO(106, 106, 106, 1);
+  static const Color ModalDivider = Color.fromRGBO(244, 182, 191, 1);
+  static const Color statusColor = Color.fromRGBO(226, 255, 169, 1);
+  static const Color darkRed = Color.fromRGBO(168, 27, 60, 1);
+  static const Color darkgrey = Color.fromRGBO(125, 125, 125, 1);
 }

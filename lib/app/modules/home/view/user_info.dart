@@ -574,7 +574,10 @@ class UserInfo extends GetView<UserInfoController> {
                                 Map<String, dynamic> requestModel =
                                     AuthRequestModel.moreInfoRequestModel(
                                   dob: controller.birthDate.value,
-                                  gender: controller.selectGender.value,
+                                  gender: controller.selectGender.value ==
+                                          "strMale".tr
+                                      ? "MALE"
+                                      : "FEMALE",
                                   heightCm: double.parse(
                                       controller.hieghtController.text),
                                   weightKg: double.parse(

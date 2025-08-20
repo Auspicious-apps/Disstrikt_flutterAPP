@@ -65,7 +65,7 @@ class PasswordFormValidator {
     if (value!.isEmpty) {
       return "strPleaseEnterConfirmPassword".tr;
     } else if (value.length < 8) {
-      return "strConfirmInvalidPassword".tr;
+      return "strInvalidPassword".tr;
     } else if (!regExp.hasMatch(value)) {
       return "strPasswordNotSecure".tr;
     } else if (value != password) {

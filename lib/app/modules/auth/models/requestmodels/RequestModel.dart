@@ -86,6 +86,15 @@ class AuthRequestModel {
     return data;
   }
 
+  static JobApplyRequestModel({
+    String? jobId,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data["jobId"] = jobId;
+
+    return data;
+  }
+
   static socialloginApiRequest({
     required String authType,
     required String idToken,
@@ -120,6 +129,16 @@ class AuthRequestModel {
     data["language"] = language;
     data["fcmToken"] = fcmToken;
     data["country"] = country;
+    return data;
+  }
+
+  static SubmitTaskRequestModel({
+    String? writeSection,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data["writeSection"] = writeSection;
+
     return data;
   }
 

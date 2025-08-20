@@ -1,5 +1,5 @@
 const String baseUrl = "https://api.disstrikt.uk/api/";
-// const String baseUrl = "https://ae9fe6347fbc.ngrok-free.app/api/";
+// const String baseUrl = "https://b1d88f06ac0d.ngrok-free.app/api/";
 const String imageBaseUrl = "https://disstrikt.s3.eu-north-1.amazonaws.com/";
 const String videoBaseUrl =
     "https://demoprojectsbucket.sgp1.digitaloceanspaces.com/video/";
@@ -33,26 +33,20 @@ const String socialLoginEndPoint = "social-login";
 const String getStaticDataEndPoint = "paid-user/get-platform-info";
 const String getActivePlanEndPoint = "user/get-active-plan";
 const String mediafileUploadEndPoint = "paid-user/upload";
-// const String loginApiEndPoint = "api/login";
-// const String logoutApiEndPoint = "api/user/logout";
-// const String forgetPasswordApiEndPoint = "api/forgot-password";
-// const String forgetOtpVerifyApiEndPoint = "api/verify-otp";
-// const String changePasswordEndPoint = "api/new-password-otp-verified";
-// const String ResendOtpApiEndPoint = "api/resend-otp";
-//
-// const String HomeApiEndPoint = "api/user/home";
-//
-// const String GetAllResturantsEndPoint = "api/user/restaurants";
-//
-// const String GetAllOffersEndPoint = "api/user/restaurant-offers";
-//
-// const String UpdatePasswordEndPoint = "api/user/change-password";
-//
-// const String StaticApiEndPoint = "api/user/settings";
-// const String GetProfileEndPoint = "api/user/current-user";
-// const String updateProfileEndPoint = "api/user/update-profile";
-// const String DeleteAccountEndPoint = "api/user/delete-account";
 
+const String getPortfolioEndPoint = "paid-user/portfolio";
+const String getPublicPortfolioEndPoint = "portfolio";
+
+const String postPortfolioEndPoint = "paid-user/portfolio";
+
+const String uploadPortfolioImageEndPoint = "paid-user/portfolio-image";
+const String uploadPortfolioVideoEndPoint = "paid-user/portfolio-video";
+
+const String getAllJobsEndPoint = "paid-user/jobs";
+
+const String searchUserEndPoint = "paid-user/search-user";
+const String taskDetailEndPoint = "paid-user/TaskById";
+const String taskSubmitEndPoint = "paid-user/taskById";
 const typeActive = 0;
 const typeUpcoming = 1;
 const typeCompleted = 2;

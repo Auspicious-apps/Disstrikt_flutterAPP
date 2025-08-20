@@ -10,7 +10,26 @@
   -->
  */
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:disstrikt/app/export.dart';
+
+class CapitalizeFirstLetterFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+    // Capitalize the first letter and keep the rest of the string
+    String newText =
+        newValue.text[0].toUpperCase() + newValue.text.substring(1);
+    return TextEditingValue(
+      text: newText,
+      selection: newValue.selection,
+    );
+  }
+}
 
 class TextFieldWidget extends StatelessWidget {
   final String? hint;
@@ -23,6 +42,7 @@ class TextFieldWidget extends StatelessWidget {
   final String? label;
   final validate;
   final hintStyle;
+  final textlableStyle;
   final EdgeInsets? contentPadding;
   final TextInputType? inputType;
   final TextEditingController? textController;
@@ -63,6 +83,7 @@ class TextFieldWidget extends StatelessWidget {
     this.decoration,
     this.radius,
     this.focusNode,
+    this.textlableStyle,
     this.readOnly = false,
     this.shadow,
     this.onFieldSubmitted,
@@ -95,10 +116,12 @@ class TextFieldWidget extends StatelessWidget {
           Text(
             maxLines: 1,
             label!,
-            style: textStyleBodyMedium().copyWith(
-              color: lableColor ?? AppColors.smalltextColor,
-              fontFamily: "Kodchasan",
-            ),
+            style: textlableStyle ??
+                textStyleBodyMedium().copyWith(
+                  color: lableColor ?? AppColors.smalltextColor,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Kodchasan",
+                ),
           ),
         if (label != null) SizedBox(height: margin_10),
         TextFormField(
@@ -111,13 +134,14 @@ class TextFieldWidget extends StatelessWidget {
             maxLength: maxLength,
             onChanged: onChange,
             // cursorColor: courserColor ?? AppColors.appColor,
-            inputFormatters: inputFormatter ??
-                [
-                  FilteringTextInputFormatter(
-                      RegExp(
-                          '(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'),
-                      allow: false),
-                ],
+            inputFormatters: [
+              CapitalizeFirstLetterFormatter(),
+              if (inputFormatter != null) ...inputFormatter,
+              FilteringTextInputFormatter(
+                  RegExp(
+                      '(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])'),
+                  allow: false),
+            ],
             autovalidateMode: AutovalidateMode.onUserInteraction,
             maxLines: maxline,
             minLines: minLine,

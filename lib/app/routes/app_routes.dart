@@ -10,6 +10,8 @@
   -->
  */
 
+import 'package:disstrikt/app/modules/Portfolio/views/portfolio_screen.dart';
+
 abstract class AppRoutes {
   static const splashRoute = '/splashRoute';
   static const chooseLanguage = '/chooseLanguage';
@@ -28,4 +30,8 @@ abstract class AppRoutes {
   static const ChangeCountry = "/ChangeCountry";
   static const ChangeSubscription = "/ChangeSubscription";
   static const EditProfile = "/EditProfile";
+  static const EditPortfolioScreen = "/EditPortfolioScreen";
+  static const jobDetailScreen = "/jobDetailScreen";
+  static const publicPortfolio = "/publicPortfolio";
+  static const taskDetail = "/taskDetail";
 }

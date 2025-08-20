@@ -27,8 +27,8 @@ class BottomTabController extends GetxController {
 
   void changeIndex(var index) {
     selectedIndex.value = index;
-    // if(index==1){
-    //  settingController.fetchProfileApi();
-    // }
+    if (index == 4) {
+      settingController.GetUserProfile();
+    }
   }
 }
