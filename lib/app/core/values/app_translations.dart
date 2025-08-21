@@ -4,6 +4,10 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_GB': {
+          "strUploadFile": "Upload Your File",
+          "strQuizCompleted": "Quiz Completed",
+          "strCorrectAnswers": "Correct Answers",
+          "strOkay": "Okay",
           "strStartQuiz": "Start Quiz",
           "strTaskDoNotSubmitted":
               "Your attempt has been recorded successfully.",
@@ -425,6 +429,12 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'nl_NL': {
+          "strUploadFile": "Upload uw bestand",
+          "strQuizCompleted": "Quiz voltooid",
+
+          "strCorrectAnswers": "Juiste antwoorden",
+
+          "strOkay": "Oké",
           "strStartQuiz": "Quiz starten",
           "strTaskDoNotSubmitted": "Uw poging is succesvol geregistreerd.",
           "strTaskSubmitted": "Ingediend!!",
@@ -831,6 +841,12 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'fr_FR': {
+          "strUploadFile": "Téléchargez votre fichier",
+          "strQuizCompleted": "Quiz terminé",
+
+          "strCorrectAnswers": "Bonnes réponses",
+
+          "strOkay": "D'accord",
           "strStartQuiz": "Commencer le quiz",
           "strTaskDoNotSubmitted":
               "Votre tentative a été enregistrée avec succès.",
@@ -1244,6 +1260,10 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'es_ES': {
+          "strUploadFile": "Sube tu archivo",
+          "strQuizCompleted": "Cuestionario completado",
+          "strCorrectAnswers": "Respuestas correctas",
+          "strOkay": "Vale",
           "strStartQuiz": "Comenzar cuestionario",
           "strTaskDoNotSubmitted": "Su intento ha sido registrado con éxito.",
           "strTaskSubmitted": "¡Enviado!!",

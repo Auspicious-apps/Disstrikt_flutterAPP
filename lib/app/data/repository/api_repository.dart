@@ -9,6 +9,7 @@
  */
 
 import 'package:dio/dio.dart';
+import 'package:disstrikt/app/modules/taskModule/models/ResponseModels/Message.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
 import '../../export.dart';
@@ -138,7 +139,7 @@ class Repository {
     try {
       final response = await dioClient!.post("${taskSubmitEndPoint}/${ID}",
           skipAuth: false, data: json.encode(dataBody!));
-      return TaskDetailModel.fromJson(response);
+      return Message.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }

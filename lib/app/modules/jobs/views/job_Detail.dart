@@ -170,16 +170,18 @@ class JobDetail extends StatelessWidget {
                                           imageHeight: 20,
                                         ),
                                         SizedBox(width: 10),
-                                        TextView(
-                                          maxLines: 2,
-                                          text: controller.userResponseModel
-                                                  ?.data?.location ??
-                                              "",
-                                          textStyle: TextStyle(
-                                            color: AppColors.greyshadetext,
-                                            fontFamily: "kodchasan",
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w800,
+                                        Flexible(
+                                          child: TextView(
+                                            maxLines: 2,
+                                            text: controller.userResponseModel
+                                                    ?.data?.location ??
+                                                "",
+                                            textStyle: TextStyle(
+                                              color: AppColors.greyshadetext,
+                                              fontFamily: "kodchasan",
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w800,
+                                            ),
                                           ),
                                         ),
                                       ],

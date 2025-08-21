@@ -95,6 +95,8 @@ class StartJourney extends StatelessWidget {
                                             child: Stack(
                                               children: [
                                                 GestureDetector(
+                                                  behavior:
+                                                      HitTestBehavior.opaque,
                                                   onTap: () async {
                                                     if (controller
                                                             .userResponseModel

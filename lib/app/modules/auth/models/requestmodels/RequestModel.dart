@@ -1,3 +1,5 @@
+import 'package:disstrikt/app/modules/taskModule/models/ResponseModels/QuizRequest.dart';
+
 class AuthRequestModel {
 /*===================================================Register Request Model==============================================*/
   static SignupRequestModel({
@@ -134,10 +136,12 @@ class AuthRequestModel {
 
   static SubmitTaskRequestModel({
     String? writeSection,
+    List<QuizAnswer>? quiz,
   }) {
     final Map<String, dynamic> data = <String, dynamic>{};
 
     data["writeSection"] = writeSection;
+    data["quiz"] = quiz;
 
     return data;
   }
