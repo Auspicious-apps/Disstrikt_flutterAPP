@@ -1,5 +1,5 @@
 // const String baseUrl = "https://api.disstrikt.uk/api/";
-const String baseUrl = "https://921b7cd4ef99.ngrok-free.app/api/";
+const String baseUrl = "https://68bcf6f7a713.ngrok-free.app/api/";
 const String imageBaseUrl = "https://disstrikt.s3.eu-north-1.amazonaws.com/";
 const String videoBaseUrl =
     "https://demoprojectsbucket.sgp1.digitaloceanspaces.com/video/";

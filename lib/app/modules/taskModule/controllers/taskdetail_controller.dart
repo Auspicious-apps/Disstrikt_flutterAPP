@@ -12,6 +12,7 @@ import 'package:disstrikt/app/export.dart';
 import 'package:disstrikt/app/modules/auth/models/responseModels/userResponseModel.dart';
 import 'package:get/get.dart';
 import '../../../data/local/preferences/preference.dart';
+import '../../settingModule/Models/ReponseModel/mediaUpload.dart';
 import '../models/ResponseModels/Message.dart';
 import '../models/ResponseModels/QuizRequest.dart';
 import '../models/ResponseModels/TaskDetailResponseModel.dart';
@@ -22,6 +23,7 @@ class TaskdetailController extends GetxController {
   final doneWriteSectionFocusNode = FocusNode();
   List<QuizAnswer> quizAnswers = [];
   BetterPlayerController? betterPlayerController;
+  RxList<File?> pickedFile = RxList<File?>([]);
   RxBool isLoading = true.obs;
   var type = "".obs;
   var selectedAnswer = "".obs;
@@ -31,10 +33,11 @@ class TaskdetailController extends GetxController {
   var videoWatch = false.obs;
   var isControllerValid = false.obs;
   final signupFormKey = GlobalKey<FormState>();
-
+  RxBool isUploading = false.obs;
+  MediaUploadResponseModel? mediaUploadResponseModel;
   Rx<TaskDetailModel>? taskDetailModel = TaskDetailModel().obs;
   Rx<Message>? message = Message().obs;
-
+  RxList<String> checkboxValues = RxList<String>([]);
   @override
   void onInit() {
     if (Get.arguments != null) {
@@ -129,6 +132,31 @@ class TaskdetailController extends GetxController {
     } catch (er) {
       isLoading.value = false;
       print("$er");
+    }
+  }
+
+  Future<String?> callFileUploadMedia(File file) async {
+    try {
+      isLoading.value = true;
+      final response = await repository.mediaUploadApiCall(file);
+      mediaUploadResponseModel = response;
+
+      final key = response.data?.key;
+
+      isLoading.value = false;
+
+      if (key == null || key.isEmpty) {
+        Get.snackbar('Upload Failed', 'Thumbnail upload failed');
+        return null;
+      }
+
+      return key;
+    } catch (e, stackTrace) {
+      isLoading.value = false;
+
+      debugPrint('Error during thumbnail upload: $e\n$stackTrace');
+      Get.snackbar('Upload Error', 'Failed to upload thumbnail');
+      return null;
     }
   }
 

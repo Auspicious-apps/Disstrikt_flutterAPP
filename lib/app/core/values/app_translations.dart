@@ -4,6 +4,12 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_GB': {
+          "strLinks": "Links",
+          "strSelectMultipleOptions": "Select Multiple Options",
+          "strAttachment": "Attachment",
+          "strDownload": "Download",
+          "SelectaFile": "Select a file to upload",
+          "strBrowse": "Browse",
           "strUploadFile": "Upload Your File",
           "strQuizCompleted": "Quiz Completed",
           "strCorrectAnswers": "Correct Answers",
@@ -429,6 +435,13 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'nl_NL': {
+          "strLinks": "Koppelingen",
+          "strSelectMultipleOptions": "Selecteer meerdere opties",
+          "strDownload": "Downloaden",
+          "strAttachment": "Bijlage",
+          "SelectaFile": "Selecteer een bestand om te uploaden",
+
+          "strBrowse": "Bladeren",
           "strUploadFile": "Upload uw bestand",
           "strQuizCompleted": "Quiz voltooid",
 
@@ -841,6 +854,12 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'fr_FR': {
+          "strLinks": "Liens",
+          "strSelectMultipleOptions": "Sélectionnez plusieurs options",
+          "strAttachment": "Pièce jointe",
+          "SelectaFile": "Sélectionnez un fichier à télécharger",
+          "strDownload": "Télécharger",
+          "strBrowse": "Parcourir",
           "strUploadFile": "Téléchargez votre fichier",
           "strQuizCompleted": "Quiz terminé",
 
@@ -1260,6 +1279,12 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'es_ES': {
+          "strLinks": "Enlaces",
+          "strSelectMultipleOptions": "Seleccione varias opciones",
+          "strDownload": "Descargar",
+          "SelectaFile": "Seleccione un archivo para subir",
+          "strAttachment": "Adjunto",
+          "strBrowse": "Explorar",
           "strUploadFile": "Sube tu archivo",
           "strQuizCompleted": "Cuestionario completado",
           "strCorrectAnswers": "Respuestas correctas",

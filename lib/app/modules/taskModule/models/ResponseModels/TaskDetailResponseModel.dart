@@ -75,58 +75,79 @@ class Quiz {
 class TaskDetailData {
   String? sId;
   String? taskType;
+  bool? appReview;
   String? answerType;
   List<String>? link;
   num? taskNumber;
+  num? count;
   num? milestone;
   String? title;
   String? description;
   String? subject;
   List<Quiz>? quiz;
+  List<String>? checkbox;
 
   TaskDetailData(
       {this.sId,
       this.taskType,
+      this.appReview,
       this.answerType,
       this.taskNumber,
+      this.count,
       this.milestone,
       this.title,
       this.link,
       this.description,
       this.subject,
+      this.checkbox,
       this.quiz});
 
   TaskDetailData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     taskType = json['taskType'];
+    count = json['count'];
+    appReview = json['appReview'];
     answerType = json['answerType'];
-    link = json['link'].cast<String>();
+
+    // ✅ Safe null check for list<String>
+    link = json['link'] != null ? List<String>.from(json['link']) : [];
+
     taskNumber = json['taskNumber'];
     milestone = json['milestone'];
     title = json['title'];
     description = json['description'];
     subject = json['subject'];
+
+    // ✅ Safe null check for list<String>
+    checkbox =
+        json['checkbox'] != null ? List<String>.from(json['checkbox']) : [];
+
     if (json['quiz'] != null) {
       quiz = <Quiz>[];
       json['quiz'].forEach((v) {
-        quiz!.add(new Quiz.fromJson(v));
+        quiz!.add(Quiz.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['taskType'] = this.taskType;
-    data['answerType'] = this.answerType;
-    data['link'] = this.link;
-    data['taskNumber'] = this.taskNumber;
-    data['milestone'] = this.milestone;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['subject'] = this.subject;
-    if (this.quiz != null) {
-      data['quiz'] = this.quiz!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = {};
+    data['_id'] = sId;
+    data['appReview'] = appReview;
+    data['count'] = count;
+
+    data['taskType'] = taskType;
+
+    data['answerType'] = answerType;
+    data['link'] = link ?? []; // ✅ Avoids null in JSON
+    data['taskNumber'] = taskNumber;
+    data['milestone'] = milestone;
+    data['title'] = title;
+    data['description'] = description;
+    data['subject'] = subject;
+    data['checkbox'] = checkbox ?? []; // ✅ Avoids null in JSON
+    if (quiz != null) {
+      data['quiz'] = quiz!.map((v) => v.toJson()).toList();
     }
     return data;
   }

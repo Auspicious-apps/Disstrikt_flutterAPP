@@ -30,275 +30,358 @@ class StartJourney extends StatelessWidget {
           child: Scaffold(
             backgroundColor: AppColors.buttonColor.withOpacity(0.3),
             body: Obx(() => SafeArea(
-                  child: SingleChildScrollView(
-                    child: Skeletonizer(
-                      enabled: controller.isLoading.value,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Top header
+                  child: Skeletonizer(
+                    enabled: controller.isLoading.value,
+                    child: Column(
+                      children: [
+                        _topHeader(context, controller),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Top header
 
-                          _topHeader(context, controller),
-
-                          // List below the header
-                          Center(
-                            child: Image.asset(
-                              MileStoneBanner,
-                              width: Get.width * 0.6,
-                              height: 60,
-                            ),
-                          ).marginOnly(top: 20),
-                          ListView.builder(
-                            itemCount: controller.userResponseModel?.value.data
-                                    ?.milestone1?.length ??
-                                0,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              // Calculate horizontal offset for the circular container
-                              double posPercent = index / 3;
-                              double horizontalOffset = (screenWidth / 3 - 20) *
-                                  sin(posPercent * pi - pi / 4);
-
-                              // Logic for icon visibility and position
-                              bool showLeftIcon = (((index - 1) % 6) ==
-                                  2); // Left icon at indices 2, 8, 14, ...
-                              bool showRightIcon = (((index - 1) % 6) ==
-                                  5); // Right icon at indices 5, 11, 17, ...
-
-                              return Stack(
-                                children: [
-                                  if (showLeftIcon)
-                                    AnimatedPositioned(
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      curve: Curves.easeInOut,
-                                      left: showLeftIcon ? 20 : -100,
-                                      child: AnimatedOpacity(
-                                        opacity: showLeftIcon ? 1.0 : 0.0,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        child: FloatingIcon(
-                                          iconPath: iconSplashBackground,
-                                        ),
-                                      ),
-                                    ),
-                                  Center(
-                                    child: Transform.translate(
-                                      offset: Offset(horizontalOffset, 50),
-                                      child: Column(
-                                        children: [
-                                          SizedBox(
-                                            width: 100,
-                                            height: 100,
-                                            child: Stack(
-                                              children: [
-                                                GestureDetector(
-                                                  behavior:
-                                                      HitTestBehavior.opaque,
-                                                  onTap: () async {
-                                                    if (controller
+                                // List below the header
+                                Center(
+                                  child: Image.asset(
+                                    controller.userResponseModel?.value?.data
+                                                ?.milestone ==
+                                            1
+                                        ? MileStoneBanner
+                                        : controller.userResponseModel?.value
+                                                    ?.data?.milestone ==
+                                                2
+                                            ? MileStoneBanner2
+                                            : controller
+                                                        .userResponseModel
+                                                        ?.value
+                                                        ?.data
+                                                        ?.milestone ==
+                                                    3
+                                                ? MileStoneBanner3
+                                                : controller
                                                             .userResponseModel
                                                             ?.value
-                                                            .data
-                                                            ?.milestone1?[index]
-                                                            ?.attempted ==
-                                                        false) {
-                                                      await Get.toNamed(
-                                                          AppRoutes.taskDetail,
-                                                          arguments: {
-                                                            "id": controller
+                                                            ?.data
+                                                            ?.milestone ==
+                                                        4
+                                                    ? MileStoneBanner4
+                                                    : controller
                                                                 .userResponseModel
                                                                 ?.value
-                                                                .data
-                                                                ?.milestone1?[
-                                                                    index]
-                                                                ?.sId,
-                                                            "type": controller
-                                                                .userResponseModel
-                                                                ?.value
-                                                                .data
-                                                                ?.milestone1?[
-                                                                    index]
-                                                                ?.taskType
-                                                          });
-                                                      controller.currentpage
-                                                          .value = 1;
-                                                      controller
-                                                          .GetHomeDetail();
-                                                    } else {
-                                                      Get.closeAllSnackbars();
-                                                      Get.snackbar(
-                                                        'Warning',
-                                                        "strTaskDoNotSubmitted"
-                                                            .tr,
-                                                        backgroundColor: Colors
-                                                            .white
-                                                            .withOpacity(0.5),
-                                                      );
-                                                    }
-                                                  },
-                                                  child: Container(
-                                                      margin:
-                                                          EdgeInsets.symmetric(
-                                                              vertical: 12),
-                                                      width: 100,
-                                                      height: 100,
-                                                      decoration: BoxDecoration(
-                                                        color: controller
+                                                                ?.data
+                                                                ?.milestone ==
+                                                            5
+                                                        ? MileStoneBanner5
+                                                        : controller
                                                                     .userResponseModel
                                                                     ?.value
-                                                                    .data
-                                                                    ?.milestone1?[
-                                                                        index]
-                                                                    ?.attempted ==
-                                                                true
-                                                            ? AppColors
-                                                                .clickTextColor
-                                                            : AppColors
-                                                                .smalltextColor,
-                                                        shape: BoxShape.circle,
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                            color: controller
-                                                                        .userResponseModel
-                                                                        ?.value
-                                                                        .data
-                                                                        ?.milestone1?[
-                                                                            index]
-                                                                        ?.attempted ==
-                                                                    true
-                                                                ? AppColors
-                                                                    .darkRed
-                                                                : AppColors
-                                                                    .darkgrey,
-                                                            offset:
-                                                                const Offset(
-                                                                    0, 5),
-                                                            blurRadius: 0,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Image.asset(
-                                                        controller
-                                                                    .userResponseModel
-                                                                    ?.value
-                                                                    .data
-                                                                    ?.milestone1?[
-                                                                        index]
-                                                                    ?.taskType ==
-                                                                "PROFILE_PIC"
-                                                            ? profiletask
+                                                                    ?.data
+                                                                    ?.milestone ==
+                                                                6
+                                                            ? MileStoneBanner6
                                                             : controller
                                                                         .userResponseModel
                                                                         ?.value
-                                                                        .data
-                                                                        ?.milestone1?[
-                                                                            index]
-                                                                        ?.taskType ==
-                                                                    "QUIZ"
-                                                                ? quizTask
+                                                                        ?.data
+                                                                        ?.milestone ==
+                                                                    7
+                                                                ? MileStoneBanner7
                                                                 : controller
                                                                             .userResponseModel
                                                                             ?.value
-                                                                            .data
-                                                                            ?.milestone1?[
-                                                                                index]
-                                                                            ?.taskType ==
-                                                                        "PORT_BIO"
-                                                                    ? CvTask
-                                                                    : controller.userResponseModel?.value.data?.milestone1?[index]?.taskType ==
-                                                                            "WATCH_VIDEO"
-                                                                        ? videoTask
-                                                                        : controller.userResponseModel?.value.data?.milestone1?[index]?.taskType ==
-                                                                                "TEXT"
-                                                                            ? texttask
-                                                                            : controller.userResponseModel?.value.data?.milestone1?[index]?.taskType == "UPLOAD"
-                                                                                ? uploadTask
-                                                                                : jobtask,
-                                                        height: 30,
-                                                      )),
-                                                ),
-                                                Positioned(
-                                                  bottom: 3,
-                                                  left: 20,
-                                                  child: Container(
-                                                    height: 30,
-                                                    width: 60,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                iconCloud))),
-                                                    child: Center(
-                                                      child: TextView(
-                                                        text: controller
-                                                                .userResponseModel
-                                                                ?.value
-                                                                .data
-                                                                ?.milestone1?[
-                                                                    index]
-                                                                ?.taskNumber
-                                                                ?.toString() ??
-                                                            "",
-                                                      ).marginOnly(top: 10),
-                                                    ),
+                                                                            ?.data
+                                                                            ?.milestone ==
+                                                                        8
+                                                                    ? MileStoneBanner8
+                                                                    : controller.userResponseModel?.value?.data?.milestone ==
+                                                                            9
+                                                                        ? MileStoneBanner9
+                                                                        : controller.userResponseModel?.value?.data?.milestone == 10
+                                                                            ? MileStoneBanner10
+                                                                            : controller.userResponseModel?.value?.data?.milestone == 11
+                                                                                ? MileStoneBanner11
+                                                                                : controller.userResponseModel?.value?.data?.milestone == 12
+                                                                                    ? MileStoneBanner12
+                                                                                    : controller.userResponseModel?.value?.data?.milestone == 13
+                                                                                        ? MileStoneBanner13
+                                                                                        : controller.userResponseModel?.value?.data?.milestone == 14
+                                                                                            ? MileStoneBanner14
+                                                                                            : MileStoneBanner15,
+                                    width: Get.width * 0.6,
+                                    height: 60,
+                                  ),
+                                ).marginOnly(top: 20),
+                                ListView.builder(
+                                  itemCount: controller.userResponseModel?.value
+                                          .data?.milestoneData?.length ??
+                                      0,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    // Calculate horizontal offset for the circular container
+                                    double posPercent = index / 3;
+                                    double horizontalOffset =
+                                        (screenWidth / 3 - 20) *
+                                            sin(posPercent * pi - pi / 4);
+
+                                    // Logic for icon visibility and position
+                                    bool showLeftIcon = (((index - 1) % 6) ==
+                                        2); // Left icon at indices 2, 8, 14, ...
+                                    bool showRightIcon = (((index - 1) % 6) ==
+                                        5); // Right icon at indices 5, 11, 17, ...
+
+                                    return Stack(
+                                      children: [
+                                        if (showLeftIcon)
+                                          AnimatedPositioned(
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            curve: Curves.easeInOut,
+                                            left: showLeftIcon ? 20 : -100,
+                                            child: AnimatedOpacity(
+                                              opacity: showLeftIcon ? 1.0 : 0.0,
+                                              duration: const Duration(
+                                                  milliseconds: 500),
+                                              child: FloatingIcon(
+                                                iconPath: iconSplashBackground,
+                                              ),
+                                            ),
+                                          ),
+                                        Center(
+                                          child: Transform.translate(
+                                            offset:
+                                                Offset(horizontalOffset, 50),
+                                            child: Column(
+                                              children: [
+                                                SizedBox(
+                                                  width: 100,
+                                                  height: 100,
+                                                  child: Stack(
+                                                    children: [
+                                                      GestureDetector(
+                                                        behavior:
+                                                            HitTestBehavior
+                                                                .opaque,
+                                                        onTap: () async {
+                                                          if (controller
+                                                                  .userResponseModel
+                                                                  ?.value
+                                                                  .data
+                                                                  ?.milestoneData?[
+                                                                      index]
+                                                                  ?.attempted ==
+                                                              false) {
+                                                            await Get.toNamed(
+                                                                AppRoutes
+                                                                    .taskDetail,
+                                                                arguments: {
+                                                                  "id": controller
+                                                                      .userResponseModel
+                                                                      ?.value
+                                                                      .data
+                                                                      ?.milestoneData?[
+                                                                          index]
+                                                                      ?.sId,
+                                                                  "type": controller
+                                                                      .userResponseModel
+                                                                      ?.value
+                                                                      .data
+                                                                      ?.milestoneData?[
+                                                                          index]
+                                                                      ?.taskType
+                                                                });
+                                                            controller
+                                                                .currentpage
+                                                                .value = 1;
+                                                            controller
+                                                                .GetHomeDetail();
+                                                          } else {
+                                                            Get.closeAllSnackbars();
+                                                            Get.snackbar(
+                                                              'Warning',
+                                                              "strTaskDoNotSubmitted"
+                                                                  .tr,
+                                                              backgroundColor:
+                                                                  Colors.white
+                                                                      .withOpacity(
+                                                                          0.5),
+                                                            );
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                            margin: EdgeInsets
+                                                                .symmetric(
+                                                                    vertical:
+                                                                        12),
+                                                            width: 100,
+                                                            height: 100,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: controller
+                                                                          .userResponseModel
+                                                                          ?.value
+                                                                          .data
+                                                                          ?.milestoneData?[
+                                                                              index]
+                                                                          ?.attempted ==
+                                                                      true
+                                                                  ? AppColors
+                                                                      .clickTextColor
+                                                                  : AppColors
+                                                                      .smalltextColor,
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  color: controller
+                                                                              .userResponseModel
+                                                                              ?.value
+                                                                              .data
+                                                                              ?.milestoneData?[
+                                                                                  index]
+                                                                              ?.attempted ==
+                                                                          true
+                                                                      ? AppColors
+                                                                          .darkRed
+                                                                      : AppColors
+                                                                          .darkgrey,
+                                                                  offset:
+                                                                      const Offset(
+                                                                          0, 5),
+                                                                  blurRadius: 0,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Image.asset(
+                                                              controller
+                                                                          .userResponseModel
+                                                                          ?.value
+                                                                          .data
+                                                                          ?.milestoneData?[
+                                                                              index]
+                                                                          ?.taskType ==
+                                                                      "PROFILE_PIC"
+                                                                  ? profiletask
+                                                                  : controller
+                                                                              .userResponseModel
+                                                                              ?.value
+                                                                              .data
+                                                                              ?.milestoneData?[
+                                                                                  index]
+                                                                              ?.taskType ==
+                                                                          "QUIZ"
+                                                                      ? quizTask
+                                                                      : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "PORT_BIO" ||
+                                                                              controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "PORT_IMAGE" ||
+                                                                              controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "SET_CARD" ||
+                                                                              controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "PORT_INTRO_VIDEO"
+                                                                          ? CvTask
+                                                                          : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "WATCH_VIDEO"
+                                                                              ? videoTask
+                                                                              : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "TEXT"
+                                                                                  ? texttask
+                                                                                  : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "UPLOAD"
+                                                                                      ? uploadTask
+                                                                                      : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "DOWNLOAD_FILE"
+                                                                                          ? downloadTask
+                                                                                          : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "CHECK_BOX"
+                                                                                              ? DoneTask
+                                                                                              : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "CALENDLY"
+                                                                                                  ? CalendlyTask
+                                                                                                  : controller.userResponseModel?.value.data?.milestoneData?[index]?.taskType == "LINK"
+                                                                                                      ? linktask
+                                                                                                      : jobtask,
+                                                              height: 30,
+                                                            )),
+                                                      ),
+                                                      Positioned(
+                                                        bottom: 3,
+                                                        left: 20,
+                                                        child: Container(
+                                                          height: 30,
+                                                          width: 60,
+                                                          decoration: BoxDecoration(
+                                                              image: DecorationImage(
+                                                                  image: AssetImage(
+                                                                      iconCloud))),
+                                                          child: Center(
+                                                            child: TextView(
+                                                              text: controller
+                                                                      .userResponseModel
+                                                                      ?.value
+                                                                      .data
+                                                                      ?.milestoneData?[
+                                                                          index]
+                                                                      ?.taskNumber
+                                                                      ?.toString() ??
+                                                                  "",
+                                                            ).marginOnly(
+                                                                top: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
+                                                if (controller
+                                                        .userResponseModel
+                                                        ?.value
+                                                        .data
+                                                        ?.milestoneData?[index]
+                                                        ?.attempted ==
+                                                    true)
+                                                  CustomArcStarRating(
+                                                    starCount: 3,
+                                                    rating: controller
+                                                            .userResponseModel
+                                                            ?.value
+                                                            .data
+                                                            ?.milestoneData?[
+                                                                index]
+                                                            ?.rating
+                                                            ?.toDouble() ??
+                                                        0.0,
+                                                    starSize: 20.0,
+                                                    arcRadius: 15.0,
+                                                    filledColor: Colors.orange,
+                                                  ),
                                               ],
                                             ),
                                           ),
-                                          if (controller
-                                                  .userResponseModel
-                                                  ?.value
-                                                  .data
-                                                  ?.milestone1?[index]
-                                                  ?.attempted ==
-                                              true)
-                                            CustomArcStarRating(
-                                              starCount: 3,
-                                              rating: controller
-                                                      .userResponseModel
-                                                      ?.value
-                                                      .data
-                                                      ?.milestone1?[index]
-                                                      ?.rating
-                                                      ?.toDouble() ??
-                                                  0.0,
-                                              starSize: 20.0,
-                                              arcRadius: 15.0,
-                                              filledColor: Colors.orange,
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  if (showRightIcon && index != 0)
-                                    AnimatedPositioned(
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      curve: Curves.easeInOut,
-                                      right: showRightIcon ? 20 : -100,
-                                      child: AnimatedOpacity(
-                                        opacity: showRightIcon ? 1.0 : 0.0,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        child: FloatingIcon(
-                                          iconPath: iconSplashBackground,
                                         ),
-                                      ),
-                                    ),
-                                ],
-                              );
-                            },
+                                        if (showRightIcon && index != 0)
+                                          AnimatedPositioned(
+                                            duration: const Duration(
+                                                milliseconds: 500),
+                                            curve: Curves.easeInOut,
+                                            right: showRightIcon ? 20 : -100,
+                                            child: AnimatedOpacity(
+                                              opacity:
+                                                  showRightIcon ? 1.0 : 0.0,
+                                              duration: const Duration(
+                                                  milliseconds: 500),
+                                              child: FloatingIcon(
+                                                iconPath: iconSplashBackground,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 100,
+                                )
+                              ],
+                            ),
                           ),
-                          SizedBox(
-                            height: 40,
-                          )
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 )),
@@ -371,7 +454,7 @@ class StartJourney extends StatelessWidget {
                                       imageHeight: 30,
                                       imageUrl: controller
                                           .userResponseModel?.value.data.image,
-                                      radiusAll: 8,
+                                      radiusAll: 30,
                                       imageFitType: BoxFit.cover,
                                     )
                                   : CircleAvatar(

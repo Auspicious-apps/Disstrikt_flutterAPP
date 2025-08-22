@@ -136,12 +136,16 @@ class AuthRequestModel {
 
   static SubmitTaskRequestModel({
     String? writeSection,
+    List<String>? uploadLinks,
     List<QuizAnswer>? quiz,
+    List<String>? checkbox,
   }) {
     final Map<String, dynamic> data = <String, dynamic>{};
 
     data["writeSection"] = writeSection;
     data["quiz"] = quiz;
+    data["uploadLinks"] = uploadLinks;
+    data["checkbox"] = checkbox;
 
     return data;
   }
