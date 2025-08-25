@@ -4,6 +4,7 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_GB': {
+          "strTaskNotUnlock": "Your task is not unlocked yet.",
           "strLinks": "Links",
           "strSelectMultipleOptions": "Select Multiple Options",
           "strAttachment": "Attachment",
@@ -435,6 +436,7 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'nl_NL': {
+          "strTaskNotUnlock": "Uw taak is nog niet ontgrendeld.",
           "strLinks": "Koppelingen",
           "strSelectMultipleOptions": "Selecteer meerdere opties",
           "strDownload": "Downloaden",
@@ -854,6 +856,7 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'fr_FR': {
+          "strTaskNotUnlock": "Votre tâche n'est pas encore déverrouillée.",
           "strLinks": "Liens",
           "strSelectMultipleOptions": "Sélectionnez plusieurs options",
           "strAttachment": "Pièce jointe",
@@ -1279,6 +1282,7 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'es_ES': {
+          "strTaskNotUnlock": "Tu tarea aún no está desbloqueada.",
           "strLinks": "Enlaces",
           "strSelectMultipleOptions": "Seleccione varias opciones",
           "strDownload": "Descargar",

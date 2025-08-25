@@ -31,6 +31,7 @@ class HomeMilestoneData {
   String? image;
   String? planName;
   num? percentage;
+  num? unlockedTask;
   List<Milestone1>? milestoneData;
 
   HomeMilestoneData({
@@ -40,6 +41,7 @@ class HomeMilestoneData {
     this.planName,
     this.milestone,
     this.percentage,
+    this.unlockedTask,
     this.milestoneData,
   });
 
@@ -50,6 +52,7 @@ class HomeMilestoneData {
     planName = json['planName'];
     milestone = json['milestone'];
     percentage = json['percentage'];
+    unlockedTask = json['unlockedTask'];
     if (json['milestoneData'] != null) {
       milestoneData = <Milestone1>[];
       json['milestoneData'].forEach((v) {
@@ -66,6 +69,7 @@ class HomeMilestoneData {
     data['planName'] = this.planName;
     data['milestone'] = this.milestone;
     data['percentage'] = this.percentage;
+    data['unlockedTask'] = this.unlockedTask;
     if (this.milestoneData != null) {
       data['milestoneData'] =
           this.milestoneData!.map((v) => v.toJson()).toList();
