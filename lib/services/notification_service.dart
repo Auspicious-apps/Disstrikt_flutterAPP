@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:disstrikt/app/export.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -152,7 +153,8 @@ class NotificationService {
       final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
       debugPrint('APNs Token: $apnsToken');
       // Ensure notifications show while app is in foreground
-      await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
         sound: true,
@@ -371,32 +373,13 @@ class NotificationService {
 
     if (notificationType == null) {
       // Default to notification screen if type is not specified
-      Get.toNamed('/notification');
+      Get.toNamed(AppRoutes.NotificationScreen);
       return;
     }
 
     switch (notificationType) {
-      case 'FRIEND_REQUEST':
-        if (targetId != null) {
-          Get.toNamed('userprofiledetail',
-              arguments: {"id": targetId, "isAdmin": false});
-        }
-        break;
-      case 'friend_request':
-        Get.toNamed('/all_friend_requests');
-        break;
-      case 'order_update':
-        if (targetId != null) {
-          Get.toNamed('/order_details', arguments: {'orderId': targetId});
-        }
-        break;
-      case 'chat_message':
-        if (targetId != null) {
-          Get.toNamed('/chat_screen', arguments: {'id': targetId});
-        }
-        break;
       default:
-        Get.toNamed('/notification');
+        Get.toNamed(AppRoutes.NotificationScreen);
         break;
     }
   }
