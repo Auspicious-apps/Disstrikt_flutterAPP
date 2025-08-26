@@ -11,6 +11,7 @@
  */
 
 import 'package:disstrikt/app/modules/Portfolio/views/portfolio_screen.dart';
+import 'package:disstrikt/app/modules/notificationModule/view/notification_settting.dart';
 
 abstract class AppRoutes {
   static const splashRoute = '/splashRoute';
@@ -34,4 +35,6 @@ abstract class AppRoutes {
   static const jobDetailScreen = "/jobDetailScreen";
   static const publicPortfolio = "/publicPortfolio";
   static const taskDetail = "/taskDetail";
+  static const NotificationScreen = "/NotificationScreen";
+  static const NotificationSettting = "/NotificationSettting";
 }

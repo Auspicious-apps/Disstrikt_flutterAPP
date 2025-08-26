@@ -4,6 +4,13 @@ class AppTranslation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'en_GB': {
+          "strMarkAllRead": "Mark all as read",
+
+          "strJobAndApplications": "Job & Application Alerts",
+          "strTaskAndPortfolio": "Task & Portfolio Progress",
+          "strProfileAndPerformance": "Profile & Performance",
+          "strImprovements": "Engagement / Motivation",
+          "strNotifications": "Notifications",
           "strTaskNotUnlock": "Your task is not unlocked yet.",
           "strLinks": "Links",
           "strSelectMultipleOptions": "Select Multiple Options",
@@ -436,6 +443,15 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'nl_NL': {
+          "strMarkAllRead": "Alles als gelezen markeren",
+          "strNotifications": "Meldingen",
+          "strJobAndApplications": "Vacature- en sollicitatiealerts",
+
+          "strTaskAndPortfolio": "Taak- en portfolio-voortgang",
+
+          "strProfileAndPerformance": "Profiel en prestaties",
+
+          "strImprovements": "Betrokkenheid / Motivatie",
           "strTaskNotUnlock": "Uw taak is nog niet ontgrendeld.",
           "strLinks": "Koppelingen",
           "strSelectMultipleOptions": "Selecteer meerdere opties",
@@ -856,6 +872,14 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'fr_FR': {
+          "strJobAndApplications": "Alertes emploi et candidatures",
+          "strMarkAllRead": "Tout marquer comme lu",
+          "strTaskAndPortfolio": "Progression des tâches et du portfolio",
+
+          "strProfileAndPerformance": "Profil et performance",
+
+          "strImprovements": "Engagement / Motivation",
+          "strNotifications": "Notifications",
           "strTaskNotUnlock": "Votre tâche n'est pas encore déverrouillée.",
           "strLinks": "Liens",
           "strSelectMultipleOptions": "Sélectionnez plusieurs options",
@@ -1282,6 +1306,15 @@ class AppTranslation extends Translations {
           "strNotifications": "Notifications",
         },
         'es_ES': {
+          "strMarkAllRead": "Marcar todo como leído",
+          "strJobAndApplications": "Alertas de empleos y solicitudes",
+
+          "strTaskAndPortfolio": "Progreso de tareas y portafolio",
+
+          "strProfileAndPerformance": "Perfil y rendimiento",
+
+          "strImprovements": "Compromiso / Motivación",
+          "strNotifications": "Notificaciones",
           "strTaskNotUnlock": "Tu tarea aún no está desbloqueada.",
           "strLinks": "Enlaces",
           "strSelectMultipleOptions": "Seleccione varias opciones",

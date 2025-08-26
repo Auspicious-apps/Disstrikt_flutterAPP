@@ -106,6 +106,9 @@ dependencies:
   share_plus: ^7.2.1
   better_player_plus: ^1.0.5
 
+  flutter_local_notifications:
+    path: ./local_plugins/flutter_local_notifications
+
 
 
 

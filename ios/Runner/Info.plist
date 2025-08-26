@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -10,17 +14,6 @@
 	<string>DISSTRIKT</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>mailto</string>
-        <string>googlegmail</string>
-    </array>
-    <key>NSClipboardUsageDescription</key>
-    <string>We copy the email address to the clipboard when an email client is unavailable for easy pasting.</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -33,41 +26,6 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>com.apple.developer.applesignin</key>
-    <array>
-        <string>Default</string>
-    </array>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need your location to show you on the map and help you select locations accurately.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to show you on the map and help you select locations accurately.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to allow you to take photos for your profile and appointments.</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>We need access to your calendar to allow you to manage appointments and sync them to your calendar.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to allow you to upload photos for your profile and appointments.</string>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to the microphone for voice input</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>We need access to speech recognition for voice commands</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>processing</string>
-		<string>remote-notification</string>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -77,9 +35,47 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+		<string>googlegmail</string>
+	</array>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCalendarsUsageDescription</key>
+	<string>We need access to your calendar to allow you to manage appointments and sync them to your calendar.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to allow you to take photos for your profile and appointments.</string>
+	<key>NSClipboardUsageDescription</key>
+	<string>We copy the email address to the clipboard when an email client is unavailable for easy pasting.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need your location to show you on the map and help you select locations accurately.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show you on the map and help you select locations accurately.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to the microphone for voice input</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to allow you to upload photos for your profile and appointments.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>We need access to speech recognition for voice commands</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleuserconten
-System: t.apps.144224789471-872scl2l4ips2gql8qe5dc3vgm0v9im7</string>
+	<string>com.googleusercontenSystem: t.apps.144224789471-872scl2l4ips2gql8qe5dc3vgm0v9im7</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+		<string>push-to-talk</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -96,6 +92,10 @@ System: t.apps.144224789471-872scl2l4ips2gql8qe5dc3vgm0v9im7</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>com.apple.developer.applesignin</key>
+	<array>
+		<string>Default</string>
 	</array>
 </dict>
 </plist>

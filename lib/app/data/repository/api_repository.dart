@@ -24,6 +24,8 @@ import '../../modules/home/models/responseModels /setupIntentResponseModel.dart'
 import '../../modules/jobs/Models/GetAllJobsResponseModel.dart';
 import '../../modules/jobs/Models/GetJobDetailResponseModel.dart';
 import '../../modules/jobs/Models/SearchResponseModel.dart';
+import '../../modules/notificationModule/models/NotificationModel.dart';
+import '../../modules/notificationModule/models/Notification_Setting_Model.dart';
 import '../../modules/settingModule/Models/ReponseModel/StaticModel.dart';
 import '../../modules/settingModule/Models/ReponseModel/active_plan_responseModel.dart';
 import '../../modules/settingModule/Models/ReponseModel/mediaUpload.dart';
@@ -130,6 +132,39 @@ class Repository {
       final response =
           await dioClient!.get("${taskDetailEndPoint}/${ID}", skipAuth: false);
       return TaskDetailModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getNotificationSettingApiCall() async {
+    try {
+      final response = await dioClient!
+          .get("${getAllNotificationSettingEndPoint}", skipAuth: false);
+      return NotificationSettingModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future getAllNotificationApiCall({query}) async {
+    try {
+      final response = await dioClient!.get("${getAllNotificationsEndPoint}",
+          skipAuth: false, queryParameters: query);
+      return NotificationModel.fromJson(response);
+    } catch (e) {
+      return Future.error(NetworkExceptions.getDioException(e));
+    }
+  }
+
+  Future changeNotificationSettingApiCall(
+      {Map<String, dynamic>? dataBody}) async {
+    try {
+      final response = await dioClient!.patch(
+          "${getAllNotificationSettingEndPoint}",
+          skipAuth: false,
+          data: json.encode(dataBody!));
+      return NotificationSettingModel.fromJson(response);
     } catch (e) {
       return Future.error(NetworkExceptions.getDioException(e));
     }

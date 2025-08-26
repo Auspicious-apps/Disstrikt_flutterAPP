@@ -35,6 +35,21 @@ class BuyPlanRequestModel {
     return data;
   }
 
+  static Map<String, dynamic> changeNotificationSettingRequestModel({
+    bool? jobAlerts,
+    bool? tasksPortfolioProgress,
+    bool? profilePerformance,
+    bool? engagementMotivation,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+
+    data["jobAlerts"] = jobAlerts;
+    data["tasksPortfolioProgress"] = tasksPortfolioProgress;
+    data["profilePerformance"] = profilePerformance;
+    data["engagementMotivation"] = engagementMotivation;
+    return data;
+  }
+
   static Map<String, dynamic> addImageRequestModel({List<String>? url}) {
     final Map<String, dynamic> data = <String, dynamic>{};
 

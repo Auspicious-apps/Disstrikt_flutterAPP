@@ -509,17 +509,22 @@ class StartJourney extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 16),
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: Image.asset(
-                      iconHomeBell,
-                      height: 20,
-                      width: 20,
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.NotificationScreen);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: Image.asset(
+                        iconHomeBell,
+                        height: 20,
+                        width: 20,
+                      ),
                     ),
                   ),
                 ],

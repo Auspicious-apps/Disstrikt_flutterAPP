@@ -1,4 +1,6 @@
+import 'package:disstrikt/services/notification_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
@@ -20,6 +22,14 @@ init() async {
   SystemChannels.textInput.invokeMethod('TextInput.hide');
 }
 
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // Initialize Firebase if not already initialized
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
@@ -31,6 +41,14 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
+  // Set up background message handler
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // Initialize notification service
+  final notificationService = NotificationService();
+  await notificationService.init();
+  Get.put(notificationService, permanent: true);
+
   runApp(MyApp());
 }
 

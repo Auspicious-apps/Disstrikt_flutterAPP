@@ -44,6 +44,11 @@ const String uploadPortfolioVideoEndPoint = "paid-user/portfolio-video";
 
 const String getAllJobsEndPoint = "paid-user/jobs";
 
+const String getAllNotificationSettingEndPoint =
+    "paid-user/notification-setting";
+
+const String getAllNotificationsEndPoint = "paid-user/get-notifications";
+
 const String searchUserEndPoint = "paid-user/search-user";
 const String taskDetailEndPoint = "paid-user/TaskById";
 const String taskSubmitEndPoint = "paid-user/taskById";

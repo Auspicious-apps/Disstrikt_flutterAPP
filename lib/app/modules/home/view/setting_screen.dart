@@ -74,7 +74,10 @@ class SettingScreen extends StatelessWidget {
                                       icon: iconsNotificationSetting,
                                       name: "strNotificationSettings".tr,
                                       isDivider: true,
-                                      onTap: () {}),
+                                      onTap: () {
+                                        Get.toNamed(
+                                            AppRoutes.NotificationSettting);
+                                      }),
                                   buildCommonRow(
                                       icon: iconsSubscription,
                                       name: "strSubscription".tr,

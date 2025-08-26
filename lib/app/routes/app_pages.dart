@@ -28,6 +28,7 @@ import 'package:disstrikt/app/modules/home/view/start_journey.dart';
 import 'package:disstrikt/app/modules/home/view/user_info.dart';
 import 'package:disstrikt/app/modules/jobs/bindings/portfollio_binding_for_view.dart';
 import 'package:disstrikt/app/modules/jobs/views/job_Detail.dart';
+import 'package:disstrikt/app/modules/notificationModule/bindings/notification_binding.dart';
 import 'package:disstrikt/app/modules/settingModule/Bindings%20/EditProfileBinding.dart';
 import 'package:disstrikt/app/modules/settingModule/Bindings%20/StaticPageBinding.dart';
 import 'package:disstrikt/app/modules/settingModule/Bindings%20/changeCountryBinding.dart';
@@ -49,6 +50,9 @@ import '../modules/bottom_tab/views/bottom_tab.dart';
 import '../modules/home/view/plans.dart';
 import '../modules/jobs/bindings/job_detail_binding.dart';
 import '../modules/jobs/views/portfolioforView.dart' show Portfolioforview;
+import '../modules/notificationModule/bindings/notification_setting_binding.dart';
+import '../modules/notificationModule/view/notification_screen.dart';
+import '../modules/notificationModule/view/notification_settting.dart';
 import '../modules/settingModule/Bindings /Subscription_bindings.dart';
 import '../modules/settingModule/Bindings /changePasswordBinding.dart';
 import '../modules/settingModule/Bindings /supportBinding.dart';
@@ -168,6 +172,16 @@ class AppPages {
       name: AppRoutes.taskDetail,
       page: () => TaskDetail(),
       bindings: [TaskBinding()],
+    ),
+    GetPage(
+      name: AppRoutes.NotificationScreen,
+      page: () => NotificationScreen(),
+      bindings: [NotificationBinding()],
+    ),
+    GetPage(
+      name: AppRoutes.NotificationSettting,
+      page: () => NotificationSettting(),
+      bindings: [NotificationSettingBinding()],
     ),
   ];
 }
