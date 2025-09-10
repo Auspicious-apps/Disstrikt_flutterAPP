@@ -89,7 +89,8 @@ class PortfolioController extends GetxController {
     final ImagePicker picker = ImagePicker();
     final XFile? picked = await picker.pickVideo(source: ImageSource.gallery);
 
-    if (picked != null && imageList.length < 4) {
+    if (picked != null && videoList.length < 1) {
+      // Fixed: Check videoList.length < 1 assuming single video per upload
       // Validate file extension
       final String extension = picked.path.split('.').last.toLowerCase();
       if (['mp4', 'mov', 'avi'].contains(extension)) {
@@ -98,6 +99,8 @@ class PortfolioController extends GetxController {
         Get.snackbar('Invalid Format',
             'Please select a video in MP4, MOV, or AVI format');
       }
+    } else if (videoList.length >= 1) {
+      Get.snackbar('Limit Reached', 'Only one video can be uploaded at a time');
     }
   }
 
@@ -120,15 +123,16 @@ class PortfolioController extends GetxController {
     await addImagePortfolio(requestModel);
     isLoading.value = false;
     imageList.clear();
-    Get.back();
+    GetPortfolio(); // Added: Refresh full portfolio data after upload
   }
 
   Future<void> uploadAllVideos() async {
     uploadedImageKeys.clear();
     isLoading.value = true;
 
-    // Upload videos
-    for (final path in videoList) {
+    // Fixed: Assuming single video upload; loop for one item only
+    if (videoList.isNotEmpty) {
+      final path = videoList[0];
       final file = File(path);
       final key = await callUploadMedia(file);
       if (key == null) {
@@ -141,15 +145,20 @@ class PortfolioController extends GetxController {
       Map<String, dynamic> requestModel =
           BuyPlanRequestModel.addVideoRequestModel(
               url: uploadedImageKeys[0] ?? "",
-              thumbnail: uploadedTumbhnailList[0] ?? "",
+              thumbnail: uploadedTumbhnailList.isNotEmpty
+                  ? uploadedTumbhnailList[0]
+                  : "",
               title: selectGender.value == "catwalkVideo".tr
                   ? "catwalkVideo"
                   : selectGender.value == "introVideo".tr
                       ? "introVideo"
                       : "other");
-      addVideoPortfolio(requestModel);
+      await addVideoPortfolio(requestModel);
     }
     isLoading.value = false;
+    videoList.clear();
+    selectGender.value = "";
+    GetPortfolio(); // Added: Refresh full portfolio data after upload
   }
 
   Future<String?> callThumbnailMedia(File file) async {
@@ -185,12 +194,13 @@ class PortfolioController extends GetxController {
   Future<void> generateAllThumbnails() async {
     tumbhnailList.clear();
     uploadedTumbhnailList.clear();
-    for (int i = 0; i < videoList.length; i++) {
-      final thumbnailPath = await generateThumbnail(videoList[i]);
+    if (videoList.isNotEmpty) {
+      final thumbnailPath =
+          await generateThumbnail(videoList[0]); // Fixed: For single video
 
       if (thumbnailPath == null) {
         Get.snackbar('Thumbnail Generation Failed',
-            'Failed to generate thumbnail for video at index $i');
+            'Failed to generate thumbnail for video');
         return;
       }
 
@@ -253,6 +263,7 @@ class PortfolioController extends GetxController {
         portfolioResponseModel.refresh();
         print(
             "after${portfolioResponseModel.value.data!.portfolioImages?.length}");
+        Get.back(); // Moved Get.back() here if needed, but keep as is
       }
     } catch (e, stackTrace) {
       isLoading.value = false;
@@ -304,6 +315,7 @@ class PortfolioController extends GetxController {
 
         portfolioResponseModel.refresh();
         Get.back();
+        GetPortfolio(); // Added: Refresh full portfolio after delete
         print("after${portfolioResponseModel.value.data!.videos?.length}");
       }
     } catch (e, stackTrace) {
@@ -332,6 +344,7 @@ class PortfolioController extends GetxController {
 
         portfolioResponseModel.refresh();
         Get.back();
+        GetPortfolio(); // Added: Refresh full portfolio after delete
         isLoading.value = false;
         print(
             "after${portfolioResponseModel.value.data!.portfolioImages?.length}");
@@ -349,14 +362,16 @@ class PortfolioController extends GetxController {
     super.onInit();
   }
 
-  void GetPortfolio() {
+  GetPortfolio() {
     loading.value = true;
     loading.refresh();
     try {
       Get.closeAllSnackbars();
       repository.getPortfolioApiCall().then((value) async {
         portfolioResponseModel.value = value;
+
         portfolioResponseModel.refresh();
+        update();
         loading.value = false;
         loading.refresh();
       }).onError((error, stackTrace) {

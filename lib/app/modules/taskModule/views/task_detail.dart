@@ -182,7 +182,7 @@ class TaskDetail extends StatelessWidget {
                                           maxLines: 10000000,
                                           textAlign: TextAlign.center,
                                           text:
-                                              "${controller.taskDetailModel?.value.data?.description?.isNotEmpty == true ? controller.taskDetailModel?.value.data?.description : "Please answer the following questions. Note that this quiz would also affect the overall level of your profile."}",
+                                              "${controller.taskDetailModel?.value.data?.description?.isNotEmpty == true ? controller.taskDetailModel?.value.data?.description : ""}",
                                           textStyle: const TextStyle(
                                             color: AppColors.greyshadetext,
                                             fontSize: 14,
@@ -332,6 +332,9 @@ class TaskDetail extends StatelessWidget {
                                                               FontWeight.w400,
                                                         ),
                                                       ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 10,
                                                     ),
                                                     GestureDetector(
                                                       onTap: () async {
@@ -800,6 +803,9 @@ class TaskDetail extends StatelessWidget {
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
                                               ),
                                               GestureDetector(
                                                 onTap: () async {
@@ -1490,8 +1496,11 @@ class TaskDetail extends StatelessWidget {
                                   ],
                                 ).marginSymmetric(horizontal: 20),
                               if (controller.taskDetailModel?.value?.data
-                                      ?.answerType ==
-                                  "WRITE_SECTION")
+                                          ?.answerType ==
+                                      "WRITE_SECTION" &&
+                                  controller.taskDetailModel?.value?.data
+                                          ?.taskType !=
+                                      "LINK")
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -1574,6 +1583,7 @@ class TaskDetail extends StatelessWidget {
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           onTap: () async {
+                                            Get.closeAllSnackbars();
                                             FilePickerResult? result =
                                                 await FilePicker.platform
                                                     .pickFiles(
@@ -1584,8 +1594,45 @@ class TaskDetail extends StatelessWidget {
                                                   result.files.single.path;
                                               debugPrint(
                                                   "Picked image: $filePath");
-                                              controller.pickedFile.value
-                                                  .add(File(filePath!));
+                                              if (result != null &&
+                                                  result.files.isNotEmpty) {
+                                                String? filePath =
+                                                    result.files.single.path;
+                                                if (filePath != null) {
+                                                  // Verify the file is a video by checking its extension
+                                                  String extension = filePath
+                                                      .split('.')
+                                                      .last
+                                                      .toLowerCase();
+                                                  if ([
+                                                    'mp4',
+                                                    'mov',
+                                                    'avi',
+                                                    'mkv',
+                                                    'wmv'
+                                                  ].contains(extension)) {
+                                                    debugPrint(
+                                                        "Picked video: $filePath");
+                                                    // Add the file to the controller's list
+                                                    controller.pickedFile.value
+                                                        .add(File(filePath));
+                                                    controller.pickedFile
+                                                        .refresh(); // Refresh to update UI
+                                                  } else {
+                                                    debugPrint(
+                                                        "Error: Selected file is not a valid video format");
+                                                    // Optionally, show a snackbar to inform the user
+                                                    Get.snackbar('Invalid File',
+                                                        'Please select a valid video file (e.g., MP4, MOV, AVI).');
+                                                  }
+                                                } else {
+                                                  debugPrint(
+                                                      "Error: File path is null");
+                                                }
+                                              } else {
+                                                debugPrint(
+                                                    "No video file selected");
+                                              }
                                             }
                                             controller.pickedFile.refresh();
                                           },
@@ -1947,7 +1994,7 @@ class TaskDetail extends StatelessWidget {
                   alignment: Alignment.center,
                   child: TextView(
                     text:
-                        "Question ${controller.currentQues.value + 1} of ${controller.taskDetailModel?.value?.data.quiz.length ?? 0}",
+                        "${"Question".tr} ${controller.currentQues.value + 1} of ${controller.taskDetailModel?.value?.data.quiz.length ?? 0}",
                     textStyle: const TextStyle(
                       color: AppColors.greyshadetext,
                       fontSize: 12,
@@ -2097,39 +2144,44 @@ class TaskDetail extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                MaterialButtonWidget(
-                  buttonBgColor: AppColors.buttonColor,
-                  buttonRadius: 8,
-                  borderColor: AppColors.clickTextColor,
-                  isOutlined: true,
-                  buttonText: "strSubmit".tr,
-                  textColor: AppColors.backgroundColor,
-                  onPressed: () {
-                    if (controller.selectedAnswer.value.isNotEmpty) {
-                      controller.quizAnswers.add(QuizAnswer(
-                          quizId: controller.taskDetailModel?.value?.data
-                                  .quiz[controller.currentQues.value].sId ??
-                              "",
-                          answer: controller.selectedAnswer.value));
+                Obx(() => MaterialButtonWidget(
+                      buttonBgColor: controller.selectedAnswer.value.isNotEmpty
+                          ? AppColors.buttonColor
+                          : AppColors.greyColor.withOpacity(0.5),
+                      buttonRadius: 8,
+                      borderColor: controller.selectedAnswer.value.isNotEmpty
+                          ? AppColors.clickTextColor
+                          : AppColors.greyColor.withOpacity(0.5),
+                      isOutlined: true,
+                      buttonText: "strSubmit".tr,
+                      textColor: AppColors.backgroundColor,
+                      onPressed: () {
+                        if (controller.selectedAnswer.value.isNotEmpty) {
+                          controller.quizAnswers.add(QuizAnswer(
+                              quizId: controller.taskDetailModel?.value?.data
+                                      .quiz[controller.currentQues.value].sId ??
+                                  "",
+                              answer: controller.selectedAnswer.value));
 
-                      controller.selectedAnswer.value = "";
-                      if (controller.currentQues.value ==
-                          (controller.taskDetailModel?.value?.data.quiz.length -
-                              1)) {
-                        Get.back();
-                        Map<String, dynamic> requestModel =
-                            AuthRequestModel.SubmitTaskRequestModel(
-                          quiz: controller.quizAnswers,
-                        );
-                        controller.submitTaskDetail(
-                            controller.taskDetailModel?.value.data?.sId,
-                            requestModel);
-                      } else {
-                        controller.currentQues.value++;
-                      }
-                    }
-                  },
-                ).marginSymmetric(vertical: 10, horizontal: 20),
+                          controller.selectedAnswer.value = "";
+                          if (controller.currentQues.value ==
+                              (controller.taskDetailModel?.value?.data.quiz
+                                      .length -
+                                  1)) {
+                            Get.back();
+                            Map<String, dynamic> requestModel =
+                                AuthRequestModel.SubmitTaskRequestModel(
+                              quiz: controller.quizAnswers,
+                            );
+                            controller.submitTaskDetail(
+                                controller.taskDetailModel?.value.data?.sId,
+                                requestModel);
+                          } else {
+                            controller.currentQues.value++;
+                          }
+                        }
+                      },
+                    ).marginSymmetric(vertical: 10, horizontal: 20)),
               ],
             ).paddingAll(10),
           )),

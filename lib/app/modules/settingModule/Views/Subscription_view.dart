@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../core/utils/localization_service.dart';
 import '../../../core/values/app_colors.dart';
@@ -113,7 +114,7 @@ class SubscriptionView extends StatelessWidget {
                                             children: [
                                               Row(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.center,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
@@ -140,25 +141,75 @@ class SubscriptionView extends StatelessWidget {
                                                       maxLines: 4,
                                                     ),
                                                   ),
-                                                  TextView(
-                                                    text: controller
-                                                            .isloading.value
-                                                        ? "£0.00 / €0.00"
-                                                        : LocalizationService
-                                                                    .currentCountry ==
-                                                                "United Kingdom"
-                                                            ? "£${controller?.newFacePlan.value?.gbpAmount ?? '0.00'}"
-                                                            : "€${controller?.newFacePlan.value?.eurAmount ?? '0.00'}",
-                                                    textAlign: TextAlign.start,
-                                                    textStyle: const TextStyle(
-                                                      color:
-                                                          AppColors.blackColor,
-                                                      fontFamily: "minorksans",
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                    ),
-                                                    maxLines: 4,
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      controller
+                                                                  ?.setupIntent
+                                                                  ?.value
+                                                                  ?.data
+                                                                  ?.status ==
+                                                              "trialing"
+                                                          ? Container(
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  color: AppColors
+                                                                      .buttonColor),
+                                                              child: TextView(
+                                                                text:
+                                                                    "${"trailEndOn".tr} ${formatTrialEnd(controller?.setupIntent?.value?.data?.trialEnd)}",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                textStyle:
+                                                                    const TextStyle(
+                                                                  color: AppColors
+                                                                      .blackColor,
+                                                                  fontFamily:
+                                                                      "Kodchasan",
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w900,
+                                                                ),
+                                                                maxLines: 4,
+                                                              ).paddingSymmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 5),
+                                                            )
+                                                          : SizedBox(),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      TextView(
+                                                        text: controller
+                                                                .isloading.value
+                                                            ? "£0.00 / €0.00"
+                                                            : LocalizationService
+                                                                        .currentCountry ==
+                                                                    "United Kingdom"
+                                                                ? "£${controller?.newFacePlan.value?.gbpAmount ?? '0.00'}"
+                                                                : "€${controller?.newFacePlan.value?.eurAmount ?? '0.00'}",
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        textStyle:
+                                                            const TextStyle(
+                                                          color: AppColors
+                                                              .blackColor,
+                                                          fontFamily:
+                                                              "minorksans",
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w900,
+                                                        ),
+                                                        maxLines: 4,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ],
                                               ),
@@ -1011,7 +1062,7 @@ class SubscriptionView extends StatelessWidget {
                             fontFamily: "Kodchasan",
                             fontWeight: FontWeight.w600),
                         textColor: AppColors.whiteColor,
-                        onPressed: () {
+                        onPressed: () async {
                           if (controller.selectIndex.value != 10) {
                             if (controller.setupIntent.value.data?.status ==
                                 "trialing") {
@@ -1024,7 +1075,8 @@ class SubscriptionView extends StatelessWidget {
                                               .value[
                                                   controller.selectIndex.value]
                                               .sId);
-                              controller.handleSubmit(requestModel);
+                              await controller.handleSubmit(requestModel);
+                              Get.back();
                             } else {
                               Map<String, dynamic> requestModel =
                                   AuthRequestModel
@@ -1035,7 +1087,8 @@ class SubscriptionView extends StatelessWidget {
                                               .value[
                                                   controller.selectIndex.value]
                                               .sId);
-                              controller.handleSubmit(requestModel);
+                              await controller.handleSubmit(requestModel);
+                              Get.back();
                             }
                           }
                         },
@@ -1124,7 +1177,7 @@ class SubscriptionView extends StatelessWidget {
                             fontFamily: "Kodchasan",
                             fontWeight: FontWeight.w600),
                         textColor: AppColors.whiteColor,
-                        onPressed: () {
+                        onPressed: () async {
                           Map<String, dynamic> requestModel =
                               AuthRequestModel.ChangeSubscriptionRequestModel(
                                   type: "cancelSubscription",
@@ -1140,6 +1193,13 @@ class SubscriptionView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String formatTrialEnd(String? trialEnd) {
+    if (trialEnd == null) return "N/A"; // Handle null case
+    final dateTime = DateTime.tryParse(trialEnd);
+    if (dateTime == null) return "Invalid date"; // Handle invalid date string
+    return DateFormat('d MMM').format(dateTime); // Format to "14 Jul"
   }
 
   getBookTitle({required dynamic name}) {

@@ -1056,7 +1056,7 @@ class Jobscreen extends StatelessWidget {
                                                                                 color: Colors.black,
                                                                               ))
                                                                           : TextView(
-                                                                              text: "strApply".tr,
+                                                                              text: "strGetJob".tr,
                                                                               textStyle: TextStyle(
                                                                                 color: AppColors.blackColor,
                                                                                 fontFamily: "kodchasan",

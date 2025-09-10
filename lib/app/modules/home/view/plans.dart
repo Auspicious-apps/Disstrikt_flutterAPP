@@ -283,7 +283,11 @@ class ChoosePlanScreen extends StatelessWidget {
                         : AppColors.buttonColor,
                     buttonRadius: 8,
                     buttonText:
-                        controller.setupIntent.value.data?.alreadySetup == true
+                        controller.setupIntent.value.data?.alreadySetup ==
+                                    true ||
+                                controller.setupIntent.value.data
+                                        ?.subscriptionStatus ==
+                                    "canceled"
                             ? "strStartSubscription".tr
                             : "strTrailText".tr,
                     textColor: controller.selectIndex.value == 10

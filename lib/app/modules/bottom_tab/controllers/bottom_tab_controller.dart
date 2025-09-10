@@ -30,5 +30,8 @@ class BottomTabController extends GetxController {
     if (index == 4) {
       settingController.GetUserProfile();
     }
+    if (index == 0) {
+      homeController.GetHomeDetail();
+    }
   }
 }

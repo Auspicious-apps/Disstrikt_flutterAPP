@@ -120,18 +120,21 @@ class NotificationScreen extends StatelessWidget {
                     mainAxisSize:
                         MainAxisSize.max, // Minimize the size of this Row
                     children: [
-                      TextView(
-                        maxLines: 1,
-                        text: "strMarkAllRead".tr,
-                        textStyle: const TextStyle(
-                          color: AppColors.greyshadetext,
-                          fontFamily: "Kodchasan",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        overflow: TextOverflow
-                            .ellipsis, // Already present, kept for clarity
-                      ).marginSymmetric(vertical: 10, horizontal: 5),
+                      SizedBox(
+                        width: 110,
+                        child: TextView(
+                          maxLines: 1,
+                          text: "strMarkAllRead".tr,
+                          textStyle: const TextStyle(
+                            color: AppColors.greyshadetext,
+                            fontFamily: "Kodchasan",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          overflow: TextOverflow
+                              .ellipsis, // Already present, kept for clarity
+                        ).marginSymmetric(vertical: 10, horizontal: 5),
+                      ),
                       const Icon(
                         Icons.check_circle_outline_rounded,
                         size: 20,
@@ -215,7 +218,7 @@ class NotificationScreen extends StatelessWidget {
                                                                     index]
                                                                 .type ==
                                                             "SUBSCRIPTION_STARTED"
-                                                        ? subscriptionCancelled
+                                                        ? subscriptionStarted
                                                         : controller
                                                                     .notifications[
                                                                         index]
@@ -228,7 +231,11 @@ class NotificationScreen extends StatelessWidget {
                                                                         .type ==
                                                                     "SUBSCRIPTION_FAILED"
                                                                 ? CancelRed
-                                                                : subscriptionCancelled,
+                                                                : controller.notifications[index]
+                                                                            .type ==
+                                                                        "SUBSCRIPTION_CANCELLED"
+                                                                    ? subscriptionCancelled
+                                                                    : subscriptionStarted,
                                 imageWidth: 25,
                               ),
                             ),

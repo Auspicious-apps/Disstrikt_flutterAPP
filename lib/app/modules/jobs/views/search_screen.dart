@@ -117,93 +117,118 @@ class SearchScreen extends StatelessWidget {
                                     },
                                   ),
                                 )
-                              : GridView.builder(
-                                  key: const ValueKey('grid_view'),
-                                  controller: controller.scrollController,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: _getItemCount(controller),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    mainAxisSpacing: 12,
-                                    crossAxisSpacing: 12,
-                                    childAspectRatio: 0.85,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    if (index >= controller.users.length) {
-                                      return Skeleton.leaf(
-                                        child: Container(
-                                          height: Get.height * 0.3,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[300],
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                    final image = controller.users[index];
-                                    return Skeleton.keep(
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          Get.toNamed(AppRoutes.publicPortfolio,
-                                              arguments: {"id": image.sId});
-                                        },
-                                        child: Container(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              image.image == null ||
-                                                      image.image == ""
-                                                  ? Container(
-                                                      height: Get.height * 0.2,
-                                                      width: Get.width / 2,
-                                                      decoration: BoxDecoration(
-                                                          color: AppColors
-                                                              .buttonColor,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10)),
-                                                      child: Icon(
-                                                        Icons.person,
-                                                        size: 120,
-                                                        color: AppColors
-                                                            .whiteColor,
-                                                      ),
-                                                    )
-                                                  : NetworkImageWidget(
-                                                      imageUrl:
-                                                          image?.image ?? '',
-                                                      radiusAll: 8,
-                                                      imageHeight:
-                                                          Get.height * 0.2,
-                                                      imageWidth: Get.width / 2,
-                                                      imageFitType:
-                                                          BoxFit.cover,
-                                                    ),
-                                              const SizedBox(height: 5),
-                                              TextView(
-                                                text: image?.fullName ?? '',
-                                                textStyle: const TextStyle(
-                                                  color: AppColors.blackColor,
-                                                  fontFamily: "Kodchasan",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w800,
-                                                ),
+                              : _getItemCount(controller) != 0
+                                  ? GridView.builder(
+                                      key: const ValueKey('grid_view'),
+                                      controller: controller.scrollController,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemCount: _getItemCount(controller),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 20),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        mainAxisSpacing: 12,
+                                        crossAxisSpacing: 12,
+                                        childAspectRatio: 0.85,
+                                      ),
+                                      itemBuilder: (context, index) {
+                                        if (index >= controller.users.length) {
+                                          return Skeleton.leaf(
+                                            child: Container(
+                                              height: Get.height * 0.3,
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
                                               ),
-                                            ],
+                                            ),
+                                          );
+                                        }
+                                        final image = controller.users[index];
+                                        return Skeleton.keep(
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              Get.toNamed(
+                                                  AppRoutes.publicPortfolio,
+                                                  arguments: {"id": image.sId});
+                                            },
+                                            child: Container(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  image.image == null ||
+                                                          image.image == ""
+                                                      ? Container(
+                                                          height:
+                                                              Get.height * 0.2,
+                                                          width: Get.width / 2,
+                                                          decoration: BoxDecoration(
+                                                              color: AppColors
+                                                                  .buttonColor,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10)),
+                                                          child: Icon(
+                                                            Icons.person,
+                                                            size: 120,
+                                                            color: AppColors
+                                                                .whiteColor,
+                                                          ),
+                                                        )
+                                                      : NetworkImageWidget(
+                                                          imageUrl:
+                                                              image?.image ??
+                                                                  '',
+                                                          radiusAll: 8,
+                                                          imageHeight:
+                                                              Get.height * 0.2,
+                                                          imageWidth:
+                                                              Get.width / 2,
+                                                          imageFitType:
+                                                              BoxFit.cover,
+                                                        ),
+                                                  const SizedBox(height: 5),
+                                                  TextView(
+                                                    text: image?.fullName ?? '',
+                                                    textStyle: const TextStyle(
+                                                      color:
+                                                          AppColors.blackColor,
+                                                      fontFamily: "Kodchasan",
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w800,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
+                                        );
+                                      },
+                                    )
+                                  : SizedBox(
+                                      height: Get.height * 0.5,
+                                      width: Get.width,
+                                      child: Center(
+                                        child: TextView(
+                                          text: "strUserNotFound"
+                                              .tr, // Assuming name is a translation key
+                                          textAlign: TextAlign.start,
+                                          textStyle: const TextStyle(
+                                            color: AppColors.blackColor,
+                                            fontFamily: "Kodchasan",
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                          maxLines: 1,
                                         ),
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ),
                         ),
                       ),
                     ),

@@ -11,6 +11,8 @@
  */
 
 import 'package:disstrikt/app/export.dart';
+import 'package:disstrikt/app/modules/Portfolio/controller/portfolio_controller.dart'
+    show PortfolioController;
 import 'package:disstrikt/app/modules/auth/models/responseModels/userResponseModel.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -41,7 +43,9 @@ class EditPortfolioController extends GetxController {
       PortfolioResponseModel().obs;
   @override
   void onInit() {
-    GetPortfolio();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    GetPortfolio(); // Call after build phase
+    // });
     super.onInit();
   }
 
@@ -74,7 +78,7 @@ class EditPortfolioController extends GetxController {
       mediaUploadResponseModel = response;
 
       final setcard = response.data?.key ?? "";
-      // Update profilePicUrl
+
       Map<String, dynamic> requestModel =
           BuyPlanRequestModel.postPortfolioRequestModel(
               setCards: [setcard],
@@ -110,23 +114,39 @@ class EditPortfolioController extends GetxController {
       repository.getPortfolioApiCall().then((value) async {
         portfolioResponseModel.value = value;
         portfolioResponseModel.refresh();
+        if (portfolioResponseModel.value.data!.setCards?.length != 0) {
+          setCardController.text =
+              portfolioResponseModel.value.data!.setCards![0];
+        }
+
         aboutMeController.text = portfolioResponseModel.value.data!.aboutMe!;
-        instagramLinkController.text =
-            portfolioResponseModel.value.data!.links![0].url!;
-        YoutubeLinkController.text =
-            portfolioResponseModel.value.data!.links![1].url!;
+        if (portfolioResponseModel.value.data!.links![0]?.platform !=
+            "Youtube") {
+          instagramLinkController.text =
+              portfolioResponseModel.value.data!.links![0].url!;
+        }
+        if (portfolioResponseModel.value.data!.links![0]?.platform ==
+                "Youtube" &&
+            portfolioResponseModel.value.data!.links!.length == 1) {
+          YoutubeLinkController.text =
+              portfolioResponseModel.value.data!.links![0].url!;
+        } else {
+          YoutubeLinkController.text =
+              portfolioResponseModel.value.data!.links![1].url!;
+        }
         isLoading.value = false;
         isLoading.refresh();
+        Get.put(PortfolioController()).GetPortfolio();
       }).onError((error, stackTrace) {
         print("Error fetching plans: $error");
         isLoading.value = false;
         isLoading.refresh();
         Get.closeAllSnackbars();
-        Get.snackbar(
-          'Error',
-          '$error',
-          backgroundColor: Colors.white.withOpacity(0.5),
-        );
+        // Get.snackbar(
+        //   'Error',
+        //   '$error',
+        //   backgroundColor: Colors.white.withOpacity(0.5),
+        // );
       });
     } catch (er) {
       print("Exception in GetModelPlans: $er");
@@ -146,8 +166,10 @@ class EditPortfolioController extends GetxController {
     try {
       Get.closeAllSnackbars();
       repository.postPortfolioApiCall(dataBody: data).then((value) async {
+        await Get.put(PortfolioController()).GetPortfolio();
         portfolioResponseModel.value = value;
         portfolioResponseModel.refresh();
+
         isLoading.value = false;
         isLoading.refresh();
         Get.back();

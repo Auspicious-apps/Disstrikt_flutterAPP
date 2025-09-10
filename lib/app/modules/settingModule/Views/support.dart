@@ -119,8 +119,21 @@ class SupportPage extends StatelessWidget {
                                           TextView(
                                             text:
                                                 "${controller.staticdatamodel?.data?.support?.phone ?? "No Available"}",
-                                            textStyle: const TextStyle(
-                                              color: AppColors.blackColor,
+                                            textStyle: TextStyle(
+                                              color: controller
+                                                              .staticdatamodel
+                                                              ?.data
+                                                              ?.support
+                                                              ?.phone !=
+                                                          null ||
+                                                      controller
+                                                              .staticdatamodel
+                                                              ?.data
+                                                              ?.support
+                                                              ?.phone !=
+                                                          ""
+                                                  ? Colors.blue
+                                                  : AppColors.blackColor,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -166,8 +179,21 @@ class SupportPage extends StatelessWidget {
                                           TextView(
                                             text:
                                                 "${controller.staticdatamodel?.data?.support?.email ?? "No Available"}",
-                                            textStyle: const TextStyle(
-                                              color: AppColors.blackColor,
+                                            textStyle: TextStyle(
+                                              color: controller
+                                                              .staticdatamodel
+                                                              ?.data
+                                                              ?.support
+                                                              ?.email !=
+                                                          null ||
+                                                      controller
+                                                              .staticdatamodel
+                                                              ?.data
+                                                              ?.support
+                                                              ?.email !=
+                                                          ""
+                                                  ? Colors.blue
+                                                  : AppColors.blackColor,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w500,
                                             ),

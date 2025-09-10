@@ -91,6 +91,7 @@ class SubscriptionController extends GetxController {
         print("Error fetching plans: $error");
         isloading.value = false;
         isloading.refresh();
+
         Get.closeAllSnackbars();
         Get.snackbar(
           'Error',
@@ -156,6 +157,7 @@ class SubscriptionController extends GetxController {
 
           Get.closeAllSnackbars();
           GetModelPlans();
+
           Get.back();
           Get.snackbar(
             'Success',

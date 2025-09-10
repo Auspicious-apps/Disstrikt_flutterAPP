@@ -32,6 +32,8 @@ class HomeMilestoneData {
   String? planName;
   num? percentage;
   num? unlockedTask;
+  num? taskLimit;
+  num? unreadNotifications;
   List<Milestone1>? milestoneData;
 
   HomeMilestoneData({
@@ -42,6 +44,8 @@ class HomeMilestoneData {
     this.milestone,
     this.percentage,
     this.unlockedTask,
+    this.taskLimit,
+    this.unreadNotifications,
     this.milestoneData,
   });
 
@@ -52,6 +56,8 @@ class HomeMilestoneData {
     planName = json['planName'];
     milestone = json['milestone'];
     percentage = json['percentage'];
+    taskLimit = json['taskLimit'];
+    unreadNotifications = json['unreadNotifications'];
     unlockedTask = json['unlockedTask'];
     if (json['milestoneData'] != null) {
       milestoneData = <Milestone1>[];
@@ -67,8 +73,10 @@ class HomeMilestoneData {
     data['fullName'] = this.fullName;
     data['image'] = this.image;
     data['planName'] = this.planName;
+    data['taskLimit'] = this.taskLimit;
     data['milestone'] = this.milestone;
     data['percentage'] = this.percentage;
+    data['unreadNotifications'] = this.unreadNotifications;
     data['unlockedTask'] = this.unlockedTask;
     if (this.milestoneData != null) {
       data['milestoneData'] =

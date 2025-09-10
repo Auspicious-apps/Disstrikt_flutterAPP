@@ -144,9 +144,15 @@ class PortfolioScreen extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () async {
+                                                    // Navigate to EditPortfolioScreen and wait for result
                                                     await Get.toNamed(AppRoutes
                                                         .EditPortfolioScreen);
-                                                    controller.GetPortfolio();
+                                                    await controller
+                                                        .GetPortfolio();
+                                                    controller
+                                                        .portfolioResponseModel
+                                                        ?.refresh();
+                                                    // Fetch updated data - This ensures setCards refreshes after edit
                                                   },
                                                   child: Container(
                                                     height: 35,
@@ -291,351 +297,369 @@ class PortfolioScreen extends StatelessWidget {
                                                 ),
                                               ).marginOnly(top: 7)
                                             : SizedBox(),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            controller
-                                                            .portfolioResponseModel
-                                                            .value
-                                                            .data
-                                                            ?.links?[0]
-                                                            ?.url
-                                                            ?.isEmpty ==
-                                                        true ||
-                                                    controller
-                                                            .portfolioResponseModel
-                                                            .value
-                                                            .data
-                                                            ?.links?[0]
-                                                            ?.url ==
-                                                        null
-                                                ? SizedBox()
-                                                : GestureDetector(
-                                                    onTap: () async {
-                                                      final uri = Uri.parse(
-                                                          controller
-                                                                  .portfolioResponseModel
-                                                                  .value
-                                                                  .data
-                                                                  ?.links?[0]
-                                                                  ?.url ??
-                                                              "");
-                                                      if (await canLaunchUrl(
-                                                          uri)) {
-                                                        await launchUrl(uri,
-                                                            mode: LaunchMode
-                                                                .externalApplication);
-                                                      } else {
-                                                        // Handle error
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                              content: Text(
-                                                                  'Could not open URL: $uri')),
-                                                        );
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      height: 35,
-                                                      width:
-                                                          (Get.width * 0.8) / 2,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: AppColors
-                                                                  .buttonColor),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          color: Colors.white),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          AssetImageWidget(
-                                                            iconInstagram,
-                                                            imageWidth: 20,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          TextView(
-                                                            text: "strInstagram"
-                                                                .tr,
-                                                            textStyle: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w900,
-                                                                fontFamily:
-                                                                    "kodchasan"),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            controller
-                                                            .portfolioResponseModel
-                                                            .value
-                                                            .data
-                                                            ?.links?[1]
-                                                            ?.url
-                                                            ?.isEmpty ==
-                                                        true ||
-                                                    controller
-                                                            .portfolioResponseModel
-                                                            .value
-                                                            .data
-                                                            ?.links?[1]
-                                                            ?.url ==
-                                                        null
-                                                ? SizedBox()
-                                                : GestureDetector(
-                                                    onTap: () async {
-                                                      final uri = Uri.parse(
-                                                          controller
-                                                                  .portfolioResponseModel
-                                                                  .value
-                                                                  .data
-                                                                  ?.links?[1]
-                                                                  ?.url ??
-                                                              "");
-                                                      if (await canLaunchUrl(
-                                                          uri)) {
-                                                        await launchUrl(uri,
-                                                            mode: LaunchMode
-                                                                .externalApplication);
-                                                      } else {
-                                                        // Handle error
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                          SnackBar(
-                                                              content: Text(
-                                                                  'Could not open URL: $uri')),
-                                                        );
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      height: 35,
-                                                      width:
-                                                          (Get.width * 0.8) / 2,
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              color: AppColors
-                                                                  .buttonColor),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
-                                                          color: Colors.white),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          AssetImageWidget(
-                                                            iconYoutube,
-                                                            imageWidth: 20,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          TextView(
-                                                            text:
-                                                                "strYouTube".tr,
-                                                            textStyle: TextStyle(
-                                                                fontSize: 14,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w900,
-                                                                fontFamily:
-                                                                    "kodchasan"),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                          ],
-                                        ).marginSymmetric(vertical: 20),
-                                        controller.portfolioResponseModel?.value
-                                                    ?.data?.setCards?.length !=
-                                                0
-                                            ? Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  TextView(
-                                                    text: "strSetCard".tr,
-                                                    textStyle: const TextStyle(
-                                                      color:
-                                                          AppColors.blackColor,
-                                                      fontFamily: "kodchasan",
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w900,
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      final imageUrl = controller
-                                                              .portfolioResponseModel
-                                                              ?.value
-                                                              ?.data
-                                                              ?.setCards?[0] ??
-                                                          "";
-
-                                                      if (imageUrl.isNotEmpty) {
-                                                        Get.dialog(
-                                                          Stack(
-                                                            children: [
-                                                              // Transparent background tap-to-close area
-                                                              GestureDetector(
-                                                                onTap: () =>
-                                                                    Get.back(),
-                                                                child:
-                                                                    Container(
-                                                                  color: Colors
-                                                                      .black54, // dim background
+                                        // Fixed links section
+                                        Obx(() {
+                                          final links = controller
+                                              .portfolioResponseModel
+                                              .value
+                                              .data
+                                              ?.links;
+                                          return Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              (links?.isNotEmpty == true &&
+                                                      links!.length >= 1 &&
+                                                      links[0]
+                                                              ?.url
+                                                              ?.isNotEmpty ==
+                                                          true)
+                                                  ? links[0]?.platform !=
+                                                          "Youtube"
+                                                      ? GestureDetector(
+                                                          onTap: () async {
+                                                            final uri = Uri
+                                                                .parse(links[0]
+                                                                        ?.url ??
+                                                                    "");
+                                                            if (await canLaunchUrl(
+                                                                uri)) {
+                                                              await launchUrl(
+                                                                  uri,
+                                                                  mode: LaunchMode
+                                                                      .externalApplication);
+                                                            } else {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                    content: Text(
+                                                                        'Could not open URL: $uri')),
+                                                              );
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            height: 35,
+                                                            width: (Get.width *
+                                                                    0.8) /
+                                                                2,
+                                                            decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: AppColors
+                                                                        .buttonColor),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                color: Colors
+                                                                    .white),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                AssetImageWidget(
+                                                                  iconInstagram,
+                                                                  imageWidth:
+                                                                      20,
                                                                 ),
-                                                              ),
-
-                                                              // Centered white container with zoomable image
-                                                              Center(
-                                                                child:
-                                                                    Container(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          20),
-                                                                  margin: const EdgeInsets
-                                                                      .symmetric(
-                                                                      horizontal:
-                                                                          20),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            12),
-                                                                  ),
-                                                                  width:
-                                                                      Get.width *
-                                                                          0.9,
-                                                                  height:
-                                                                      Get.height *
-                                                                          0.5,
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                TextView(
+                                                                  text:
+                                                                      "strInstagram"
+                                                                          .tr,
+                                                                  textStyle: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w900,
+                                                                      fontFamily:
+                                                                          "kodchasan"),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : GestureDetector(
+                                                          onTap: () async {
+                                                            final uri = Uri
+                                                                .parse(links[0]
+                                                                        ?.url ??
+                                                                    "");
+                                                            if (await canLaunchUrl(
+                                                                uri)) {
+                                                              await launchUrl(
+                                                                  uri,
+                                                                  mode: LaunchMode
+                                                                      .externalApplication);
+                                                            } else {
+                                                              ScaffoldMessenger
+                                                                      .of(context)
+                                                                  .showSnackBar(
+                                                                SnackBar(
+                                                                    content: Text(
+                                                                        'Could not open URL: $uri')),
+                                                              );
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            height: 35,
+                                                            width: (Get.width *
+                                                                    0.8) /
+                                                                2,
+                                                            decoration: BoxDecoration(
+                                                                border: Border.all(
+                                                                    color: AppColors
+                                                                        .buttonColor),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            20),
+                                                                color: Colors
+                                                                    .white),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                AssetImageWidget(
+                                                                  iconYoutube,
+                                                                  imageWidth:
+                                                                      20,
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 5,
+                                                                ),
+                                                                TextView(
+                                                                  text:
+                                                                      "strYouTube"
+                                                                          .tr,
+                                                                  textStyle: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w900,
+                                                                      fontFamily:
+                                                                          "kodchasan"),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        )
+                                                  : SizedBox(),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              (links?.isNotEmpty == true &&
+                                                      links!.length >= 2 &&
+                                                      links[1]
+                                                              ?.url
+                                                              ?.isNotEmpty ==
+                                                          true)
+                                                  ? GestureDetector(
+                                                      onTap: () async {
+                                                        final uri = Uri.parse(
+                                                            links[1]?.url ??
+                                                                "");
+                                                        if (await canLaunchUrl(
+                                                            uri)) {
+                                                          await launchUrl(uri,
+                                                              mode: LaunchMode
+                                                                  .externalApplication);
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                                content: Text(
+                                                                    'Could not open URL: $uri')),
+                                                          );
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        height: 35,
+                                                        width:
+                                                            (Get.width * 0.8) /
+                                                                2,
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: AppColors
+                                                                    .buttonColor),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        20),
+                                                            color:
+                                                                Colors.white),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            AssetImageWidget(
+                                                              iconYoutube,
+                                                              imageWidth: 20,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            TextView(
+                                                              text: "strYouTube"
+                                                                  .tr,
+                                                              textStyle: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w900,
+                                                                  fontFamily:
+                                                                      "kodchasan"),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : SizedBox(),
+                                            ],
+                                          ).marginSymmetric(vertical: 20);
+                                        }),
+                                        // Fixed setCards section - Ensured refresh via Obx and GetPortfolio calls
+                                        Obx(() {
+                                          final setCards = controller
+                                              .portfolioResponseModel
+                                              .value
+                                              ?.data
+                                              ?.setCards;
+                                          final isSetCardsEmpty =
+                                              setCards == null ||
+                                                  setCards.isEmpty ||
+                                                  (setCards.length == 1 &&
+                                                      setCards[0].isEmpty);
+                                          return isSetCardsEmpty
+                                              ? const SizedBox() // Show nothing if setCards is empty or contains ""
+                                              : Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    TextView(
+                                                      text: "strSetCard".tr,
+                                                      textStyle:
+                                                          const TextStyle(
+                                                        color: AppColors
+                                                            .blackColor,
+                                                        fontFamily: "kodchasan",
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        final imageUrl =
+                                                            setCards!.isNotEmpty
+                                                                ? setCards[0]
+                                                                : "";
+                                                        if (imageUrl
+                                                            .isNotEmpty) {
+                                                          Get.dialog(
+                                                            Stack(
+                                                              children: [
+                                                                GestureDetector(
+                                                                  onTap: () =>
+                                                                      Get.back(),
+                                                                  child: Container(
+                                                                      color: Colors
+                                                                          .black54),
+                                                                ),
+                                                                Center(
                                                                   child:
-                                                                      ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
+                                                                      Container(
+                                                                    padding:
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            20),
+                                                                    margin: const EdgeInsets
+                                                                        .symmetric(
+                                                                        horizontal:
+                                                                            20),
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              12),
+                                                                    ),
+                                                                    width:
+                                                                        Get.width *
+                                                                            0.9,
+                                                                    height:
+                                                                        Get.height *
+                                                                            0.5,
                                                                     child:
-                                                                        PhotoView(
-                                                                      imageProvider:
-                                                                          NetworkImage(
-                                                                              "${imageBaseUrl}${imageUrl}"),
-                                                                      backgroundDecoration:
-                                                                          const BoxDecoration(
-                                                                        color: Colors
-                                                                            .transparent,
+                                                                        ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10),
+                                                                      child:
+                                                                          PhotoView(
+                                                                        imageProvider:
+                                                                            NetworkImage("$imageBaseUrl$imageUrl"),
+                                                                        backgroundDecoration:
+                                                                            const BoxDecoration(color: Colors.transparent),
+                                                                        minScale:
+                                                                            PhotoViewComputedScale.contained,
+                                                                        maxScale:
+                                                                            PhotoViewComputedScale.covered *
+                                                                                2.5,
                                                                       ),
-                                                                      minScale:
-                                                                          PhotoViewComputedScale
-                                                                              .contained,
-                                                                      maxScale:
-                                                                          PhotoViewComputedScale.covered *
-                                                                              2.5,
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          barrierDismissible:
-                                                              true,
-                                                        );
-                                                      }
-                                                    },
-                                                    child: NetworkImageWidget(
-                                                      imageUrl: controller
-                                                              .portfolioResponseModel
-                                                              ?.value
-                                                              ?.data
-                                                              ?.setCards?[0] ??
-                                                          "",
-                                                      imageHeight:
-                                                          Get.height * 0.25,
-                                                      imageFitType: BoxFit.fill,
-                                                      imageWidth: Get.width,
-                                                      radiusAll: 10,
-                                                    ).marginSymmetric(
-                                                        vertical: 10),
-                                                  ),
-                                                ],
-                                              )
-                                            : SizedBox(),
+                                                              ],
+                                                            ),
+                                                            barrierDismissible:
+                                                                true,
+                                                          );
+                                                        }
+                                                      },
+                                                      child: NetworkImageWidget(
+                                                        imageUrl:
+                                                            setCards.isNotEmpty
+                                                                ? setCards[0]
+                                                                : "",
+                                                        imageHeight:
+                                                            Get.height * 0.25,
+                                                        imageFitType:
+                                                            BoxFit.fill,
+                                                        imageWidth: Get.width,
+                                                        radiusAll: 10,
+                                                      ).marginSymmetric(
+                                                          vertical: 10),
+                                                    ),
+                                                  ],
+                                                );
+                                        })
                                       ],
                                     ).marginSymmetric(
                                       horizontal: 20,
-                                    )
-
-                                    // Column(
-                                    //   children: [
-                                    //     AssetImageWidget(emptyProtfolio)
-                                    //         .marginSymmetric(
-                                    //             horizontal: 20, vertical: 30),
-                                    //     TextView(
-                                    //       text: "strEmptyportfolioHeading".tr,
-                                    //       textStyle: const TextStyle(
-                                    //         color: AppColors.blackColor,
-                                    //         fontSize: 12,
-                                    //         fontFamily: "Kodchasan",
-                                    //         fontWeight: FontWeight.w900,
-                                    //       ),
-                                    //     ),
-                                    //     TextView(
-                                    //       text:
-                                    //           "strEmptyportfolioSubheading".tr,
-                                    //       maxLines: 4,
-                                    //       textAlign: TextAlign.center,
-                                    //       textStyle: const TextStyle(
-                                    //         color: AppColors.blackColor,
-                                    //         fontSize: 12,
-                                    //         fontFamily: "Kodchasan",
-                                    //         fontWeight: FontWeight.w400,
-                                    //       ),
-                                    //     ).marginSymmetric(
-                                    //         horizontal: 10, vertical: 5),
-                                    //     MaterialButtonWidget(
-                                    //       buttonBgColor: AppColors.buttonColor,
-                                    //       buttonRadius: 8,
-                                    //       buttonText: "strEditPortfolio".tr,
-                                    //       buttonTextStyle: TextStyle(
-                                    //           fontFamily: "minorksans"),
-                                    //       textColor: AppColors.backgroundColor,
-                                    //       onPressed: () async {},
-                                    //     ).marginSymmetric(
-                                    //         vertical: 10,
-                                    //         horizontal: margin_60),
-                                    //   ],
-                                    // )
-                                    ,
+                                    ),
                                     Obx(() => Row(
                                           children: [
                                             Expanded(
@@ -669,8 +693,12 @@ class PortfolioScreen extends StatelessWidget {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                      controller.isImages
-                                                                  .value ==
+                                                      controller
+                                                                  .portfolioResponseModel
+                                                                  ?.value
+                                                                  ?.data
+                                                                  ?.setCards
+                                                                  ?.isNotEmpty ==
                                                               true
                                                           ? AssetImageWidget(
                                                               iconpinkGallery,
@@ -779,14 +807,14 @@ class PortfolioScreen extends StatelessWidget {
                                             ),
                                           ],
                                         )),
-                                    controller.isImages == true
+                                    controller.isImages.value == true
                                         ? controller
                                                     .portfolioResponseModel
                                                     .value
                                                     .data
                                                     ?.portfolioImages
-                                                    ?.length ==
-                                                0
+                                                    ?.isEmpty ??
+                                                true
                                             ? Column(
                                                 children: [
                                                   AssetImageWidget(
@@ -826,271 +854,187 @@ class PortfolioScreen extends StatelessWidget {
                                                   ).marginSymmetric(
                                                       horizontal: 10,
                                                       vertical: 5),
-                                                  // MaterialButtonWidget(
-                                                  //   buttonBgColor:
-                                                  //       AppColors.buttonColor,
-                                                  //   buttonRadius: 8,
-                                                  //   buttonText:
-                                                  //       "strEditPortfolio".tr,
-                                                  //   buttonTextStyle: TextStyle(
-                                                  //       fontFamily:
-                                                  //           "minorksans"),
-                                                  //   textColor: AppColors
-                                                  //       .backgroundColor,
-                                                  //   onPressed: () async {},
-                                                  // ).marginSymmetric(
-                                                  //     vertical: 10,
-                                                  //     horizontal: margin_60),
                                                 ],
                                               )
-                                            : controller
+                                            : GridView.builder(
+                                                itemCount: controller
                                                         .portfolioResponseModel
                                                         .value
                                                         .data
                                                         ?.portfolioImages
-                                                        ?.length ==
-                                                    0
-                                                ? Column(
-                                                    children: [
-                                                      AssetImageWidget(
-                                                        emptyProtfolio,
-                                                        imageHeight: 150,
-                                                        imageWidth: 150,
-                                                      ).marginSymmetric(
-                                                          horizontal: 20,
-                                                          vertical: 30),
-                                                      TextView(
-                                                        text:
-                                                            "strEmptyportfolioHeading"
-                                                                .tr,
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          color: AppColors
-                                                              .blackColor,
-                                                          fontSize: 12,
-                                                          fontFamily:
-                                                              "Kodchasan",
-                                                          fontWeight:
-                                                              FontWeight.w900,
-                                                        ),
-                                                      ),
-                                                      TextView(
-                                                        text:
-                                                            "strEmptyportfolioSubheading"
-                                                                .tr,
-                                                        maxLines: 4,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        textStyle:
-                                                            const TextStyle(
-                                                          color: AppColors
-                                                              .blackColor,
-                                                          fontSize: 12,
-                                                          fontFamily:
-                                                              "Kodchasan",
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ).marginSymmetric(
-                                                          horizontal: 10,
-                                                          vertical: 5),
-                                                      // MaterialButtonWidget(
-                                                      //   buttonBgColor:
-                                                      //       AppColors.buttonColor,
-                                                      //   buttonRadius: 8,
-                                                      //   buttonText:
-                                                      //       "strEditPortfolio".tr,
-                                                      //   buttonTextStyle: TextStyle(
-                                                      //       fontFamily:
-                                                      //           "minorksans"),
-                                                      //   textColor: AppColors
-                                                      //       .backgroundColor,
-                                                      //   onPressed: () async {},
-                                                      // ).marginSymmetric(
-                                                      //     vertical: 10,
-                                                      //     horizontal: margin_60),
-                                                    ],
-                                                  )
-                                                : GridView.builder(
-                                                    itemCount: controller
-                                                            .portfolioResponseModel
-                                                            .value
-                                                            .data
-                                                            ?.portfolioImages
-                                                            ?.length ??
-                                                        0,
-                                                    shrinkWrap: true,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
-                                                      mainAxisSpacing: 12,
-                                                      crossAxisSpacing: 12,
-                                                      childAspectRatio: 1,
-                                                    ),
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      final image = controller
-                                                          .portfolioResponseModel
-                                                          .value
-                                                          .data
-                                                          ?.portfolioImages?[index];
-                                                      return GestureDetector(
-                                                        onTap: () {
-                                                          controller
-                                                              .selectedPhotoIndex
-                                                              .value = index;
-                                                          controller
-                                                              .selectedPhotoIndex
-                                                              .refresh();
-                                                          print(controller
-                                                              .selectedPhotoIndex
-                                                              .value);
-                                                          final imageUrl = controller
-                                                              .portfolioResponseModel
-                                                              .value
-                                                              .data
-                                                              ?.portfolioImages?[index];
-
-                                                          Get.dialog(
-                                                            Stack(
-                                                              children: [
-                                                                // Transparent background tap-to-close area
-                                                                GestureDetector(
-                                                                  onTap: () =>
-                                                                      Get.back(),
-                                                                  child:
-                                                                      Container(
-                                                                    color: Colors
-                                                                        .black54, // dim background
-                                                                  ),
+                                                        ?.length ??
+                                                    0,
+                                                shrinkWrap: true,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount: 2,
+                                                  mainAxisSpacing: 12,
+                                                  crossAxisSpacing: 12,
+                                                  childAspectRatio: 1,
+                                                ),
+                                                itemBuilder: (context, index) {
+                                                  final image = controller
+                                                      .portfolioResponseModel
+                                                      .value
+                                                      .data
+                                                      ?.portfolioImages?[index];
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      controller
+                                                          .selectedPhotoIndex
+                                                          .value = index;
+                                                      controller
+                                                          .selectedPhotoIndex
+                                                          .refresh();
+                                                      final imageUrl = controller
+                                                                  .portfolioResponseModel
+                                                                  .value
+                                                                  .data
+                                                                  ?.portfolioImages?[
+                                                              index] ??
+                                                          "";
+                                                      if (imageUrl.isNotEmpty) {
+                                                        Get.dialog(
+                                                          Stack(
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap: () =>
+                                                                    Get.back(),
+                                                                child:
+                                                                    Container(
+                                                                  color: Colors
+                                                                      .black54,
                                                                 ),
-
-                                                                // Centered white container with zoomable image and buttons
-                                                                Center(
-                                                                  child:
-                                                                      Container(
-                                                                    padding:
-                                                                        const EdgeInsets
-                                                                            .all(
-                                                                            20),
-                                                                    margin: const EdgeInsets
-                                                                        .symmetric(
-                                                                        horizontal:
-                                                                            20),
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12),
-                                                                    ),
-                                                                    width:
-                                                                        Get.width *
-                                                                            0.9,
-                                                                    height:
-                                                                        Get.height *
-                                                                            0.5,
-                                                                    child:
-                                                                        Column(
-                                                                      children: [
-                                                                        Expanded(
+                                                              ),
+                                                              Center(
+                                                                child:
+                                                                    Container(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          20),
+                                                                  margin: const EdgeInsets
+                                                                      .symmetric(
+                                                                      horizontal:
+                                                                          20),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12),
+                                                                  ),
+                                                                  width:
+                                                                      Get.width *
+                                                                          0.9,
+                                                                  height:
+                                                                      Get.height *
+                                                                          0.5,
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Expanded(
+                                                                        child:
+                                                                            ClipRRect(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10),
                                                                           child:
-                                                                              ClipRRect(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(10),
-                                                                            child:
-                                                                                PhotoView(
-                                                                              imageProvider: NetworkImage("${imageBaseUrl}${imageUrl}"),
-                                                                              backgroundDecoration: const BoxDecoration(
-                                                                                color: Colors.transparent,
-                                                                              ),
-                                                                              minScale: PhotoViewComputedScale.contained,
-                                                                              maxScale: PhotoViewComputedScale.covered * 2,
+                                                                              PhotoView(
+                                                                            imageProvider:
+                                                                                NetworkImage("${imageBaseUrl}${imageUrl}"),
+                                                                            backgroundDecoration:
+                                                                                const BoxDecoration(
+                                                                              color: Colors.transparent,
                                                                             ),
+                                                                            minScale:
+                                                                                PhotoViewComputedScale.contained,
+                                                                            maxScale:
+                                                                                PhotoViewComputedScale.covered * 2,
                                                                           ),
                                                                         ),
-                                                                        const SizedBox(
-                                                                            height:
-                                                                                20.0),
-                                                                        Row(
-                                                                          children: [
-                                                                            Expanded(
-                                                                              child: Obx(
-                                                                                () => MaterialButtonWidget(
-                                                                                  isloading: controller.isLoading.value,
-                                                                                  buttonBgColor: AppColors.clickTextColor,
-                                                                                  buttonRadius: 8,
-                                                                                  buttonText: "strDeletephoto".tr,
-                                                                                  buttonTextStyle: const TextStyle(
-                                                                                    fontSize: 12,
-                                                                                    color: AppColors.whiteColor,
-                                                                                    fontFamily: "Kodchasan",
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                  ),
-                                                                                  textColor: AppColors.whiteColor,
-                                                                                  onPressed: () async {
-                                                                                    Map<String, dynamic> requestModel = BuyPlanRequestModel.addImageRequestModel(url: [
-                                                                                      controller.portfolioResponseModel.value.data?.portfolioImages?[index] ?? ""
-                                                                                    ]);
-                                                                                    controller.deleteImagePortfolio(requestModel);
-                                                                                  },
-                                                                                ),
-                                                                              ),
-                                                                            ),
-                                                                            const SizedBox(width: 5),
-                                                                            Expanded(
-                                                                              child: MaterialButtonWidget(
-                                                                                buttonBgColor: Colors.transparent,
+                                                                      ),
+                                                                      const SizedBox(
+                                                                          height:
+                                                                              20.0),
+                                                                      Row(
+                                                                        children: [
+                                                                          Expanded(
+                                                                            child:
+                                                                                Obx(
+                                                                              () => MaterialButtonWidget(
+                                                                                isloading: controller.isLoading.value,
+                                                                                buttonBgColor: AppColors.clickTextColor,
                                                                                 buttonRadius: 8,
-                                                                                isOutlined: true,
-                                                                                borderColor: AppColors.clickTextColor,
-                                                                                buttonText: "strPhotoCancel".tr,
+                                                                                buttonText: "strDeletephoto".tr,
                                                                                 buttonTextStyle: const TextStyle(
                                                                                   fontSize: 12,
-                                                                                  color: AppColors.blackColor,
+                                                                                  color: AppColors.whiteColor,
                                                                                   fontFamily: "Kodchasan",
                                                                                   fontWeight: FontWeight.w600,
                                                                                 ),
                                                                                 textColor: AppColors.whiteColor,
-                                                                                onPressed: () => {
-                                                                                  Get.back()
+                                                                                onPressed: () async {
+                                                                                  Map<String, dynamic> requestModel = BuyPlanRequestModel.addImageRequestModel(url: [
+                                                                                    controller.portfolioResponseModel.value.data?.portfolioImages?[index] ?? ""
+                                                                                  ]);
+                                                                                  await controller.deleteImagePortfolio(requestModel);
+                                                                                  // No need for extra GetPortfolio here as it's called inside deleteImagePortfolio
                                                                                 },
                                                                               ),
                                                                             ),
-                                                                          ],
-                                                                        ),
-                                                                      ],
-                                                                    ),
+                                                                          ),
+                                                                          const SizedBox(
+                                                                              width: 5),
+                                                                          Expanded(
+                                                                            child:
+                                                                                MaterialButtonWidget(
+                                                                              buttonBgColor: Colors.transparent,
+                                                                              buttonRadius: 8,
+                                                                              isOutlined: true,
+                                                                              borderColor: AppColors.clickTextColor,
+                                                                              buttonText: "strPhotoCancel".tr,
+                                                                              buttonTextStyle: const TextStyle(
+                                                                                fontSize: 12,
+                                                                                color: AppColors.blackColor,
+                                                                                fontFamily: "Kodchasan",
+                                                                                fontWeight: FontWeight.w600,
+                                                                              ),
+                                                                              textColor: AppColors.whiteColor,
+                                                                              onPressed: () => Get.back(),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            ),
-                                                            barrierDismissible:
-                                                                true,
-                                                          );
-                                                        },
-                                                        child:
-                                                            NetworkImageWidget(
-                                                          imageUrl: image ?? '',
-                                                          radiusAll: 8,
-                                                          imageFitType:
-                                                              BoxFit.cover,
-                                                        ),
-                                                      );
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          barrierDismissible:
+                                                              true,
+                                                        );
+                                                      }
                                                     },
-                                                  ).marginSymmetric(
-                                                    horizontal: 20,
-                                                    vertical: 20)
+                                                    child: NetworkImageWidget(
+                                                      imageUrl: image ?? '',
+                                                      radiusAll: 8,
+                                                      imageFitType:
+                                                          BoxFit.cover,
+                                                    ),
+                                                  );
+                                                },
+                                              ).marginSymmetric(
+                                                horizontal: 20, vertical: 20)
                                         : controller
                                                     .portfolioResponseModel
                                                     .value
                                                     .data
                                                     ?.videos
-                                                    ?.length ==
-                                                0
+                                                    ?.isEmpty ??
+                                                true
                                             ? Column(
                                                 children: [
                                                   AssetImageWidget(
@@ -1130,21 +1074,6 @@ class PortfolioScreen extends StatelessWidget {
                                                   ).marginSymmetric(
                                                       horizontal: 10,
                                                       vertical: 5),
-                                                  // MaterialButtonWidget(
-                                                  //   buttonBgColor:
-                                                  //       AppColors.buttonColor,
-                                                  //   buttonRadius: 8,
-                                                  //   buttonText:
-                                                  //       "strEditPortfolio".tr,
-                                                  //   buttonTextStyle: TextStyle(
-                                                  //       fontFamily:
-                                                  //           "minorksans"),
-                                                  //   textColor: AppColors
-                                                  //       .backgroundColor,
-                                                  //   onPressed: () async {},
-                                                  // ).marginSymmetric(
-                                                  //     vertical: 10,
-                                                  //     horizontal: margin_60),
                                                 ],
                                               )
                                             : GridView.builder(
@@ -1344,30 +1273,27 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
 
 🎯 Whether you're a rising model or a seasoned pro, our portfolio system helps you **stand out** and get discovered faster.
 
-
 🔗 View Portfolio: $portfolioDeepLink  
 
 #ModelLife #DigitalPortfolio #ModelApp #ShowYourStyle #FashionTech #CastingReady
 ''';
   }
 
-  Future<void> _shareApp(controller) async {
+  Future<void> _shareApp(PortfolioController controller) async {
     try {
-      // App description with platform-specific content
       final String appDescription = _getPortfolioFeatureDescription(
           "https://disstrikt-portfolio.vercel.app/portfolio/${controller.portfolioResponseModel.value.data?.userId}");
 
-      // Share the app
       await Share.share(
         appDescription,
       );
     } catch (e) {
       debugPrint('Error sharing app: $e');
-      // Show error message to user
     }
   }
 
-  Widget _photoDeleteModalContent(BuildContext context, controller, index) {
+  Widget _photoDeleteModalContent(
+      BuildContext context, PortfolioController controller, int index) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       height: MediaQuery.of(context).size.height * 0.35,
@@ -1465,7 +1391,7 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
     );
   }
 
-  Widget _buildFloatingActionButton(controller) {
+  Widget _buildFloatingActionButton(PortfolioController controller) {
     return SpeedDial(
       icon: Icons.add,
       iconTheme: const IconThemeData(size: 30),
@@ -1545,7 +1471,8 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
               color: AppColors.blackColor,
             ),
             onTap: () {
-              controller.videoList.clear();
+              controller.imageList
+                  .clear(); // Clear image list when uploading video
               controller.tumbhnailList.clear();
               controller.uploadedTumbhnailList.clear();
               controller.pickedImage = Rx<File?>(null);
@@ -1567,15 +1494,15 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
     );
   }
 
-  Widget _buildVideoContent(BuildContext context, controller) {
+  Widget _buildVideoContent(
+      BuildContext context, PortfolioController controller) {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-                imagemodalbackground), // Ensure imagemodalbackground is defined
+            image: AssetImage(imagemodalbackground),
             fit: BoxFit.fill,
           ),
           borderRadius: BorderRadius.circular(16.0),
@@ -1667,11 +1594,10 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                 )),
             const SizedBox(height: 20.0),
             Obx(() {
-              // Wrap GridView in Obx to react to videoList changes
               return GridView.builder(
-                itemCount: controller.videoList.length == 0
+                itemCount: controller.videoList.isEmpty
                     ? 1
-                    : controller.videoList.length, // Fixed: Use length + 1
+                    : controller.videoList.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -1691,7 +1617,7 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
               );
             }),
             const SizedBox(height: 20.0),
-            Obx(() => controller.videoList.value.length == 0
+            Obx(() => controller.videoList.isEmpty
                 ? SizedBox()
                 : MaterialButtonWidget(
                     buttonBgColor: Colors.transparent,
@@ -1731,6 +1657,7 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                       Get.back();
                       controller.videoList.clear();
                       controller.tumbhnailList.clear();
+                      controller.selectGender.value = "";
                     },
                   ),
                 ),
@@ -1750,15 +1677,17 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                       ),
                       textColor: AppColors.whiteColor,
                       onPressed: () async {
-                        if (controller.videoList.isNotEmpty) {
+                        if (controller.videoList.isNotEmpty &&
+                            controller.selectGender.value.isNotEmpty) {
                           try {
-                            await controller
-                                .uploadAllVideos(); // Replace with your upload logic
+                            await controller.uploadAllVideos();
                           } catch (e) {
                             print('Failed to upload videos: $e');
                           }
                         } else {
-                          print('No videos to upload');
+                          Get.snackbar('Error',
+                              'Please select a video type and add a video');
+                          print('No videos to upload or type not selected');
                         }
                       },
                     ),
@@ -1772,10 +1701,11 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
     );
   }
 
-  Widget _buildVideoTile(String videoPath, int index, controller) {
+  Widget _buildVideoTile(
+      String videoPath, int index, PortfolioController controller) {
     return GestureDetector(
       onTap: () {
-        // Get.to(() => VideoPlayerScreen(videoPath: videoPath)); // Ensure VideoPlayerScreen is defined
+        // Get.to(() => VideoPlayerScreen(videoPath: videoPath));
       },
       child: Stack(
         children: [
@@ -1786,8 +1716,7 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
               borderRadius: BorderRadius.circular(12),
             ),
             child: FutureBuilder<String?>(
-              future: controller.generateThumbnail(
-                  videoPath), // Generate thumbnail if not cached
+              future: controller.generateThumbnail(videoPath),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
@@ -1802,8 +1731,7 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                             child:
                                 Obx(() => controller.pickedImage.value != null
                                     ? Image.file(
-                                        controller.pickedImage
-                                            .value!, // Display the new thumbnail
+                                        controller.pickedImage.value!,
                                         fit: BoxFit.cover,
                                         errorBuilder:
                                             (context, error, stackTrace) {
@@ -1819,8 +1747,7 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                                         },
                                       )
                                     : Image.file(
-                                        File(snapshot
-                                            .data!), // Display the new thumbnail
+                                        File(snapshot.data!),
                                         fit: BoxFit.cover,
                                         errorBuilder:
                                             (context, error, stackTrace) {
@@ -1858,7 +1785,6 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                     ),
                   );
                 }
-                // Fallback to CircularProgressIndicator if no cached thumbnail
                 return Center(
                   child: CircularProgressIndicator(
                     color: Colors.grey[600],
@@ -1871,10 +1797,10 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
             top: 6,
             right: 6,
             child: GestureDetector(
-              onTap: () => {
-                controller.videoList.removeAt(index),
-                controller.pickedImage.value = null,
-                controller.tumbhnailList.clear()
+              onTap: () {
+                controller.videoList.removeAt(index);
+                controller.pickedImage.value = null;
+                controller.tumbhnailList.clear();
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -1895,7 +1821,7 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
     );
   }
 
-  Widget _buildAddMoreTile(controller) {
+  Widget _buildAddMoreTile(PortfolioController controller) {
     return GestureDetector(
       onTap: () => controller.pickVideo(),
       child: Container(
@@ -1939,7 +1865,8 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
     );
   }
 
-  Widget _buildDeleteModalContent(BuildContext context, controller) {
+  Widget _buildDeleteModalContent(
+      BuildContext context, PortfolioController controller) {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.95,
@@ -2077,8 +2004,10 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                         fontWeight: FontWeight.w600,
                       ),
                       textColor: AppColors.whiteColor,
-                      onPressed: () =>
-                          {Get.back(), controller.imageList.clear()},
+                      onPressed: () {
+                        Get.back();
+                        controller.imageList.clear();
+                      },
                     ),
                   ),
                   const SizedBox(width: 5),
@@ -2098,7 +2027,11 @@ Our modeling app is more than just bookings — it’s your digital stage. With 
                         textColor: AppColors.whiteColor,
                         onPressed: () async {
                           if (controller.imageList.isNotEmpty) {
-                            controller.uploadAllImages();
+                            await controller
+                                .uploadAllImages(); // Now calls GetPortfolio inside
+                          } else {
+                            Get.snackbar(
+                                'Error', 'Please add at least one image');
                           }
                         },
                       ),

@@ -74,7 +74,7 @@ class Portfolioforview extends StatelessWidget {
                               ).marginOnly(left: margin_10),
                             ),
                             TextView(
-                              text: "strMyPortfolio".tr,
+                              text: "strPortfolio".tr,
                               textAlign: TextAlign.start,
                               textStyle: const TextStyle(
                                 color: AppColors.blackColor,

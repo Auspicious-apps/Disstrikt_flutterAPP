@@ -211,6 +211,9 @@ class EditPortfolio extends StatelessWidget {
                                                                   .value
                                                                   .data
                                                                   ?.setCards = [];
+                                                              controller
+                                                                  .setCardController
+                                                                  .text = "";
                                                             } else if (controller
                                                                     .userResponseModel
                                                                     ?.data !=
@@ -241,39 +244,71 @@ class EditPortfolio extends StatelessWidget {
                               buttonRadius: 8,
                               buttonText: "strSave".tr,
                               textColor: AppColors.whiteColor,
-                              onPressed: () async {
-                                if (controller
+                              onPressed: () {
+                                // Handle photo upload if a photo is selected
+                                if (controller.pickedImage.value != null) {
+                                  controller.callUploadMedia(
+                                      controller.pickedImage.value!);
+                                }
+
+                                // Handle portfolio submission if setCards is not empty or any text fields are filled
+                                if (controller.portfolioResponseModel.value.data
+                                            ?.setCards?.isNotEmpty ==
+                                        true ||
+                                    controller
                                         .aboutMeController.text.isNotEmpty ||
                                     controller.instagramLinkController.text
                                         .isNotEmpty ||
                                     controller.YoutubeLinkController.text
                                         .isNotEmpty) {
-                                  if (controller.pickedImage.value != null) {
-                                    controller.callUploadMedia(
-                                        controller.pickedImage.value!);
-                                  } else {
+                                  Map<String, dynamic> requestModel =
+                                      BuyPlanRequestModel
+                                          .postPortfolioRequestModel(
+                                    aboutMe: controller.aboutMeController.text,
+                                    setCards: controller.portfolioResponseModel
+                                        .value.data?.setCards,
+                                    links: [
+                                      if (controller.instagramLinkController
+                                          .text.isNotEmpty)
+                                        {
+                                          "platform": "Instagram",
+                                          "url": controller
+                                              .instagramLinkController.text,
+                                        },
+                                      if (controller.YoutubeLinkController.text
+                                          .isNotEmpty)
+                                        {
+                                          "platform": "Youtube",
+                                          "url": controller
+                                              .YoutubeLinkController.text,
+                                        },
+                                    ],
+                                  );
+                                  controller.postPortfolio(requestModel);
+                                } else {
+                                  if (controller.portfolioResponseModel.value
+                                              .data?.setCards?.isNotEmpty ==
+                                          null ||
+                                      controller
+                                          .aboutMeController.text.isEmpty ||
+                                      controller.instagramLinkController.text
+                                          .isEmpty ||
+                                      controller
+                                          .YoutubeLinkController.text.isEmpty) {
                                     Map<String, dynamic> requestModel =
                                         BuyPlanRequestModel
                                             .postPortfolioRequestModel(
-                                                aboutMe: controller
-                                                    .aboutMeController.text,
-                                                setCards: controller
-                                                    .portfolioResponseModel
-                                                    .value
-                                                    .data
-                                                    ?.setCards,
-                                                links: [
-                                          {
-                                            "platform": "Instagram",
-                                            "url": controller
-                                                .instagramLinkController.text
-                                          },
-                                          {
-                                            "platform": "Youtube",
-                                            "url": controller
-                                                .YoutubeLinkController.text
-                                          },
-                                        ]);
+                                      aboutMe:
+                                          controller.aboutMeController.text,
+                                      setCards: [],
+                                      links: [
+                                        {
+                                          "platform": "Instagram",
+                                          "url": "",
+                                        },
+                                        {"platform": "Youtube", "url": ""},
+                                      ],
+                                    );
                                     controller.postPortfolio(requestModel);
                                   }
                                 }
